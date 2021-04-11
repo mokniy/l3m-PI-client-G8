@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+
+  mat-toolbar {
+    > mat-icon {
+      user-select: none;
+      transition: transform .3s;
+    }
+    > mat-icon:hover {
+      transform: scale(1.4);
+    }
+  }
+
+  mat-drawer-container {
+    flex: 1 1;
+    > mat-drawer {
+      border-right: solid grey 3px;
+    }
+  }
+}
