@@ -11,6 +11,13 @@
     > mat-icon:hover {
       transform: scale(1.4);
     }
+
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: solid black 3px;
+    }
   }
 
   mat-drawer-container {
@@ -18,5 +25,10 @@
     > mat-drawer {
       border-right: solid grey 3px;
     }
+  }
+
+
+  yaga-map {
+    height: 480px;
   }
 }
