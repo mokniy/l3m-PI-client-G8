@@ -12,6 +12,9 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import { YagaModule } from '@yaga/leaflet-ng2';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { YagaModule } from '@yaga/leaflet-ng2';
     MatInputModule,
     MatSelectModule,
     MatMenuModule,
-    YagaModule
+    YagaModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],
   bootstrap: [AppComponent]

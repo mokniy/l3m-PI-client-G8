@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "pi-g8-miage": {
+      "hosting": {
+        "amorce-client": [
+          "pi-g8-miage"
+        ]
+      }
+    }
+  }
+}
