@@ -37,5 +37,18 @@
         <mat-option value="push">Push</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
+      <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
+      <yaga-marker  [lng] = "5.724524"
+                    [lat] = "45.188529"
+                    [display] = "true"
+                    [opacity] = "1"
+                    >
+        <yaga-icon [iconUrl]="iconMarker"></yaga-icon>
+      </yaga-marker>
+
+    </yaga-map>
+
   </mat-drawer-content>
 </mat-drawer-container>
