@@ -10,7 +10,7 @@
     account_circle
   </mat-icon>
   <mat-menu #menuConnect="matMenu">
-    <button mat-menu-item>
+    <button (click)="login()" mat-menu-item>
       <img [src]="dataIconGoogle" width="24" height="24"/>
       &nbsp;
       <span>Compte Google</span>
@@ -23,7 +23,7 @@
     </button>
   </mat-menu>
 </mat-toolbar>
-
+<p> USER AUTHENTIFIE : {{auth.user| async | json}}</p>
 <mat-drawer-container class="example-container">
   <mat-drawer #drawer [mode]="mode.value">
     Placez votre menu ici...
@@ -52,3 +52,5 @@
 
   </mat-drawer-content>
 </mat-drawer-container>
+
+

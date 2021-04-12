@@ -1,3 +1,4 @@
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -32,7 +33,8 @@ import { AngularFireModule } from '@angular/fire';
     MatSelectModule,
     MatMenuModule,
     YagaModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
