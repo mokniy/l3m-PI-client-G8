@@ -1,4 +1,4 @@
-<mat-toolbar>
+  <mat-toolbar>
   <button mat-icon-button class="example-icon" aria-label="Menu">
     <mat-icon (click)="drawer.toggle()">menu</mat-icon>
   </button>
@@ -6,7 +6,12 @@
     Projet intégrateur
   </label>
   <label class="spacer"></label>
+  <ng-template #showLogin>
   <mat-icon [matMenuTriggerFor]="menuConnect">
+    account_circle
+  </mat-icon>
+</ng-template>
+  <mat-icon *ngIf="obsLogin | async as user; else showLogin" [matMenuTriggerFor]="menuDisconnect">
     account_circle
   </mat-icon>
   <mat-menu #menuConnect="matMenu">
@@ -17,19 +22,79 @@
     </button>
   </mat-menu>
   <mat-menu #menuDisconnect="matMenu">
-    <button mat-menu-item>
+    <button (click)="logout()" mat-menu-item>
       <mat-icon>logout</mat-icon>
       <span>Déconnexion</span>
     </button>
   </mat-menu>
 </mat-toolbar>
-<p> USER AUTHENTIFIE : {{auth.user| async | json}}</p>
+
+
+<form *ngIf="false"  (ngSubmit) = "createUser(newTextInput.value)" >
+  <label>Age:</label>
+    <input  autofocus
+          #newTextInput
+          name      = "newTextInput"
+          class     = "edit"
+           />
+</form>
+
+<button (click)="createUser('26')">POSTER UN USER</button>
+{{obsLogin | async | json}}
+
+<button (click)="recupUser()">RECUPERER LES USERS</button>
+<table *ngIf="obsUsers | async as users">
+  <thead>
+      <tr>
+          <th colspan="2">Utilisateurs</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>login</td>
+      <td>age</td>
+      </tr>
+      <tr *ngFor="let User of users">
+          <td>{{User.login}}</td>
+          <td>{{User.age}}</td>
+      </tr>
+  </tbody>
+</table>
+<br/>
+<br/>
+<button (click)="recupDefi()">RECUPERER LES DEFIS</button>
+<table *ngIf="obsChallenges | async as challenges">
+  <thead>
+      <tr>
+          <th colspan="5">Défis</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr>
+          <td>Defi</td>
+          <td>titre</td>
+          <td>description</td>
+          <td>auteur</td>
+          <td>dateCreation</td>
+      </tr>
+      <tr *ngFor="let Challenge of challenges">
+          <td>{{Challenge.id}}</td>
+          <td>{{Challenge.titre}}</td>
+          <td>{{Challenge.description}}</td>
+          <td>{{Challenge.auteur}}</td>
+          <td>{{Challenge.dateDeCreation}}</td>
+      </tr>
+  </tbody>
+</table>
+
 <mat-drawer-container class="example-container">
   <mat-drawer #drawer [mode]="mode.value">
     Placez votre menu ici...
   </mat-drawer>
   <mat-drawer-content>
     <mat-form-field>
+      <button>
+      </button>
       <mat-label>Sidenav mode</mat-label>
       <mat-select #mode value="push">
         <mat-option value="side">Side</mat-option>
@@ -52,5 +117,3 @@
 
   </mat-drawer-content>
 </mat-drawer-container>
-
-
