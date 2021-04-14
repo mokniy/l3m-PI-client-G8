@@ -22,20 +22,25 @@ constructor(public auth: AngularFireAuth) { }
         prompt: 'select_account'
       });
       this.auth.signInWithPopup(provider);
+
   /*
-    let s : string|null|undefined = "";
-      this.auth.currentUser.then(
-        function(res){
-          s = res?.email
-      })
-*/
-      //this.userExistant(s);
+      let s : String = this.getCurrentUser() as String
+
+      this.userExistant(s);*/
     }
 
     logout(): void {
       this.auth.signOut();
     }
 
+  async getCurrentUser(){
+    let s
+    this.auth.currentUser.then(
+      async function(res){
+        s = await res?.email as String
+    })
+    return s
+  }
 
   async getAllUsers(){
     const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/');

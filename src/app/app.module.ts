@@ -15,6 +15,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { YagaModule } from '@yaga/leaflet-ng2';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
+import {FormsModule} from '@angular/forms'
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { AngularFireModule } from '@angular/fire';
     MatMenuModule,
     YagaModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

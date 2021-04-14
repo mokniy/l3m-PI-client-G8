@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { UserJSON, ChallengeJSON } from "./AllDefinitions";
 import firebase from 'firebase/app';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,7 +23,12 @@ export class AppComponent {
   constructor(private UserService: UtilisateurService, private ChallengeService: ChallengeService) {
     this.recupUser();
     this.recupDefi();
+    //this.recupmail();
   }
+
+  recupmail(){
+    console.log(firebase.auth().currentUser?.email);
+  }
 
   get obsUsers(): Observable<UserJSON[]> {
     return this.UserService.observable;
@@ -53,9 +57,11 @@ export class AppComponent {
     this.ChallengeService.getAllChallenge();
   }
 
-  createUser(a:string) {
+
+  createUserV2(name:string,a:string) {
+    console.log(name,a)
     this.UserService.postUser({
-      login: "test",
+      login: name,
       age: +a
     })
   }

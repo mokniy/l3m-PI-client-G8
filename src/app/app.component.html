@@ -30,62 +30,71 @@
 </mat-toolbar>
 
 
-<form *ngIf="false"  (ngSubmit) = "createUser(newTextInput.value)" >
+<form *ngIf="true"  (ngSubmit) = "createUserV2(InputName.value,InputAge.value)" >
   <label>Age:</label>
-    <input  autofocus
-          #newTextInput
-          name      = "newTextInput"
-          class     = "edit"
+    <input
+          #InputAge
+          name      = "InputAge"
+          type="number"
            />
+    <label>Pseudo:</label>
+    <input
+          #InputName
+          name      = "InputName"
+          type="text"
+    />
+    <input type="submit"/>
+    <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
 </form>
 
-<button (click)="createUser('26')">POSTER UN USER</button>
+
+
 {{obsLogin | async | json}}
 
-<button (click)="recupUser()">RECUPERER LES USERS</button>
-<table *ngIf="obsUsers | async as users">
-  <thead>
+  <button (click)="recupUser()">RECUPERER LES USERS</button>
+  <table *ngIf="obsUsers | async as users">
+    <thead>
+        <tr>
+            <th colspan="2">Utilisateurs</th>
+        </tr>
+    </thead>
+    <tbody>
       <tr>
-          <th colspan="2">Utilisateurs</th>
-      </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>login</td>
-      <td>age</td>
-      </tr>
-      <tr *ngFor="let User of users">
-          <td>{{User.login}}</td>
-          <td>{{User.age}}</td>
-      </tr>
-  </tbody>
-</table>
-<br/>
-<br/>
-<button (click)="recupDefi()">RECUPERER LES DEFIS</button>
-<table *ngIf="obsChallenges | async as challenges">
-  <thead>
+        <td>login</td>
+        <td>age</td>
+        </tr>
+        <tr *ngFor="let User of users">
+            <td>{{User.login}}</td>
+            <td>{{User.age}}</td>
+        </tr>
+    </tbody>
+  </table>
+  <br/>
+  <br/>
+  <button (click)="recupDefi()">RECUPERER LES DEFIS</button>
+  <table *ngIf="obsChallenges | async as challenges">
+    <thead>
+        <tr>
+            <th colspan="5">Défis</th>
+        </tr>
+    </thead>
+    <tbody>
       <tr>
-          <th colspan="5">Défis</th>
-      </tr>
-  </thead>
-  <tbody>
-    <tr>
-          <td>Defi</td>
-          <td>titre</td>
-          <td>description</td>
-          <td>auteur</td>
-          <td>dateCreation</td>
-      </tr>
-      <tr *ngFor="let Challenge of challenges">
-          <td>{{Challenge.id}}</td>
-          <td>{{Challenge.titre}}</td>
-          <td>{{Challenge.description}}</td>
-          <td>{{Challenge.auteur}}</td>
-          <td>{{Challenge.dateDeCreation}}</td>
-      </tr>
-  </tbody>
-</table>
+            <td>Defi</td>
+            <td>titre</td>
+            <td>description</td>
+            <td>auteur</td>
+            <td>dateCreation</td>
+        </tr>
+        <tr *ngFor="let Challenge of challenges">
+            <td>{{Challenge.id}}</td>
+            <td>{{Challenge.titre}}</td>
+            <td>{{Challenge.description}}</td>
+            <td>{{Challenge.auteur}}</td>
+            <td>{{Challenge.dateDeCreation}}</td>
+        </tr>
+    </tbody>
+  </table>
 
 <mat-drawer-container class="example-container">
   <mat-drawer #drawer [mode]="mode.value">
