@@ -29,30 +29,34 @@
   </mat-menu>
 </mat-toolbar>
 
+<h1>Bonjour</h1>
 
-<form *ngIf="true"  (ngSubmit) = "createUserV2(InputName.value,InputAge.value)" >
-  <label>Age:</label>
-    <input
-          #InputAge
-          name      = "InputAge"
-          type="number"
-           />
-    <label>Pseudo:</label>
-    <input
-          #InputName
-          name      = "InputName"
-          type="text"
-    />
-    <input type="submit"/>
-    <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
-</form>
+<section *ngIf="obsUser | async as OneUser">
+  <section *ngIf="OneUser.chami === undefined" >
+    <p>Bonjour, bienvenu sur le site des Chamis ! Veuillez saisir votre âge pour confirmer votre inscription avec l'email : {{OneUser.oauthUser.email}} </p>
+    <form (ngSubmit) = "createUserV2(InputName.value,InputAge.value)" >
+      <label>Age:</label>
+        <input
+              #InputAge
+              name      = "InputAge"
+              type="number"
+              />
+        <input hidden
+              #InputName
+              name      = "InputName"
+              type="text"
+              value="{{OneUser.oauthUser.email}}"
+        />
+        <input type="submit"/>
+        <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
+    </form>
+  </section>
+</section>
 
-
-
-{{obsLogin | async | json}}
+<!--{{obsUser | async | json}}-->
 
   <button (click)="recupUser()">RECUPERER LES USERS</button>
-  <table *ngIf="obsUsers | async as users">
+  <table *ngIf="obsChamis | async as users">
     <thead>
         <tr>
             <th colspan="2">Utilisateurs</th>
@@ -64,7 +68,7 @@
         <td>age</td>
         </tr>
         <tr *ngFor="let User of users">
-            <td>{{User.login}}</td>
+            <td>{{User.pseudo}}</td>
             <td>{{User.age}}</td>
         </tr>
     </tbody>

@@ -1,20 +1,48 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { flatMap, multicast, refCount } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import { UserJSON } from "./AllDefinitions";
+import { coerceStringArray } from '@angular/cdk/coercion';
+import { Chami, User } from "./AllDefinitions";
+import { Subject } from 'rxjs';
+import { merge } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class UtilisateurService {
+  private chamisSubj = new BehaviorSubject<Chami[]>( [] );
+  readonly chamisObs = this.chamisSubj.asObservable();
 
-  private usersSubj = new BehaviorSubject<UserJSON[]>( [] );
-  readonly observable = this.usersSubj.asObservable();
+  // private userSubj = new BehaviorSubject<User | undefined>( undefined );
+  readonly userObs: Observable<User | undefined>;
 
-constructor(public auth: AngularFireAuth) { }
+  private newRegisteredChamiSubj = new Subject<Chami>();
+  readonly  newRegisteredChamiObs = this.newRegisteredChamiSubj.asObservable();
 
+  constructor(public auth: AngularFireAuth) {
+    this.userObs = this.auth.user.pipe(
+      flatMap( async U => {
+        if (!!U) {
+          const chami = await this.getChami( U.email ?? '' );
+          return {
+            chami,
+            oauthUser: U
+          };
+        } else {
+          return undefined;
+        }
+      }), // Fin map
+      multicast( () => new BehaviorSubject<User | undefined>( undefined ) ),
+      refCount()
+    );
+
+      const merged = merge(this.userObs, this.newRegisteredChamiObs).subscribe();
+      console.log('YOUYOU'+merged);
+
+
+  }
 
   login(): void {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -22,68 +50,45 @@ constructor(public auth: AngularFireAuth) { }
         prompt: 'select_account'
       });
       this.auth.signInWithPopup(provider);
+  }
 
-  /*
-      let s : String = this.getCurrentUser() as String
+  logout(): void {
+    this.auth.signOut();
+  }
 
-      this.userExistant(s);*/
-    }
+  isLoggedIn() {
 
-    logout(): void {
-      this.auth.signOut();
-    }
-
-  async getCurrentUser(){
-    let s
-    this.auth.currentUser.then(
-      async function(res){
-        s = await res?.email as String
-    })
-    return s
   }
 
   async getAllUsers(){
     const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/');
     const data = await response.json();
-    this.usersSubj.next( data as UserJSON[] );
+    this.chamisSubj.next( data as Chami[] );
   }
 
-  async getOneUsers(login:string){
-    const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/'+login);
-    const data = await response.json();
-    return data as UserJSON;
+  async getChami(login:string): Promise<Chami | undefined> {
+    const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/' + login);
+    if (response.status === 200) {
+      return await response.json() as Chami;
+    } else {
+      return undefined;
+    }
   }
 
-  postUser(user : UserJSON){
+  async postUser(user: Chami): Promise<Chami> {
     console.log(JSON.stringify(user));
-    fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/"+user.login,
+    const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/"+user.pseudo,
     {
         method: "POST",
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(user)
-    })
-    .then(function(res){
-        console.log("finito"+ res)
-        return res.json();
-      })
+    });
+
+    console.log("finito"+ res)
+    return res.json();
   }
 
-  async userExistant(login: string){
-    let u: UserJSON ;
-    u = {
-      login : "null",
-      age : -1
-    }
-    u = await this.getOneUsers(login);
-    if(login===u.login){
-      console.log("utilisateur existant")
-      console.log('='+ login)
-    } else{
-      console.log("utilisateur non existant")
-      console.log('='+ u.login)
-    }
-  }
 
 }

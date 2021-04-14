@@ -5,7 +5,7 @@ export type MenuSelected  = 'menuConnect' | 'menuDisconnect';
 import {UtilisateurService} from './utilisateur.service';
 import {ChallengeService} from './challenge.service';
 import { Observable } from 'rxjs';
-import { UserJSON, ChallengeJSON } from "./AllDefinitions";
+import { Chami, Challenge, User } from "./AllDefinitions";
 import firebase from 'firebase/app';
 
 @Component({
@@ -23,23 +23,22 @@ export class AppComponent {
   constructor(private UserService: UtilisateurService, private ChallengeService: ChallengeService) {
     this.recupUser();
     this.recupDefi();
-    //this.recupmail();
-  }
-
-  recupmail(){
-    console.log(firebase.auth().currentUser?.email);
   }
 
-  get obsUsers(): Observable<UserJSON[]> {
-    return this.UserService.observable;
+  get obsChamis(): Observable<Chami[]> {
+    return this.UserService.chamisObs;
   }
 
-  get obsChallenges(): Observable<ChallengeJSON[]> {
+  get obsChallenges(): Observable<Challenge[]> {
     return this.ChallengeService.observable;
   }
 
   get obsLogin(): Observable<firebase.User | null> {
     return this.UserService.auth.user;
+  }
+
+  get obsUser(): Observable<User | undefined> {
+    return this.UserService.userObs;
   }
 
   login() {
@@ -57,12 +56,14 @@ export class AppComponent {
     this.ChallengeService.getAllChallenge();
   }
 
-
   createUserV2(name:string,a:string) {
-    console.log(name,a)
+    console.log(name,a);
     this.UserService.postUser({
-      login: name,
-      age: +a
+      pseudo: name,
+      age: +a,
+      ville:'',
+      description:'',
+      email:''
     })
   }
 
