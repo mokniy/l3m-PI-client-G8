@@ -41,6 +41,10 @@ export class AppComponent {
     return this.UserService.userObs;
   }
 
+  get tst(): Observable<Chami | User | undefined> | undefined{
+    return this.UserService.merged;
+  }
+
   login() {
     this.UserService.login();
   }

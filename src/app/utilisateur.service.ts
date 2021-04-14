@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { flatMap, multicast, refCount } from 'rxjs/operators';
+import { flatMap, combineLatest, map, multicast, refCount } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { coerceStringArray } from '@angular/cdk/coercion';
 import { Chami, User } from "./AllDefinitions";
 import { Subject } from 'rxjs';
 import { merge } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,8 @@ export class UtilisateurService {
 
   private newRegisteredChamiSubj = new Subject<Chami>();
   readonly  newRegisteredChamiObs = this.newRegisteredChamiSubj.asObservable();
+
+  merged?: any;
 
   constructor(public auth: AngularFireAuth) {
     this.userObs = this.auth.user.pipe(
@@ -38,10 +41,24 @@ export class UtilisateurService {
       refCount()
     );
 
-      const merged = merge(this.userObs, this.newRegisteredChamiObs).subscribe();
-      console.log('YOUYOU'+merged);
+    /*
+    const user = {
+      pseudo: "up",
+      age: 12,
+      ville:'',
+      description:'',
+      email:''
+    }
 
+    this.newRegisteredChamiSubj.next(user)
+    this.newRegisteredChamiObs = this.newRegisteredChamiSubj.asObservable()
 
+      this.merged = merge(this.userObs,this.newRegisteredChamiObs);
+
+      this.merged = combineLatest(this.userObs, this.newRegisteredChamiObs)
+
+    console.log(this.merged)
+    */
   }
 
   login(): void {
@@ -85,7 +102,7 @@ export class UtilisateurService {
         },
         body: JSON.stringify(user)
     });
-
+    this.newRegisteredChamiSubj.next(user)
     console.log("finito"+ res)
     return res.json();
   }
