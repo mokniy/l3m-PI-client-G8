@@ -31,4 +31,15 @@
   yaga-map {
     height: 480px;
   }
+
+  .row {
+    display: flex;
+  }
+  .col {
+    flex: 1;
+    padding: 1em;
+    border: solid;
+  }
+
+
 }

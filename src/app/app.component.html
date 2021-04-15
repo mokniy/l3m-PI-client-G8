@@ -1,4 +1,4 @@
-  <mat-toolbar>
+<mat-toolbar>
   <button mat-icon-button class="example-icon" aria-label="Menu">
     <mat-icon (click)="drawer.toggle()">menu</mat-icon>
   </button>
@@ -59,56 +59,12 @@
 
 <!--{{obsUser | async | json}}-->
 
-  <button (click)="recupUser()">RECUPERER LES USERS</button>
-  <table *ngIf="obsChamis | async as users">
-    <thead>
-        <tr>
-            <th colspan="2">Utilisateurs</th>
-        </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>login</td>
-        <td>age</td>
-        </tr>
-        <tr *ngFor="let User of users">
-            <td>{{User.pseudo}}</td>
-            <td>{{User.age}}</td>
-        </tr>
-    </tbody>
-  </table>
-  <br/>
-  <br/>
-  <button (click)="recupDefi()">RECUPERER LES DEFIS</button>
-  <table *ngIf="obsChallenges | async as challenges">
-    <thead>
-        <tr>
-            <th colspan="5">Défis</th>
-        </tr>
-    </thead>
-    <tbody>
-      <tr>
-            <td>Defi</td>
-            <td>titre</td>
-            <td>description</td>
-            <td>auteur</td>
-            <td>dateCreation</td>
-        </tr>
-        <tr *ngFor="let Challenge of challenges">
-            <td>{{Challenge.id}}</td>
-            <td>{{Challenge.titre}}</td>
-            <td>{{Challenge.description}}</td>
-            <td>{{Challenge.auteur}}</td>
-            <td>{{Challenge.dateDeCreation}}</td>
-        </tr>
-    </tbody>
-  </table>
 
 <mat-drawer-container class="example-container">
+<mat-drawer-content>
   <mat-drawer #drawer [mode]="mode.value">
     Placez votre menu ici...
   </mat-drawer>
-  <mat-drawer-content>
     <mat-form-field>
       <button>
       </button>
@@ -131,6 +87,57 @@
       </yaga-marker>
 
     </yaga-map>
-
-  </mat-drawer-content>
+    <div class="row">
+      <button class="col" (click)="recupUser()">RECUPERER LES CHAMIS</button>
+      <button class="col" (click)="recupDefi()">RECUPERER LES DEFIS</button>
+    </div>
+<div class="row">
+  <br/>
+  <br/>
+    <table *ngIf="obsChamis | async as users" class="col">
+      <thead>
+          <tr>
+              <th colspan="2">Chamis</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>login</th>
+          <th>age</th>
+          </tr>
+          <tr *ngFor="let User of users">
+              <td>{{User.pseudo}}</td>
+              <td>{{User.age}}</td>
+          </tr>
+      </tbody>
+    </table>
+    <br/>
+    <br/>
+    <table *ngIf="obsChallenges | async as challenges" class="col">
+      <thead>
+          <tr>
+              <th colspan="5">Défis</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+              <th>Defi</th>
+              <th>titre</th>
+              <th>description</th>
+              <th>auteur</th>
+              <th>dateCreation</th>
+          </tr>
+          <tr *ngFor="let Challenge of challenges">
+              <td>{{Challenge.id}}</td>
+              <td>{{Challenge.titre}}</td>
+              <td>{{Challenge.description}}</td>
+              <td>{{Challenge.auteur}}</td>
+              <td>{{Challenge.dateDeCreation}}</td>
+          </tr>
+      </tbody>
+    </table>
+    <br/>
+    <br/>
+  </div>
+    </mat-drawer-content>
 </mat-drawer-container>
