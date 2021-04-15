@@ -10,7 +10,7 @@ export class ChallengeService {
   readonly obsAllChall = this.challengesSubj.asObservable();
 
   private challengesOfAnUser = new BehaviorSubject<Challenge[]>( [] );
-  readonly obsChallUser = this.challengesSubj.asObservable();
+  readonly obsChallUser = this.challengesOfAnUser.asObservable();
 
 constructor() { }
 
