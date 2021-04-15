@@ -3,9 +3,9 @@ import firebase from 'firebase/app';
 export interface Chami {
   readonly pseudo: string;
   readonly age:   number;
-  ville: string;
-  description: string;
-  email: string;
+  readonly ville: string;
+  readonly description: string;
+  readonly email: string;
 }
 
 export interface Challenge {

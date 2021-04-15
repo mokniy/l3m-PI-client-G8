@@ -23,6 +23,7 @@ export class AppComponent {
   constructor(private UserService: UtilisateurService, private ChallengeService: ChallengeService) {
     this.recupUser();
     this.recupDefi();
+    this.recupDefiUnUser()
   }
 
   get obsChamis(): Observable<Chami[]> {
@@ -30,7 +31,11 @@ export class AppComponent {
   }
 
   get obsChallenges(): Observable<Challenge[]> {
-    return this.ChallengeService.observable;
+    return this.ChallengeService.obsAllChall;
+  }
+
+  get obsChallUser(): Observable<Challenge[]> {
+    return this.ChallengeService.obsChallUser;
   }
 
   get obsLogin(): Observable<firebase.User | null> {
@@ -41,9 +46,9 @@ export class AppComponent {
     return this.UserService.userObs;
   }
 
-  get tst(): Observable<Chami | User | undefined> | undefined{
-    return this.UserService.merged;
-  }
+  //get tst(): Observable<Chami | User | undefined> | undefined{
+    //return this.UserService.merged;
+  //}
 
   login() {
     this.UserService.login();
@@ -60,6 +65,12 @@ export class AppComponent {
     this.ChallengeService.getAllChallenge();
   }
 
+  recupDefiUnUser() {
+    if(this.UserService.userObs !== undefined) {
+      //this.ChallengeService.getAllChallengeOfAnUsers(this.UserService.userObs.chami);
+    }
+  }
+
   createUserV2(name:string,a:string) {
     console.log(name,a);
     this.UserService.postUser({
@@ -71,7 +82,22 @@ export class AppComponent {
     })
   }
 
+  updateUser(age:string,ville:string,description:string,mail:string) {
+      this.UserService.putUser({
+        pseudo: mail,
+        age: +age,
+        ville: ville,
+        description:description,
+        email:mail
+      })
+  }
 
+  get tst(): Observable<Chami> {
+    return this.UserService.newRegisteredChamiObs;
+  }
+  tstv2() {
+    this.UserService.tst();
+  }
 }
 
 

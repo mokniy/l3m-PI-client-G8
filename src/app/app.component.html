@@ -7,16 +7,16 @@
   </label>
   <label class="spacer"></label>
   <ng-template #showLogin>
-  <mat-icon [matMenuTriggerFor]="menuConnect">
-    account_circle
-  </mat-icon>
-</ng-template>
+    <mat-icon [matMenuTriggerFor]="menuConnect">
+      account_circle
+    </mat-icon>
+  </ng-template>
   <mat-icon *ngIf="obsLogin | async as user; else showLogin" [matMenuTriggerFor]="menuDisconnect">
     account_circle
   </mat-icon>
   <mat-menu #menuConnect="matMenu">
     <button (click)="login()" mat-menu-item>
-      <img [src]="dataIconGoogle" width="24" height="24"/>
+      <img [src]="dataIconGoogle" width="24" height="24" />
       &nbsp;
       <span>Compte Google</span>
     </button>
@@ -32,39 +32,28 @@
 <h1>Bonjour</h1>
 
 <section *ngIf="obsUser | async as OneUser">
-  <section *ngIf="OneUser.chami === undefined" >
-    <p>Bonjour, bienvenu sur le site des Chamis ! Veuillez saisir votre âge pour confirmer votre inscription avec l'email : {{OneUser.oauthUser.email}} </p>
-    <form (ngSubmit) = "createUserV2(InputName.value,InputAge.value)" >
+  <section *ngIf="OneUser.chami === undefined">
+    <p>Bonjour, bienvenu sur le site des Chamis ! Veuillez saisir votre âge pour confirmer votre inscription avec
+      l'email : {{OneUser.oauthUser.email}} </p>
+    <form (ngSubmit)="createUserV2(InputName.value,InputAge.value)">
       <label>Age:</label>
-        <input
-              #InputAge
-              name      = "InputAge"
-              type="number"
-              />
-        <input hidden
-              #InputName
-              name      = "InputName"
-              type="text"
-              value="{{OneUser.oauthUser.email}}"
-        />
-        <input type="submit"/>
-        <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
+      <input #InputAge           name      = "InputAge" type="number" />
+      <input hidden #InputName     name      = "InputName" type="text" value="{{OneUser.oauthUser.email}}" />
+      <input type="submit" />
+      <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
     </form>
   </section>
 </section>
 
-<br/>
-
-{{tst|async|json}}
 
 <!--{{obsUser | async | json}}-->
 
 
 <mat-drawer-container class="example-container">
-<mat-drawer-content>
-  <mat-drawer #drawer [mode]="mode.value">
-    Placez votre menu ici...
-  </mat-drawer>
+  <mat-drawer-content>
+    <mat-drawer #drawer [mode]="mode.value">
+      Placez votre menu ici...
+    </mat-drawer>
     <mat-form-field>
       <button>
       </button>
@@ -78,66 +67,123 @@
 
     <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
       <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
-      <yaga-marker  [lng] = "5.724524"
-                    [lat] = "45.188529"
-                    [display] = "true"
-                    [opacity] = "1"
-                    >
+      <yaga-marker [lng]="5.724524" [lat]="45.188529" [display]="true" [opacity]="1">
         <yaga-icon [iconUrl]="iconMarker"></yaga-icon>
       </yaga-marker>
+      <!--<yaga-polyline [color] = "'blue'" [geoJSON] = "parsedGeoJson" ></yaga-polyline>-->
 
     </yaga-map>
     <div class="row">
       <button class="col" (click)="recupUser()">RECUPERER LES CHAMIS</button>
       <button class="col" (click)="recupDefi()">RECUPERER LES DEFIS</button>
     </div>
-<div class="row">
-  <br/>
-  <br/>
-    <table *ngIf="obsChamis | async as users" class="col">
-      <thead>
+    <div class="row">
+      <br />
+      <br />
+      <table *ngIf="obsChamis | async as users" class="col">
+        <thead>
           <tr>
-              <th colspan="2">Chamis</th>
+            <th colspan="3">Chamis</th>
           </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>login</th>
-          <th>age</th>
+        </thead>
+        <tbody>
+          <tr>
+            <th>login</th>
+            <th>age</th>
+            <th>description</th>
           </tr>
           <tr *ngFor="let User of users">
-              <td>{{User.pseudo}}</td>
-              <td>{{User.age}}</td>
+            <td>{{User.pseudo}}</td>
+            <td>{{User.age}}</td>
+            <td>{{User.description}}</td>
           </tr>
-      </tbody>
-    </table>
-    <br/>
-    <br/>
-    <table *ngIf="obsChallenges | async as challenges" class="col">
-      <thead>
+        </tbody>
+      </table>
+      <br />
+      <br />
+      <table *ngIf="obsChallenges | async as challenges" class="col">
+        <thead>
           <tr>
-              <th colspan="5">Défis</th>
+            <th colspan="5">Défis</th>
           </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Defi</th>
+            <th>titre</th>
+            <th>description</th>
+            <th>auteur</th>
+            <th>dateCreation</th>
+          </tr>
+          <tr *ngFor="let Challenge of challenges">
+            <td>{{Challenge.id}}</td>
+            <td>{{Challenge.titre}}</td>
+            <td>{{Challenge.description}}</td>
+            <td>{{Challenge.auteur}}</td>
+            <td>{{Challenge.dateDeCreation}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <br />
+    </div>
+    <br />
+    <button (click)="tstv2()">tst</button>
+    new user publie :
+    {{tst|async|json}}
+    <br />
+
+    Notre user : {{obsUser | async | json}}
+    <br />
+    <br />
+    <br />
+    <br />
+    <section *ngIf="obsUser | async as OneUser">
+      <section *ngIf="OneUser.chami !== undefined">
+        <form (ngSubmit)="updateUser(InputAge.value,InputVille.value,InputDescription.value,InputMail.value)">
+          <label>Age : </label>
+          <input #InputAge name = "InputAge" type="number" value="{{OneUser.chami.age}}" />
+            <br>
+            <label>Ville : </label>
+            <input #InputVille name = "InputVille" type="text" value="{{OneUser.chami.ville}}" />
+            <br>
+            <label>Description : </label>
+            <input #InputDescription name = "InputDescription" type="text" value="{{OneUser.chami.description}}" />
+            <input hidden #InputMail     name      = "InputMail" type="text" value="{{OneUser.oauthUser.email}}" />
+          <br>
+          <input type="submit" />
+          <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
+        </form>
+      </section>
+    </section>
+    <br />
+    <br />
+    <br />
+    <table *ngIf="obsChallUser | async as challenges" class="col">
+      <thead>
+        <tr>
+          <th colspan="5">Défis</th>
+        </tr>
       </thead>
       <tbody>
         <tr>
-              <th>Defi</th>
-              <th>titre</th>
-              <th>description</th>
-              <th>auteur</th>
-              <th>dateCreation</th>
-          </tr>
-          <tr *ngFor="let Challenge of challenges">
-              <td>{{Challenge.id}}</td>
-              <td>{{Challenge.titre}}</td>
-              <td>{{Challenge.description}}</td>
-              <td>{{Challenge.auteur}}</td>
-              <td>{{Challenge.dateDeCreation}}</td>
-          </tr>
+          <th>Defi</th>
+          <th>titre</th>
+          <th>description</th>
+          <th>auteur</th>
+          <th>dateCreation</th>
+        </tr>
+        <tr *ngFor="let Challenge of challenges">
+          <td>{{Challenge.id}}</td>
+          <td>{{Challenge.titre}}</td>
+          <td>{{Challenge.description}}</td>
+          <td>{{Challenge.auteur}}</td>
+          <td>{{Challenge.dateDeCreation}}</td>
+        </tr>
       </tbody>
     </table>
-    <br/>
-    <br/>
-  </div>
-    </mat-drawer-content>
+    <br />
+    <br />
+
+  </mat-drawer-content>
 </mat-drawer-container>
