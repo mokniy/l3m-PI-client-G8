@@ -86,6 +86,9 @@
         <yaga-icon [iconUrl]="iconMarker"></yaga-icon>
       </yaga-marker>
 
+      <!--<yaga-polyline *ngFor="let Ligne of lignes; let i = index" [color] = "'red'" [geoJSON] = "Ligne[i]" ></yaga-polyline>-->
+      <yaga-polyline [color] = "'red'" [geoJSON] = "ligne()"> </yaga-polyline>
+
     </yaga-map>
     <div class="row">
       <button class="col" (click)="recupUser()">RECUPERER LES CHAMIS</button>
