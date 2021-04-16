@@ -1,47 +1,47 @@
 import { element } from 'protractor';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
-export type MenuSelected  = 'menuConnect' | 'menuDisconnect';
-import {UtilisateurService} from './utilisateur.service';
-import {ChallengeService} from './challenge.service';
+import { UtilisateurService } from './utilisateur.service';
+import { DefiService } from './defi.service';
 import { Observable } from 'rxjs';
-import { Chami, Challenge, User } from "./AllDefinitions";
+import { Chami, Defi, User, rgbToHex, Arret } from "./AllDefinitions";
 import firebase from 'firebase/app';
 import * as GeoJSON from 'geojson';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class AppComponent {
-  lignes:GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[] = [];
+  lignes: GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString,any>[] = [];
+  arrets: GeoJSON.Feature<GeoJSON.Point,any>[] = [];
   dataIconGoogle = 'assets/images/iconGoogle.png';
-  iconMarker = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Map_marker.svg/585px-Map_marker.svg.png';
+  iconMarker ='https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Map_marker.svg/585px-Map_marker.svg.png';
   tileLayerUrl = OSM_TILE_LAYER_URL;
-  public menuSelected!: MenuSelected;
+  defi_edited : Defi | null = null;
 
-  constructor(private UserService: UtilisateurService, private ChallengeService: ChallengeService) {
+  constructor(private UserService: UtilisateurService,private defiService: DefiService) {
     this.recupUser();
     this.recupDefi();
-    this.recupDefiUnUser()
-    //this.getlignes();
-    this.tstgetlignes();
-    //this.testcolor();
+    this.recupDefiUnUser();
+    this.recupAllLinesSEMITAG();
+    this.recupArretAvecDefiAPIPerso();
+    //this.createDefi();
   }
 
   get obsChamis(): Observable<Chami[]> {
     return this.UserService.chamisObs;
   }
 
-  get obsChallenges(): Observable<Challenge[]> {
-    return this.ChallengeService.obsAllChall;
+  get obsDefis(): Observable<Defi[]> {
+    return this.defiService.obsAllChall;
   }
 
-  get obsChallUser(): Observable<Challenge[]> {
-    return this.ChallengeService.obsChallUser;
+  get obsChallUser(): Observable<Defi[]> {
+    return this.defiService.obsChallUser;
   }
 
   get obsLogin(): Observable<firebase.User | null> {
@@ -53,7 +53,7 @@ export class AppComponent {
   }
 
   //get tst(): Observable<Chami | User | undefined> | undefined{
-    //return this.UserService.merged;
+  //return this.UserService.merged;
   //}
 
   login() {
@@ -67,35 +67,40 @@ export class AppComponent {
   recupUser() {
     this.UserService.getAllUsers();
   }
+
   recupDefi() {
-    this.ChallengeService.getAllChallenge();
+    this.defiService.getAllDefi();
   }
 
   recupDefiUnUser() {
-    if(this.UserService.userObs !== undefined) {
-      //this.ChallengeService.getAllChallengeOfAnUsers(this.UserService.userObs.chami);
-    }
+    this.UserService.userObs.subscribe((x) => {
+      if (!!x) {
+        if (!!x.chami) {
+          this.defiService.getAllDefiOfAnUsers(x.chami);
+        }
+      }
+    });
   }
 
-  createUserV2(name:string,a:string) {
-    console.log(name,a);
+  createUser(name: string, a: string, ville: string, description: string) {
+    console.log(name, a);
     this.UserService.postUser({
       pseudo: name,
       age: +a,
-      ville:'',
-      description:'',
-      email:''
-    })
+      ville: ville,
+      description: description,
+      email: name,
+    });
   }
 
-  updateUser(age:string,ville:string,description:string,mail:string) {
-      this.UserService.putUser({
-        pseudo: mail,
-        age: +age,
-        ville: ville,
-        description:description,
-        email:mail
-      })
+  updateUser(age: string, ville: string, description: string, mail: string) {
+    this.UserService.putUser({
+      pseudo: mail,
+      age: +age,
+      ville: ville,
+      description: description,
+      email: mail,
+    });
   }
 
   get tst(): Observable<Chami> {
@@ -105,34 +110,86 @@ export class AppComponent {
     this.UserService.tst();
   }
 
-  async tstgetlignes(){
-    const response = await fetch('https://data.mobilites-m.fr/api/lines/json?types=ligne&reseaux=SEM');
+  editedModeForDefi(defi:Defi) {
+    this.defi_edited = defi;
+  }
+
+  updateDefi(defi:Defi) {
+    console.log("modification defi"+defi.defi);
+    this.defiService.putDefi(defi);
+    this.defi_edited = null;
+  }
+
+  ////////////////////AFFICHAGE LIGNE
+  async recupAllLinesSEMITAG() {
+    const response = await fetch(
+      'https://data.mobilites-m.fr/api/lines/json?types=ligne&reseaux=SEM'
+    );
     const data = await response.json();
-    const test = JSON.stringify(data)
-    const test20 = JSON.parse(test)
-    this.lignes = test20.features
-    console.log(this.lignes[0].properties.COULEUR)
-    console.log(test20)
-    console.log(this.rgbToHex(this.lignes[0].properties.COULEUR));
+    const test = JSON.stringify(data);
+    const test20 = JSON.parse(test);
+    this.lignes = test20.features;
+    //console.log(this.lignes[0].properties.COULEUR);
+    //console.log(test20);
+    //console.log(rgbToHex(this.lignes[0].properties.COULEUR));
   }
 
-  testcolor(i: number):string|undefined {
-    console.log(this.lignes[i].properties.COULEUR)
-    console.log(this.rgbToHex(this.lignes[i].properties.COULEUR))
-    return this.rgbToHex(this.lignes[i].properties.COULEUR)
+  colorationLines(i: number): string | undefined {
+    return rgbToHex(this.lignes[i].properties.COULEUR);
+  }
+  ////////////////////FIN AFFICHAGE LIGNE
+
+  //CREER METHODE QUI POUR CHAQUE ARRET UTILISE DANS UN DEFI LE FAIT APPARAITE SUR LA CARTE
+  //@TODO
+  async recupArretAvecDefiAPIPerso() {
+    const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/defi')
+    const dataAPISpringBoot = await response.json();
+    const tabOfAllArret:Arret[] = dataAPISpringBoot as Arret[]
+    tabOfAllArret.map(
+      x => {
+        //console.log(x.arret),
+        this.recupArretAvecDefiAPIMobi(x.lib_arret)
+      })
   }
 
-  componentToHex(c:number) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
+  async recupArretAvecDefiAPIMobi(lib: string) {
+    const response = await fetch(
+      'https://data.mobilites-m.fr/api/findType/json?types=arret&query='+lib
+      );
+    const data = await response.json();
+    const test = JSON.stringify(data);
+    const test20 = JSON.parse(test);
+    console.log(data)
+    this.arrets.push(test20.features[0])
   }
 
-  rgbToHex(str :string) {
-    let splitted = str.split(",", 3);
-    let r:number = +splitted[0]
-    let g:number = +splitted[1]
-    let b:number = +splitted[2]
-    return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b)+"";
+  displayDefi(i: number) {
+    console.log("METHODE DISPLAY DEFI "+this.arrets[i].properties.CODE)
   }
+
+  createDefi() {
+    let d : Defi = {
+      defi:'teeest',
+      titre:'LE defi TEST',
+      dateDeCreation:'',
+      description:'letest',
+      auteur:'briancon.guillaume8@gmail.com',
+      code_arret:'SEM_GENCHAVANT',
+      type: 'enigme',
+      dateDeModification: '',
+      version: 1,
+      arret: '',
+      points: 15,
+      duree: '',
+      prologue: '',
+      epilogue: '',
+      commentaire: ''
+    }
+    this.defiService.postDefi(d);
+  }
+
+
+
+
 
 }

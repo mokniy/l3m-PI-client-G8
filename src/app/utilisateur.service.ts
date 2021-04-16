@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { flatMap, combineLatest, map, multicast, refCount,merge, mergeMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, merge, combineLatest } from 'rxjs';
+import { flatMap, map, multicast, refCount, mergeMap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { coerceStringArray } from '@angular/cdk/coercion';
 import { Chami, User } from "./AllDefinitions";
-import { Subject } from 'rxjs';
 import { CombineLatestOperator } from 'rxjs/internal/observable/combineLatest';
 
 
@@ -16,8 +15,11 @@ export class UtilisateurService {
   private chamisSubj = new BehaviorSubject<Chami[]>( [] );
   readonly chamisObs = this.chamisSubj.asObservable();
 
-  // private userSubj = new BehaviorSubject<User | undefined>( undefined );
   readonly userObs: Observable<User | undefined>;
+
+    //REALISATION MERGE ET COMBINELATEST
+  //private oneChami = new Subject<Chami | undefined>();
+  //private readonly  oneChamiObs = this.oneChami.asObservable();
 
   private newRegisteredChamiSubj = new Subject<Chami>();
   readonly  newRegisteredChamiObs = this.newRegisteredChamiSubj.asObservable();
@@ -27,6 +29,8 @@ export class UtilisateurService {
       mergeMap( async U => {
         if (!!U) {
           const chami = await this.getChami( U.email ?? '' );
+          //REALISATION MERGE ET COMBINELATEST
+          //this.oneChami.next(chami)
           return {
             chami,
             oauthUser: U
@@ -36,20 +40,13 @@ export class UtilisateurService {
         }
       }), // Fin map
       multicast( () => new BehaviorSubject<User | undefined>( undefined ) ),
-      refCount()//,
-      //merge(this.newRegisteredChamiObs)
+      refCount()
     );
 
-
-        /*
-      this.newRegisteredChamiObs.subscribe(x =>
-        console.log("obs chami"+x)
-        )
-
-      merge(this.newRegisteredChamiObs,this.userObs);
-      let x = combineLatest(this.userObs, this.newRegisteredChamiObs)
-      console.log('On est dans le combinelatest ici '+x)
-      */
+    //REALISATION MERGE ET COMBINELATEST
+    //const test = merge(this.newRegisteredChamiObs,this.oneChamiObs).pipe()
+    //console.log(test)
+    //const tst2 = combineLatest()
   }
 
   tst(): void {

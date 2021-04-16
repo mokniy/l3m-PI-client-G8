@@ -35,10 +35,14 @@
   <section *ngIf="OneUser.chami === undefined">
     <p>Bonjour, bienvenu sur le site des Chamis ! Veuillez saisir votre âge pour confirmer votre inscription avec
       l'email : {{OneUser.oauthUser.email}} </p>
-    <form (ngSubmit)="createUserV2(InputName.value,InputAge.value)">
+    <form (ngSubmit)="createUser(InputName.value,InputAge.value,InputVille.value,InputDescription.value)">
       <label>Age:</label>
-      <input #InputAge           name      = "InputAge" type="number" />
-      <input hidden #InputName     name      = "InputName" type="text" value="{{OneUser.oauthUser.email}}" />
+      <input #InputAge           name = "InputAge" type="number" />
+      <label>Ville:</label>
+      <input #InputVille name="InputVille" type="string" />
+      <label>Description:</label>
+      <input #InputDescription name="InputDescription" type="string" />
+      <input hidden #InputName   name  = "InputName" type="text" value="{{OneUser.oauthUser.email}}" />
       <input type="submit" />
       <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
     </form>
@@ -67,20 +71,22 @@
 
     <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
       <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
-      <yaga-marker [lng]="5.724524" [lat]="45.188529" [display]="true" [opacity]="1">
+
+      <yaga-marker  *ngFor="let arret of arrets; let j = index" (click)="displayDefi(j)" [lng]="arret.geometry.coordinates[0]" [lat]="arret.geometry.coordinates[1]" [display]="true" [opacity]="1">
         <yaga-icon [iconUrl]="iconMarker"></yaga-icon>
       </yaga-marker>
-      <!--<yaga-polyline [color] = "'blue'" [geoJSON] = "parsedGeoJson" ></yaga-polyline>-->
 
-      <yaga-polyline *ngFor="let Ligne of lignes; let i = index" [color] = "testcolor(i)" [geoJSON] = "lignes[i]" ></yaga-polyline>
+      <yaga-polyline *ngFor="let Ligne of lignes; let i = index" [color]="colorationLines(i)" [geoJSON]="lignes[i]">
+      </yaga-polyline>
+
     </yaga-map>
+
+    <br />
+    <br />
     <div class="row">
       <button class="col" (click)="recupUser()">RECUPERER LES CHAMIS</button>
-      <button class="col" (click)="recupDefi()">RECUPERER LES DEFIS</button>
     </div>
     <div class="row">
-      <br />
-      <br />
       <table *ngIf="obsChamis | async as users" class="col">
         <thead>
           <tr>
@@ -100,9 +106,15 @@
           </tr>
         </tbody>
       </table>
-      <br />
-      <br />
-      <table *ngIf="obsChallenges | async as challenges" class="col">
+    </div>
+    <br />
+    <br />
+
+    <div class="row">
+      <button class="col" (click)="recupDefi()">RECUPERER LES DEFIS</button>
+    </div>
+    <div class="row">
+      <table *ngIf="obsDefis | async as Defis" class="col">
         <thead>
           <tr>
             <th colspan="5">Défis</th>
@@ -115,13 +127,15 @@
             <th>description</th>
             <th>auteur</th>
             <th>dateCreation</th>
+            <th>code arret</th>
           </tr>
-          <tr *ngFor="let Challenge of challenges">
-            <td>{{Challenge.id}}</td>
-            <td>{{Challenge.titre}}</td>
-            <td>{{Challenge.description}}</td>
-            <td>{{Challenge.auteur}}</td>
-            <td>{{Challenge.dateDeCreation}}</td>
+          <tr *ngFor="let Defi of Defis">
+            <td>{{Defi.defi}}</td>
+            <td>{{Defi.titre}}</td>
+            <td>{{Defi.description}}</td>
+            <td>{{Defi.auteur}}</td>
+            <td>{{Defi.dateDeCreation}}</td>
+            <td>{{Defi.code_arret}}</td>
           </tr>
         </tbody>
       </table>
@@ -139,18 +153,19 @@
     <br />
     <br />
     <br />
+    <p>UPDATE DU COMPTE EN LIGNE</p>
     <section *ngIf="obsUser | async as OneUser">
       <section *ngIf="OneUser.chami !== undefined">
         <form (ngSubmit)="updateUser(InputAge.value,InputVille.value,InputDescription.value,InputMail.value)">
           <label>Age : </label>
-          <input #InputAge name = "InputAge" type="number" value="{{OneUser.chami.age}}" />
-            <br>
-            <label>Ville : </label>
-            <input #InputVille name = "InputVille" type="text" value="{{OneUser.chami.ville}}" />
-            <br>
-            <label>Description : </label>
-            <input #InputDescription name = "InputDescription" type="text" value="{{OneUser.chami.description}}" />
-            <input hidden #InputMail     name      = "InputMail" type="text" value="{{OneUser.oauthUser.email}}" />
+          <input #InputAge name= "InputAge" type="number" value="{{OneUser.chami.age}}" />
+          <br>
+          <label>Ville : </label>
+          <input #InputVille name= "InputVille" type="text" value="{{OneUser.chami.ville}}" />
+          <br>
+          <label>Description : </label>
+          <input #InputDescription name= "InputDescription" type="text" value="{{OneUser.chami.description}}" />
+          <input hidden #InputMail     name      = "InputMail" type="text" value="{{OneUser.oauthUser.email}}" />
           <br>
           <input type="submit" />
           <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
@@ -160,7 +175,7 @@
     <br />
     <br />
     <br />
-    <table *ngIf="obsChallUser | async as challenges" class="col">
+    <table class="table" *ngIf="obsChallUser | async as Defis" class="col">
       <thead>
         <tr>
           <th colspan="5">Défis</th>
@@ -174,17 +189,55 @@
           <th>auteur</th>
           <th>dateCreation</th>
         </tr>
-        <tr *ngFor="let Challenge of challenges">
-          <td>{{Challenge.id}}</td>
-          <td>{{Challenge.titre}}</td>
-          <td>{{Challenge.description}}</td>
-          <td>{{Challenge.auteur}}</td>
-          <td>{{Challenge.dateDeCreation}}</td>
+        <tr (click)="editedModeForDefi(Defi)" *ngFor="let Defi of Defis">
+          <td>{{Defi.defi}}</td>
+          <td>{{Defi.titre}}</td>
+          <td>{{Defi.description}}</td>
+          <td>{{Defi.auteur}}</td>
+          <td>{{Defi.dateDeCreation}}</td>
         </tr>
       </tbody>
     </table>
     <br />
+
+
+    <!--METTRE EN PLACE DES PARTIALS-->
+    <!--METTRE EN PLACE LIST ARRET-->
+    <section *ngIf="defi_edited !== null">
+      <form (ngSubmit)= "updateDefi({
+        defi:defi_edited.defi,
+        titre:InputTitre.value,
+        dateDeCreation: defi_edited.dateDeCreation,
+        description: InputDescription.value,
+        auteur: defi_edited.auteur,
+        code_arret:  defi_edited.code_arret,
+        type: '',
+        dateDeModification:'',
+        version:2,
+        arret:'',
+        points:18,
+        duree:'',
+        prologue:'',
+        epilogue:'',
+        commentaire:''})">
+
+        <label>Defi : {{defi_edited.defi}}</label>
+        <br/>
+        <label>Titre : </label>
+        <input #InputTitre name= "InputTitre" type="text" value="{{defi_edited.titre}}" />
+        <br/>
+        <label>Description : </label>
+        <textarea #InputDescription style=" display: inline-block; resize: none; width:75%;" name="InputDescription" rows="3" value="{{defi_edited.description}}"></textarea>
+        <br/>
+        <input type="submit" />
+
+      </form>
+    </section>
     <br />
+    <!--Test bootstrap-->
+      <button type="button" class="btn btn-primary">Primary</button>
+      <button type="button" class="btn btn-secondary">Secondary</button>
+    <!--####################-->
 
   </mat-drawer-content>
 </mat-drawer-container>
