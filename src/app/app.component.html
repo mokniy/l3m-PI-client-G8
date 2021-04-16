@@ -5,6 +5,11 @@
   <label>
     Projet intégrateur
   </label>
+  <button>Défis</button>
+  <button>Visites</button>
+
+  <button>Mes défis</button>
+  <button>Mes visites</button>
   <label class="spacer"></label>
   <ng-template #showLogin>
     <mat-icon [matMenuTriggerFor]="menuConnect">
@@ -72,13 +77,15 @@
     <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
       <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
 
-      <yaga-marker  *ngFor="let arret of arrets; let j = index" (click)="displayDefi(j)" [lng]="arret.geometry.coordinates[0]" [lat]="arret.geometry.coordinates[1]" [display]="true" [opacity]="1">
-        <yaga-icon [iconUrl]="iconMarker"></yaga-icon>
-      </yaga-marker>
+      <section *ngIf="obsArrets | async as arrets" >
+        <yaga-marker *ngFor="let arret of arrets; let j = index" (click)="displayDefi(j)" [lng]="arret.geometry.coordinates[0]" [lat]="arret.geometry.coordinates[1]" [display]="true" [opacity]="1">
+          <yaga-icon [iconUrl]="iconMarker"></yaga-icon>
+        </yaga-marker>
+      </section>
 
-      <yaga-polyline *ngFor="let Ligne of lignes; let i = index" [color]="colorationLines(i)" [geoJSON]="lignes[i]">
-      </yaga-polyline>
-
+      <section *ngIf="obsLignes | async as lignes" >
+        <yaga-polyline *ngFor="let ligne of lignes; let i = index" [color]="colorationLines(i)" [geoJSON]="ligne"></yaga-polyline>
+      </section>
     </yaga-map>
 
     <br />

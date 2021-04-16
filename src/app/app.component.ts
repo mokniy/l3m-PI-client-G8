@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { UtilisateurService } from './utilisateur.service';
 import { DefiService } from './defi.service';
+import { MapService } from './map.service';
 import { Observable } from 'rxjs';
 import { Chami, Defi, User, rgbToHex, Arret } from "./AllDefinitions";
 import firebase from 'firebase/app';
@@ -16,19 +17,15 @@ import * as GeoJSON from 'geojson';
 })
 
 export class AppComponent {
-  lignes: GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString,any>[] = [];
-  arrets: GeoJSON.Feature<GeoJSON.Point,any>[] = [];
   dataIconGoogle = 'assets/images/iconGoogle.png';
   iconMarker ='https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Map_marker.svg/585px-Map_marker.svg.png';
   tileLayerUrl = OSM_TILE_LAYER_URL;
   defi_edited : Defi | null = null;
 
-  constructor(private UserService: UtilisateurService,private defiService: DefiService) {
+  constructor(private UserService: UtilisateurService,private defiService: DefiService, private MapService : MapService) {
     this.recupUser();
     this.recupDefi();
     this.recupDefiUnUser();
-    this.recupAllLinesSEMITAG();
-    this.recupArretAvecDefiAPIPerso();
     //this.createDefi();
   }
 
@@ -103,13 +100,6 @@ export class AppComponent {
     });
   }
 
-  get tst(): Observable<Chami> {
-    return this.UserService.newRegisteredChamiObs;
-  }
-  tstv2() {
-    this.UserService.tst();
-  }
-
   editedModeForDefi(defi:Defi) {
     this.defi_edited = defi;
   }
@@ -120,52 +110,14 @@ export class AppComponent {
     this.defi_edited = null;
   }
 
-  ////////////////////AFFICHAGE LIGNE
-  async recupAllLinesSEMITAG() {
-    const response = await fetch(
-      'https://data.mobilites-m.fr/api/lines/json?types=ligne&reseaux=SEM'
-    );
-    const data = await response.json();
-    const test = JSON.stringify(data);
-    const test20 = JSON.parse(test);
-    this.lignes = test20.features;
-    //console.log(this.lignes[0].properties.COULEUR);
-    //console.log(test20);
-    //console.log(rgbToHex(this.lignes[0].properties.COULEUR));
+  //TESTMERGE//
+  get tst(): Observable<Chami> {
+    return this.UserService.newRegisteredChamiObs;
   }
-
-  colorationLines(i: number): string | undefined {
-    return rgbToHex(this.lignes[i].properties.COULEUR);
+  tstv2() {
+    this.UserService.tst();
   }
-  ////////////////////FIN AFFICHAGE LIGNE
-
-  //CREER METHODE QUI POUR CHAQUE ARRET UTILISE DANS UN DEFI LE FAIT APPARAITE SUR LA CARTE
-  //@TODO
-  async recupArretAvecDefiAPIPerso() {
-    const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/defi')
-    const dataAPISpringBoot = await response.json();
-    const tabOfAllArret:Arret[] = dataAPISpringBoot as Arret[]
-    tabOfAllArret.map(
-      x => {
-        //console.log(x.arret),
-        this.recupArretAvecDefiAPIMobi(x.lib_arret)
-      })
-  }
-
-  async recupArretAvecDefiAPIMobi(lib: string) {
-    const response = await fetch(
-      'https://data.mobilites-m.fr/api/findType/json?types=arret&query='+lib
-      );
-    const data = await response.json();
-    const test = JSON.stringify(data);
-    const test20 = JSON.parse(test);
-    console.log(data)
-    this.arrets.push(test20.features[0])
-  }
-
-  displayDefi(i: number) {
-    console.log("METHODE DISPLAY DEFI "+this.arrets[i].properties.CODE)
-  }
+  //TESTMERGE//
 
   createDefi() {
     let d : Defi = {
@@ -188,8 +140,22 @@ export class AppComponent {
     this.defiService.postDefi(d);
   }
 
+///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
+get obsArrets(): Observable<GeoJSON.Feature<GeoJSON.Point, any>[]> {
+  return this.MapService.arretsObs;
+}
 
+get obsLignes(): Observable<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]> {
+  return this.MapService.lignesObs;
+}
 
+colorationLines(i: number): string | undefined {
+  return this.MapService.colorationLines(i);
+}
 
+displayDefi(i: number) {
+  this.MapService.displayDefi(i);
+}
+///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
 
 }
