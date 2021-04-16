@@ -27,32 +27,8 @@
     }
   }
 
-
   yaga-map {
     height: 480px;
   }
-
-  table {
-    border-width:1px;
-    border-style:solid;
-    border-color:black;
-    width:auto;
-    }
-   td {
-    border-width:1px;
-    border-style:solid;
-    border-color:black;
-    width:auto;
-    }
-
-
-  .row {
-    display: flex;
-  }
-  .col {
-    flex: 1;
-    padding: 1em;
-  }
-
 
 }

@@ -2,9 +2,7 @@
   <button mat-icon-button class="example-icon" aria-label="Menu">
     <mat-icon (click)="drawer.toggle()">menu</mat-icon>
   </button>
-  <label>
-    Projet intégrateur
-  </label>
+  <label> Projet intégrateur </label>
   <button>Défis</button>
   <button>Visites</button>
 
@@ -12,9 +10,7 @@
   <button>Mes visites</button>
   <label class="spacer"></label>
   <ng-template #showLogin>
-    <mat-icon [matMenuTriggerFor]="menuConnect">
-      account_circle
-    </mat-icon>
+    <mat-icon [matMenuTriggerFor]="menuConnect"> account_circle </mat-icon>
   </ng-template>
   <mat-icon *ngIf="obsLogin | async as user; else showLogin" [matMenuTriggerFor]="menuDisconnect">
     account_circle
@@ -34,38 +30,13 @@
   </mat-menu>
 </mat-toolbar>
 
-<h1>Bonjour</h1>
-
-<section *ngIf="obsUser | async as OneUser">
-  <section *ngIf="OneUser.chami === undefined">
-    <p>Bonjour, bienvenu sur le site des Chamis ! Veuillez saisir votre âge pour confirmer votre inscription avec
-      l'email : {{OneUser.oauthUser.email}} </p>
-    <form (ngSubmit)="createUser(InputName.value,InputAge.value,InputVille.value,InputDescription.value)">
-      <label>Age:</label>
-      <input #InputAge           name = "InputAge" type="number" />
-      <label>Ville:</label>
-      <input #InputVille name="InputVille" type="string" />
-      <label>Description:</label>
-      <input #InputDescription name="InputDescription" type="string" />
-      <input hidden #InputName   name  = "InputName" type="text" value="{{OneUser.oauthUser.email}}" />
-      <input type="submit" />
-      <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
-    </form>
-  </section>
-</section>
-
-
-<!--{{obsUser | async | json}}-->
-
-
 <mat-drawer-container class="example-container">
+  <mat-drawer #drawer [mode]="mode.value">
+    Placez votre menu ici...
+  </mat-drawer>
   <mat-drawer-content>
-    <mat-drawer #drawer [mode]="mode.value">
-      Placez votre menu ici...
-    </mat-drawer>
     <mat-form-field>
-      <button>
-      </button>
+      <button></button>
       <mat-label>Sidenav mode</mat-label>
       <mat-select #mode value="push">
         <mat-option value="side">Side</mat-option>
@@ -77,50 +48,191 @@
     <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
       <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
 
-      <section *ngIf="obsArrets | async as arrets" >
-        <yaga-marker *ngFor="let arret of arrets; let j = index" (click)="displayDefi(j)" [lng]="arret.geometry.coordinates[0]" [lat]="arret.geometry.coordinates[1]" [display]="true" [opacity]="1">
+      <section *ngIf="obsArrets | async as arrets">
+        <yaga-marker *ngFor="let arret of arrets; let j = index" (click)="displayDefi(j)"
+          [lng]="arret.geometry.coordinates[0]" [lat]="arret.geometry.coordinates[1]" [display]="true" [opacity]="1">
           <yaga-icon [iconUrl]="iconMarker"></yaga-icon>
         </yaga-marker>
       </section>
 
-      <section *ngIf="obsLignes | async as lignes" >
-        <yaga-polyline *ngFor="let ligne of lignes; let i = index" [color]="colorationLines(i)" [geoJSON]="ligne"></yaga-polyline>
+      <section *ngIf="obsLignes | async as lignes">
+        <yaga-polyline *ngFor="let ligne of lignes; let i = index" [color]="colorationLines(i)" [geoJSON]="ligne">
+        </yaga-polyline>
       </section>
     </yaga-map>
 
-    <br />
-    <br />
-    <div class="row">
-      <button class="col" (click)="recupUser()">RECUPERER LES CHAMIS</button>
-    </div>
-    <div class="row">
-      <table *ngIf="obsChamis | async as users" class="col">
-        <thead>
+    <div class="container">
+    <section *ngIf="obsUser | async as OneUser">
+      <section *ngIf="OneUser.chami === undefined">
+        <br />
+        <br />
+        <h1 style="text-align: center">
+          Bienvenu {{ OneUser.oauthUser.displayName }} ! Veuillez terminer l'inscription.
+        </h1>
+        <div class="alert alert-danger" role="alert">
+          <b>Bienvenu sur le site des Chamis ! Veuillez saisir votre âge pour confirmer votre inscription avec l'email : {{ OneUser.oauthUser.email }}</b>
+          <br/>
+          <br/>
+        <form (ngSubmit)="
+            createUser(
+              InputName.value,
+              InputAge.value,
+              InputVille.value,
+              InputDescription.value
+            )
+          " >
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Age : </label>
+              <input #InputAge class="form-control" name="InputAge" type="number" placeholder="Age"/>
+            </div>
+            <div class="form-group col-md-6" >
+              <label>Ville : </label>
+              <input #InputVille class="form-control" name="InputVille" type="text" placeholder="Ville"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Description : </label>
+            <textarea #InputDescription class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description"></textarea>
+          </div>
+          <input hidden #InputName name="InputName" type="text" value="{{ OneUser.oauthUser.email }}" />
+          <input class="btn btn-secondary" type="submit" />
+          <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
+        </form>
+      </div>
+      <br />
+      </section>
+
+        <section *ngIf="OneUser.chami !== undefined">
+        <br />
+        <br />
+          <h1 style="text-align: center">
+            Bienvenu {{ OneUser.oauthUser.displayName }} !
+          </h1>
+          <hr />
+          <h4>Mise à jour des informations du profil.</h4>
+          <form (ngSubmit)="
+              updateUser(
+                InputAge.value,
+                InputVille.value,
+                InputDescription.value,
+                InputMail.value
+              )
+            ">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Age : </label>
+                <input #InputAge class="form-control" name="InputAge" type="number" placeholder="Age"
+                  value="{{ OneUser.chami.age }}" />
+              </div>
+              <div class="form-group col-md-6">
+                <label>Ville : </label>
+                <input #InputVille class="form-control" name="InputVille" type="text" placeholder="Ville"
+                  value="{{ OneUser.chami.ville }}" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description : </label>
+              <textarea #InputDescription class="form-control" id="exampleFormControlTextarea1"
+                value="{{ OneUser.chami.description }}" rows="3"></textarea>
+            </div>
+            <input hidden #InputMail name="InputMail" type="text" value="{{ OneUser.oauthUser.email }}" />
+            <input class="btn btn-secondary" type="submit" />
+          </form>
+          <hr />
+            <h4>Voici vos défis, pour en modifier un il suffit de cliquer dessus !</h4>
+            <table class="table" *ngIf="obsChallUser | async as Defis" class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Defi</th>
+                  <th>titre</th>
+                  <th>description</th>
+                  <th>auteur</th>
+                  <th>dateCreation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr (click)="editedModeForDefi(Defi)" *ngFor="let Defi of Defis">
+                  <td>{{ Defi.defi }}</td>
+                  <td>{{ Defi.titre }}</td>
+                  <td>{{ Defi.description }}</td>
+                  <td>{{ Defi.auteur }}</td>
+                  <td>{{ Defi.dateDeCreation }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!--METTRE EN PLACE DES PARTIALS-->
+            <!--METTRE EN PLACE LIST ARRET-->
+            <section *ngIf="defi_edited !== null">
+              <form (ngSubmit)="
+                  updateDefi({
+                    defi: defi_edited.defi,
+                    titre: InputTitre.value,
+                    dateDeCreation: defi_edited.dateDeCreation,
+                    description: InputDescription.value,
+                    auteur: defi_edited.auteur,
+                    code_arret: defi_edited.code_arret,
+                    type: '',
+                    dateDeModification: '',
+                    version: 2,
+                    arret: '',
+                    points: 18,
+                    duree: '',
+                    prologue: '',
+                    epilogue: '',
+                    commentaire: ''
+                  })
+                ">
+                <hr />
+                <label><b>Edition du défi : {{ defi_edited.defi }}</b></label>
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>Titre : </label>
+                  <input #InputTitre class="form-control" name="InputTitre" type="text" placeholder="Titre" value="{{ defi_edited.titre }}" />
+                </div>
+                </div>
+                <div class="form-group">
+                  <label>Description : </label>
+                  <textarea #InputDescription class="form-control" name="InputDescription" value="{{ defi_edited.description }}" rows="3"></textarea>
+                </div>
+                <input type="submit" />
+              </form>
+            </section>
+          <hr />
+          <br />
+        </section>
+      </section>
+      <br />
+
+      <h2 style="text-align: center">LES CHAMIS !</h2>
+      <button class="btn btn-secondary btn-lg btn-block" (click)="recupUser()">
+        RECUPERER LES CHAMIS
+      </button>
+      <br />
+      <table *ngIf="obsChamis | async as users" class="col" class="table">
+        <thead class="thead-dark">
           <tr>
-            <th colspan="3">Chamis</th>
+            <th>LOGIN</th>
+            <th>AGE</th>
+            <th>DESCRIPTION</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>login</th>
-            <th>age</th>
-            <th>description</th>
-          </tr>
           <tr *ngFor="let User of users">
-            <td>{{User.pseudo}}</td>
-            <td>{{User.age}}</td>
-            <td>{{User.description}}</td>
+            <td>{{ User.pseudo }}</td>
+            <td>{{ User.age }}</td>
+            <td>{{ User.description }}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <br />
     <br />
-
-    <div class="row">
+    <div class="container-fluid">
       <button class="col" (click)="recupDefi()">RECUPERER LES DEFIS</button>
-    </div>
-    <div class="row">
+      <br />
+      <br />
       <table *ngIf="obsDefis | async as Defis" class="col">
         <thead>
           <tr>
@@ -137,114 +249,34 @@
             <th>code arret</th>
           </tr>
           <tr *ngFor="let Defi of Defis">
-            <td>{{Defi.defi}}</td>
-            <td>{{Defi.titre}}</td>
-            <td>{{Defi.description}}</td>
-            <td>{{Defi.auteur}}</td>
-            <td>{{Defi.dateDeCreation}}</td>
-            <td>{{Defi.code_arret}}</td>
+            <td>{{ Defi.defi }}</td>
+            <td>{{ Defi.titre }}</td>
+            <td>{{ Defi.description }}</td>
+            <td>{{ Defi.auteur }}</td>
+            <td>{{ Defi.dateDeCreation }}</td>
+            <td>{{ Defi.code_arret }}</td>
           </tr>
         </tbody>
       </table>
       <br />
       <br />
+      <br />
+      <button (click)="tstv2()">tst</button>
+      new user publie :
+      {{ tst | async | json }}
+      <br />
+
+      Notre user : {{ obsUser | async | json }}
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <br />
     </div>
-    <br />
-    <button (click)="tstv2()">tst</button>
-    new user publie :
-    {{tst|async|json}}
-    <br />
-
-    Notre user : {{obsUser | async | json}}
-    <br />
-    <br />
-    <br />
-    <br />
-    <p>UPDATE DU COMPTE EN LIGNE</p>
-    <section *ngIf="obsUser | async as OneUser">
-      <section *ngIf="OneUser.chami !== undefined">
-        <form (ngSubmit)="updateUser(InputAge.value,InputVille.value,InputDescription.value,InputMail.value)">
-          <label>Age : </label>
-          <input #InputAge name= "InputAge" type="number" value="{{OneUser.chami.age}}" />
-          <br>
-          <label>Ville : </label>
-          <input #InputVille name= "InputVille" type="text" value="{{OneUser.chami.ville}}" />
-          <br>
-          <label>Description : </label>
-          <input #InputDescription name= "InputDescription" type="text" value="{{OneUser.chami.description}}" />
-          <input hidden #InputMail     name      = "InputMail" type="text" value="{{OneUser.oauthUser.email}}" />
-          <br>
-          <input type="submit" />
-          <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
-        </form>
-      </section>
-    </section>
-    <br />
-    <br />
-    <br />
-    <table class="table" *ngIf="obsChallUser | async as Defis" class="col">
-      <thead>
-        <tr>
-          <th colspan="5">Défis</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>Defi</th>
-          <th>titre</th>
-          <th>description</th>
-          <th>auteur</th>
-          <th>dateCreation</th>
-        </tr>
-        <tr (click)="editedModeForDefi(Defi)" *ngFor="let Defi of Defis">
-          <td>{{Defi.defi}}</td>
-          <td>{{Defi.titre}}</td>
-          <td>{{Defi.description}}</td>
-          <td>{{Defi.auteur}}</td>
-          <td>{{Defi.dateDeCreation}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <br />
-
-
-    <!--METTRE EN PLACE DES PARTIALS-->
-    <!--METTRE EN PLACE LIST ARRET-->
-    <section *ngIf="defi_edited !== null">
-      <form (ngSubmit)= "updateDefi({
-        defi:defi_edited.defi,
-        titre:InputTitre.value,
-        dateDeCreation: defi_edited.dateDeCreation,
-        description: InputDescription.value,
-        auteur: defi_edited.auteur,
-        code_arret:  defi_edited.code_arret,
-        type: '',
-        dateDeModification:'',
-        version:2,
-        arret:'',
-        points:18,
-        duree:'',
-        prologue:'',
-        epilogue:'',
-        commentaire:''})">
-
-        <label>Defi : {{defi_edited.defi}}</label>
-        <br/>
-        <label>Titre : </label>
-        <input #InputTitre name= "InputTitre" type="text" value="{{defi_edited.titre}}" />
-        <br/>
-        <label>Description : </label>
-        <textarea #InputDescription style=" display: inline-block; resize: none; width:75%;" name="InputDescription" rows="3" value="{{defi_edited.description}}"></textarea>
-        <br/>
-        <input type="submit" />
-
-      </form>
-    </section>
-    <br />
-    <!--Test bootstrap-->
-      <button type="button" class="btn btn-primary">Primary</button>
-      <button type="button" class="btn btn-secondary">Secondary</button>
-    <!--####################-->
-
   </mat-drawer-content>
 </mat-drawer-container>
