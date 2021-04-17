@@ -44,14 +44,14 @@
         <mat-option value="push">Push</mat-option>
       </mat-select>
     </mat-form-field>
-
+    {{obsArrets | async | json}}
     <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
       <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
 
-      <section *ngIf="obsArrets | async as arrets">
-        <yaga-marker *ngFor="let arret of arrets; let j = index" (click)="displayDefi(j)"
-          [lng]="arret.geometry.coordinates[0]" [lat]="arret.geometry.coordinates[1]" [display]="true" [opacity]="1">
-          <yaga-icon [iconUrl]="iconMarker"></yaga-icon>
+      <section *ngIf="obsArrets | async as DesArrets">
+        <yaga-marker *ngFor="let UnArret of DesArrets; let j = index" (click)="displayDefi(j)"
+          [lng]="+UnArret.info_arret.geometry.coordinates[0]" [lat]="+UnArret.info_arret.geometry.coordinates[1]" [display]="true" [opacity]="1">
+          <yaga-icon [iconUrl]="getUrlMarker(UnArret.nb_defi)"></yaga-icon>
         </yaga-marker>
       </section>
 

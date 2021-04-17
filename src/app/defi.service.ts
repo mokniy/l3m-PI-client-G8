@@ -19,7 +19,7 @@ constructor() { }
 async getAllDefi(){
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/defis/');
   const data = await response.json();
-    console.log(data)
+  //console.log(data)
   this.DefisSubj.next( data as Defi[]);
 }
 

@@ -32,12 +32,9 @@ export interface Arret {
   readonly adresse: string;
   readonly streetmap: string;
 }
-
-//NON UTILISE
-export interface ArretCarte {
-  readonly lng : number;
-  readonly lat: number;
-  readonly code: string;
+export interface ArretMap  {
+  nb_defi: number;
+  info_arret: GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString,any>;
 }
 
 export interface User {

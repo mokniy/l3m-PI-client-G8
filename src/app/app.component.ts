@@ -5,7 +5,7 @@ import { UtilisateurService } from './utilisateur.service';
 import { DefiService } from './defi.service';
 import { MapService } from './map.service';
 import { Observable } from 'rxjs';
-import { Chami, Defi, User, rgbToHex, Arret } from "./AllDefinitions";
+import { Chami, Defi, User, Arret,ArretMap } from "./AllDefinitions";
 import firebase from 'firebase/app';
 import * as GeoJSON from 'geojson';
 
@@ -141,7 +141,8 @@ export class AppComponent {
   }
 
 ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
-get obsArrets(): Observable<GeoJSON.Feature<GeoJSON.Point, any>[]> {
+//get obsArrets(): Observable<GeoJSON.Feature<GeoJSON.Point, any>[]> {
+get obsArrets(): Observable<ArretMap[]> {
   return this.MapService.arretsObs;
 }
 
@@ -155,6 +156,11 @@ colorationLines(i: number): string | undefined {
 
 displayDefi(i: number) {
   this.MapService.displayDefi(i);
+}
+
+getUrlMarker(nb_defi:number): string {
+  //console.log("'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png'");
+  return "https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png";
 }
 ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
 
