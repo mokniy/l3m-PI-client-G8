@@ -3,11 +3,6 @@
     <mat-icon (click)="drawer.toggle()">menu</mat-icon>
   </button>
   <label> Projet intégrateur </label>
-  <button>Défis</button>
-  <button>Visites</button>
-
-  <button>Mes défis</button>
-  <button>Mes visites</button>
   <label class="spacer"></label>
   <ng-template #showLogin>
     <mat-icon [matMenuTriggerFor]="menuConnect"> account_circle </mat-icon>
@@ -32,7 +27,10 @@
 
 <mat-drawer-container class="example-container">
   <mat-drawer #drawer [mode]="mode.value">
-    Placez votre menu ici...
+    <button>Défis</button><br/>
+    <button>Visites</button><br/>
+    <button>Mes défis</button><br/>
+    <button>Mes visites</button><br/>
   </mat-drawer>
   <mat-drawer-content>
     <mat-form-field>
@@ -44,7 +42,6 @@
         <mat-option value="push">Push</mat-option>
       </mat-select>
     </mat-form-field>
-    {{obsArrets | async | json}}
     <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
       <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
 
