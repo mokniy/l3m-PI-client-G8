@@ -42,21 +42,9 @@
         <mat-option value="push">Push</mat-option>
       </mat-select>
     </mat-form-field>
-    <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
-      <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
 
-      <section *ngIf="obsArrets | async as DesArrets">
-        <yaga-marker *ngFor="let UnArret of DesArrets; let j = index" (click)="displayDefi(j)"
-          [lng]="+UnArret.info_arret.geometry.coordinates[0]" [lat]="+UnArret.info_arret.geometry.coordinates[1]" [display]="true" [opacity]="1">
-          <yaga-icon [iconUrl]="getUrlMarker(UnArret.nb_defi)"></yaga-icon>
-        </yaga-marker>
-      </section>
-
-      <section *ngIf="obsLignes | async as lignes">
-        <yaga-polyline *ngFor="let ligne of lignes; let i = index" [color]="colorationLines(i)" [geoJSON]="ligne">
-        </yaga-polyline>
-      </section>
-    </yaga-map>
+    <!--COMPOSANT MAP-->
+    <app-map></app-map>
 
     <div class="container">
     <section *ngIf="obsUser | async as OneUser">
@@ -271,8 +259,6 @@
       <br />
       <br />
       <br />
-      <br />
-
       <br />
     </div>
   </mat-drawer-content>

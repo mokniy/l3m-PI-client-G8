@@ -15,12 +15,14 @@ import {MatMenuModule} from '@angular/material/menu';
 import { YagaModule } from '@yaga/leaflet-ng2';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
-import {FormsModule} from '@angular/forms'
+import {FormsModule} from '@angular/forms';
+import { MapComponent } from './map/map.component'
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

@@ -22,7 +22,7 @@ export class AppComponent {
   tileLayerUrl = OSM_TILE_LAYER_URL;
   defi_edited : Defi | null = null;
 
-  constructor(private UserService: UtilisateurService,private defiService: DefiService, private MapService : MapService) {
+  constructor(private UserService: UtilisateurService,private defiService: DefiService) {
     this.recupUser();
     this.recupDefi();
     this.recupDefiUnUser();
@@ -48,10 +48,6 @@ export class AppComponent {
   get obsUser(): Observable<User | undefined> {
     return this.UserService.userObs;
   }
-
-  //get tst(): Observable<Chami | User | undefined> | undefined{
-  //return this.UserService.merged;
-  //}
 
   login() {
     this.UserService.login();
@@ -110,15 +106,6 @@ export class AppComponent {
     this.defi_edited = null;
   }
 
-  //TESTMERGE//
-  get tst(): Observable<Chami> {
-    return this.UserService.newRegisteredChamiObs;
-  }
-  tstv2() {
-    this.UserService.tst();
-  }
-  //TESTMERGE//
-
   createDefi() {
     let d : Defi = {
       defi:'teeest',
@@ -140,28 +127,17 @@ export class AppComponent {
     this.defiService.postDefi(d);
   }
 
-///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
-//get obsArrets(): Observable<GeoJSON.Feature<GeoJSON.Point, any>[]> {
-get obsArrets(): Observable<ArretMap[]> {
-  return this.MapService.arretsObs;
-}
+  //TESTMERGE//
+  get tst(): Observable<Chami> {
+    return this.UserService.newRegisteredChamiObs;
+  }
+  tstv2() {
+    this.UserService.tst();
+  }
 
-get obsLignes(): Observable<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]> {
-  return this.MapService.lignesObs;
-}
+  //get tst(): Observable<Chami | User | undefined> | undefined{
+  //return this.UserService.merged;
+  //}
 
-colorationLines(i: number): string | undefined {
-  return this.MapService.colorationLines(i);
-}
-
-displayDefi(i: number) {
-  this.MapService.displayDefi(i);
-}
-
-getUrlMarker(nb_defi:number): string {
-  //console.log("'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png'");
-  return "https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png";
-}
-///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
-
+  //TESTMERGE//
 }
