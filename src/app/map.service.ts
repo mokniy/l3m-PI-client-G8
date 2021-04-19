@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Arret, rgbToHex, ArretMap } from './AllDefinitions';
+import { Arret, rgbToHex, ArretMap, Defi } from './AllDefinitions';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +53,7 @@ export class MapService {
     console.log(
       'METHODE DISPLAY DEFI ' + this.arrets[i].info_arret.properties.CODE
     );
+    this.getAllDefiOfAnArret(this.arrets[i])
   }
 
   ///////////////////////////////////////////LIGNE///////////////////////////////////////////
@@ -70,4 +71,17 @@ export class MapService {
   colorationLines(i: number): string | undefined {
     return rgbToHex(this.lignes[i].properties.COULEUR);
   }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////TAB AFFICHAGE DEFI PTS
+  private DefisOfAnArret = new Subject<Defi[]>();
+  readonly obsChallArret = this.DefisOfAnArret.asObservable();
+
+  //////////TAB AFFICHAGE DEFI PTS
+  /////////METHODE PR PUBLIER NEXT [] et stopper affichage
+async getAllDefiOfAnArret(unArret:ArretMap){
+  const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/defi/'+unArret.info_arret.properties.CODE);
+  const data = await response.json();
+  console.log(data)
+  this.DefisOfAnArret.next( data as Defi[] );
+}
 }

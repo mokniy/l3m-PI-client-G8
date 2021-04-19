@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { Observable } from 'rxjs';
-import { ArretMap } from '../AllDefinitions';
+import { ArretMap, Defi } from '../AllDefinitions';
 import { MapService } from '../map.service';
 
 @Component({
@@ -15,6 +15,10 @@ export class MapComponent implements OnInit {
   constructor(private MapService : MapService) { }
 
   ngOnInit(): void {
+  }
+
+  get obsTest(): Observable<Defi[]> {
+    return this.MapService.obsChallArret;
   }
 
 ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
@@ -39,5 +43,4 @@ export class MapComponent implements OnInit {
     return "https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png";
   }
   ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
-
 }

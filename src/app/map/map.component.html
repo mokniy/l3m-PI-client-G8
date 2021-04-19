@@ -24,4 +24,29 @@
       </yaga-polyline>
     </section>
   </yaga-map>
+  <br/>
+  <br/>
+  <br/>
+  <div class="container">
+  <table class="table" *ngIf="obsTest | async as Defis" class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Defi</th>
+        <th>titre</th>
+        <th>description</th>
+        <th>auteur</th>
+        <th>dateCreation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Defi of Defis">
+        <td>{{ Defi.defi }}</td>
+        <td>{{ Defi.titre }}</td>
+        <td>{{ Defi.description }}</td>
+        <td>{{ Defi.auteur }}</td>
+        <td>{{ Defi.dateDeCreation }}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
 </mat-drawer-content>

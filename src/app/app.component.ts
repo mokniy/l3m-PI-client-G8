@@ -1,13 +1,10 @@
-import { element } from 'protractor';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { UtilisateurService } from './utilisateur.service';
 import { DefiService } from './defi.service';
-import { MapService } from './map.service';
 import { Observable } from 'rxjs';
-import { Chami, Defi, User, Arret,ArretMap } from "./AllDefinitions";
+import { Chami, Defi, User } from "./AllDefinitions";
 import firebase from 'firebase/app';
-import * as GeoJSON from 'geojson';
 
 @Component({
   selector: 'app-root',
