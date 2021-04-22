@@ -1,3 +1,4 @@
+import { DefiService } from './../defi.service';
 import { Component, OnInit } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { Observable } from 'rxjs';
@@ -12,13 +13,18 @@ import { MapService } from '../map.service';
 export class MapComponent implements OnInit {
   tileLayerUrl = OSM_TILE_LAYER_URL;
 
-  constructor(private MapService : MapService) { }
+  constructor(private MapService : MapService, private defiService : DefiService) { }
 
   ngOnInit(): void {
   }
 
+///////////////////////////AFFICHAGE DEFI ARRET
   get obsTest(): Observable<Defi[]> {
     return this.MapService.obsChallArret;
+  }
+
+  closeDefi(): void{
+    this.MapService.closeDefi();
   }
 
 ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////

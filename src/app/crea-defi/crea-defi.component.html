@@ -1,0 +1,73 @@
+<div *ngIf="obsLibelleArret | async as lib" class="container">
+  <form (ngSubmit)="recupLib(InputLib.value)">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Libelle d'arret : </label>
+        <input
+          #InputLib
+          class="form-control"
+          name="InputAge"
+          type="text"
+          placeholder="Libelle"
+        />
+      </div>
+    </div>
+    <input class="btn btn-secondary" type="submit" />
+  </form>
+  <br />
+
+  <div *ngIf="lib.length !== 0" class="col-8">
+    <h2>Debut formulaire création défi</h2>
+    <button
+      (click)="closeChoiceArret()"
+      type="button"
+      class="close"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span></button
+    ><br />
+    <form (ngSubmit)="testMultiplechoice(InputID.value,InputTITRE.value,SelectArret.value,InputDescription.value)">
+      <div class="form-group">
+        <label for="exampleFormControlSelect2">Example multiple select</label>
+        <select
+          #SelectArret
+          multiple
+          class="form-control"
+          id="exampleFormControlSelect2"
+          required
+        >
+          <option *ngFor="let unArret of lib">
+            {{
+                "Commune : " +
+                unArret.properties.COMMUNE +
+                ", " +
+                unArret.properties.LIBELLE+
+                ", " +
+                unArret.properties.CODE
+            }}
+          </option>
+        </select>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>ID du défi : </label>
+            <input #InputID class="form-control" name="InputAge" type="text" placeholder="ID"/>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Titre : </label>
+            <input #InputTITRE class="form-control" name="InputVille" type="text" placeholder="Titre"/>
+          </div>
+        </div>
+        <label>Description : </label>
+        <textarea #InputDescription class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+      <input class="btn btn-secondary" type="submit" />
+    </form>
+
+    <!--
+        <div class="list-group">
+          <a *ngFor="let unArret of lib" class="list-group-item list-group-item-action">{{unArret.properties.CODE+", Commune : "+unArret.properties.COMMUNE+", Libelle : "+unArret.properties.LIBELLE}}</a>
+        </div>
+      -->
+  </div>
+</div>

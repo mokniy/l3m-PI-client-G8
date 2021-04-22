@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Arret, rgbToHex, ArretMap, Defi } from './AllDefinitions';
 
 @Injectable({
@@ -73,7 +73,7 @@ export class MapService {
   }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////TAB AFFICHAGE DEFI PTS
-  private DefisOfAnArret = new Subject<Defi[]>();
+  private DefisOfAnArret = new BehaviorSubject<Defi[]>([]);
   readonly obsChallArret = this.DefisOfAnArret.asObservable();
 
   //////////TAB AFFICHAGE DEFI PTS
@@ -84,4 +84,26 @@ async getAllDefiOfAnArret(unArret:ArretMap){
   console.log(data)
   this.DefisOfAnArret.next( data as Defi[] );
 }
+
+closeDefi():void {
+  this.DefisOfAnArret.next([])
+}
+
+///////////////RECUPERATION ARRET AVEC LIBELLE
+  private ArretForALibelle = new BehaviorSubject<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]>([]);
+  readonly obsArretForALibelle = this.ArretForALibelle.asObservable();
+
+  async recupWithLibelle(s: string) {
+  const response = await fetch('https://data.mobilites-m.fr/api/findType/json?types=arret&query='+s);
+  const data:GeoJSON.FeatureCollection<GeoJSON.LineString | GeoJSON.MultiLineString, any> = await response.json();
+  const regexp = new RegExp('SEM_*')
+  let fonct = data.features.filter(elt => regexp.test(elt.properties.CODE))
+  this.ArretForALibelle.next(fonct);
+}
+
+closeChoiceArret():void {
+  this.ArretForALibelle.next([])
+}
+
+
 }

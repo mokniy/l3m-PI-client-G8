@@ -17,13 +17,15 @@ import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import {FormsModule} from '@angular/forms';
 import { MapComponent } from './map/map.component'
+import { CreaDefiComponent } from './crea-defi/crea-defi.component';
 
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
-    MapComponent
-  ],
+    MapComponent,
+      CreaDefiComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
