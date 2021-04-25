@@ -29,7 +29,7 @@ export interface Defi {
 export interface Arret {
   readonly code : string;
   readonly lib_arret: string;
-  readonly adresse: string;
+  //readonly adresse: string;
   readonly streetmap: string;
 }
 export interface ArretMap  {

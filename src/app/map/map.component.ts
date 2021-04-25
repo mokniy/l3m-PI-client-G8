@@ -13,7 +13,7 @@ import { MapService } from '../map.service';
 export class MapComponent implements OnInit {
   tileLayerUrl = OSM_TILE_LAYER_URL;
 
-  constructor(private MapService : MapService, private defiService : DefiService) { }
+  constructor(private MapService : MapService) { }
 
   ngOnInit(): void {
   }

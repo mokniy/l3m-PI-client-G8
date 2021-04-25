@@ -89,21 +89,76 @@ closeDefi():void {
   this.DefisOfAnArret.next([])
 }
 
-///////////////RECUPERATION ARRET AVEC LIBELLE
-  private ArretForALibelle = new BehaviorSubject<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]>([]);
-  readonly obsArretForALibelle = this.ArretForALibelle.asObservable();
+///////////////RECUPERATION ARRET AVEC UN LIBELLE
+/*
+    async recupWithLibelle(s: string) {
+    const response = await fetch('https://data.mobilites-m.fr/api/findType/json?types=arret&query='+s);
+    const data:GeoJSON.FeatureCollection<GeoJSON.LineString | GeoJSON.MultiLineString, any> = await response.json();
+    const regexp = new RegExp('SEM_*')
+    let fonct = data.features.filter(elt => regexp.test(elt.properties.CODE))
+    this.ArretForALibelleInBDD.next(fonct);
+  }
+*/
 
-  async recupWithLibelle(s: string) {
-  const response = await fetch('https://data.mobilites-m.fr/api/findType/json?types=arret&query='+s);
-  const data:GeoJSON.FeatureCollection<GeoJSON.LineString | GeoJSON.MultiLineString, any> = await response.json();
+////////////////////RECUPERATION ARRET AVEC UN LIBELLE DANS BDD
+private ArretForALibelleInBDD = new Subject<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]>();
+readonly obsArretInBDD = this.ArretForALibelleInBDD.asObservable();
+
+async recupWithLibelleInBDD(s: string) {
+  //PRESENT BDD
+  const responseBDD = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/');
+  const dataAPISpringBoot = await responseBDD.json();
+  const tabOfAllArret: Arret[] = dataAPISpringBoot as Arret[];
+
+  //RECUPERE INTO API MOBILITE
+  const responseAPI = await fetch('https://data.mobilites-m.fr/api/findType/json?types=arret&query='+s);
+  const data:GeoJSON.FeatureCollection<GeoJSON.LineString | GeoJSON.MultiLineString, any> = await responseAPI.json();
   const regexp = new RegExp('SEM_*')
-  let fonct = data.features.filter(elt => regexp.test(elt.properties.CODE))
-  this.ArretForALibelle.next(fonct);
+  let tmp = data.features.filter(elt => regexp.test(elt.properties.CODE) && tabOfAllArret.find(newElt => newElt.code === elt.properties.CODE))
+  console.log("RES RECUP BDD => "+tmp)
+  this.ArretForALibelleInBDD.next(tmp);
 }
 
-closeChoiceArret():void {
-  this.ArretForALibelle.next([])
+closeChoiceArretInBDD():void {
+  this.ArretForALibelleInBDD.next([])
 }
 
+////////////////////RECUPERATION ARRET AVEC UN LIBELLE PAS DANS BDD
+
+private ArretForALibelleInAPI = new Subject<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]>();
+readonly obsArretInAPI = this.ArretForALibelleInAPI.asObservable();
+
+async recupWithLibelleNotInBDD(s: string) {
+  //PRESENT BDD
+  const responseBDD = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/');
+  const dataAPISpringBoot = await responseBDD.json();
+  const tabOfAllArret: Arret[] = dataAPISpringBoot as Arret[];
+
+  //RECUPERE INTO API MOBILITE
+  console.log(s)
+  const responseAPI = await fetch('https://data.mobilites-m.fr/api/findType/json?types=arret&query='+s);
+  const data:GeoJSON.FeatureCollection<GeoJSON.LineString | GeoJSON.MultiLineString, any> = await responseAPI.json();
+  const regexp = new RegExp('SEM_*')
+  let tmp = data.features.filter(elt => regexp.test(elt.properties.CODE) && tabOfAllArret.find(newElt => newElt.code === elt.properties.CODE)===undefined)
+  this.ArretForALibelleInAPI.next(tmp);
+}
+
+closeChoiceArretInAPI():void {
+  this.ArretForALibelleInAPI.next([])
+}
+///////////////////CREATION ARRET
+
+async postArret(arret: Arret): Promise<Defi> {
+  console.log(JSON.parse(JSON.stringify(arret)))
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/arret/"+arret.code,
+  {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(arret)
+  });
+  return res.json();
+}
 
 }

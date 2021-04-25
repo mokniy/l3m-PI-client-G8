@@ -49,6 +49,7 @@ export class UtilisateurService {
     //const tst2 = combineLatest()
   }
 
+  //TEST MERGE
   tst(): void {
     this.newRegisteredChamiSubj.next({
       pseudo: "up",

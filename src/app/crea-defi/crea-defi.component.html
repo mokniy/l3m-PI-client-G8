@@ -1,5 +1,34 @@
-<div *ngIf="obsLibelleArret | async as lib" class="container">
-  <form (ngSubmit)="recupLib(InputLib.value)">
+
+<div class="container">
+<button type="button" (click)="modeCreateArret()" class="btn btn-primary btn-lg btn-block">Créer un arrêt</button>
+<button type="button" (click)="modeCreateDefi()" class="btn btn-secondary btn-lg btn-block">Créer un défi</button>
+
+<div *ngIf="createArret">
+  <br/>
+  <h2 style="text-align: center;">Debut formulaire création d'un arret</h2>
+  <p><b>RECUP PAS DANS BDD</b></p>
+   <form (ngSubmit)="recupLibNotIn(InputLibNotIn.value)">
+     <div class="form-row">
+       <div class="form-group col-md-6">
+         <label>Libelle d'arret : </label>
+         <input
+           #InputLibNotIn
+           class="form-control"
+           name="InputAge"
+           type="text"
+           placeholder="Libelle"
+         />
+       </div>
+     </div>
+     <input class="btn btn-secondary" type="submit" />
+   </form>
+</div>
+
+<div *ngIf="createDefi">
+  <br/>
+  <h2 style="text-align: center;">Debut formulaire création d'un défi</h2>
+  <p><b>RECUP QUE DANS BDD</b></p>
+  <form (ngSubmit)="recupLibIn(InputLib.value)">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label>Libelle d'arret : </label>
@@ -14,19 +43,71 @@
     </div>
     <input class="btn btn-secondary" type="submit" />
   </form>
-  <br />
+</div>
+<br/>
+</div>
 
-  <div *ngIf="lib.length !== 0" class="col-8">
-    <h2>Debut formulaire création défi</h2>
+
+<!--CREATION ARRET-->
+<div *ngIf="obsArretInAPI | async as obsAPI" class="container">
+  <div *ngIf="obsAPI.length !== 0" class="col-8">
     <button
-      (click)="closeChoiceArret()"
+      (click)="closeChoiceArretInAPI()"
+      type="button"
+      class="close"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span></button><br />
+    <form (ngSubmit)="creationArret(InputStreetMap.value,listeArretNotInBDD.value)">
+      <div class="form-group">
+        <label for="exampleFormControlSelect2">Example multiple select</label>
+        <select
+          #listeArretNotInBDD
+          multiple
+          class="form-control"
+          required
+        >
+          <option *ngFor="let unArret of obsAPI">
+            {{
+                "Commune : " +
+                unArret.properties.COMMUNE +
+                ", " +
+                unArret.properties.LIBELLE+
+                ", " +
+                unArret.properties.CODE
+            }}
+          </option>
+        </select>
+        <label>Lien streetmap : </label>
+        <textarea #InputStreetMap class="form-control" rows="3"></textarea>
+      </div>
+      <input class="btn btn-secondary" type="submit" />
+    </form>
+  </div>
+</div>
+
+
+<!--CREATION DEFI-->
+<div *ngIf="obsArretInBDD | async as obsBDD" class="container">
+
+  <!--
+  <div *ngIf="obsBDD.length === 0 && !createArret" class="col-8">
+    <div class="alert alert-warning" role="alert">
+      Aucun arrêt trouvé, <a (click)="modeCreateArret()" class="alert-link">veuillez le créer</a>.
+    </div>
+  </div>
+  -->
+
+  <div *ngIf="obsBDD.length !== 0" class="col-8">
+    <button
+      (click)="closeChoiceArretInBDD()"
       type="button"
       class="close"
       aria-label="Close"
     >
       <span aria-hidden="true">&times;</span></button
     ><br />
-    <form (ngSubmit)="testMultiplechoice(InputID.value,InputTITRE.value,SelectArret.value,InputDescription.value)">
+    <form (ngSubmit)="creationDefi(InputID.value,InputTITRE.value,SelectArret.value,InputDescription.value)">
       <div class="form-group">
         <label for="exampleFormControlSelect2">Example multiple select</label>
         <select
@@ -36,7 +117,7 @@
           id="exampleFormControlSelect2"
           required
         >
-          <option *ngFor="let unArret of lib">
+          <option *ngFor="let unArret of obsBDD">
             {{
                 "Commune : " +
                 unArret.properties.COMMUNE +
@@ -63,11 +144,5 @@
       </div>
       <input class="btn btn-secondary" type="submit" />
     </form>
-
-    <!--
-        <div class="list-group">
-          <a *ngFor="let unArret of lib" class="list-group-item list-group-item-action">{{unArret.properties.CODE+", Commune : "+unArret.properties.COMMUNE+", Libelle : "+unArret.properties.LIBELLE}}</a>
-        </div>
-      -->
   </div>
 </div>
