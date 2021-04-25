@@ -81,15 +81,15 @@ export class CreaDefiComponent implements OnInit {
     this.closeChoiceArretInBDD();
   }
 
-  creationArret(streetmap:string,arretInfo:string) {
+  creationArret(streetMapSaisie:string,arretInfo:string) {
     const arretInfoSplited = arretInfo.trim().split(",")
     let a : Arret = {
       code: arretInfoSplited[2].trim(),
-      lib_arret:arretInfoSplited[1].trim().replace("'","''"),
-      streetmap:streetmap
+      lib_arret: arretInfoSplited[1].trim().replace("'","''"),
+      streetMap: streetMapSaisie
     }
-    this.MapService.postArret(a)
-    this.createArret=false
+    this.MapService.postArret(a);
+    this.createArret=false;
     this.closeChoiceArretInAPI();
   }
 }

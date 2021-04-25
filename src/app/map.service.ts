@@ -77,7 +77,6 @@ export class MapService {
   readonly obsChallArret = this.DefisOfAnArret.asObservable();
 
   //////////TAB AFFICHAGE DEFI PTS
-  /////////METHODE PR PUBLIER NEXT [] et stopper affichage
 async getAllDefiOfAnArret(unArret:ArretMap){
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/defi/'+unArret.info_arret.properties.CODE);
   const data = await response.json();
@@ -88,17 +87,6 @@ async getAllDefiOfAnArret(unArret:ArretMap){
 closeDefi():void {
   this.DefisOfAnArret.next([])
 }
-
-///////////////RECUPERATION ARRET AVEC UN LIBELLE
-/*
-    async recupWithLibelle(s: string) {
-    const response = await fetch('https://data.mobilites-m.fr/api/findType/json?types=arret&query='+s);
-    const data:GeoJSON.FeatureCollection<GeoJSON.LineString | GeoJSON.MultiLineString, any> = await response.json();
-    const regexp = new RegExp('SEM_*')
-    let fonct = data.features.filter(elt => regexp.test(elt.properties.CODE))
-    this.ArretForALibelleInBDD.next(fonct);
-  }
-*/
 
 ////////////////////RECUPERATION ARRET AVEC UN LIBELLE DANS BDD
 private ArretForALibelleInBDD = new Subject<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]>();

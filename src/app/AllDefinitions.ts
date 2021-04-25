@@ -30,7 +30,7 @@ export interface Arret {
   readonly code : string;
   readonly lib_arret: string;
   //readonly adresse: string;
-  readonly streetmap: string;
+  readonly streetMap: string;
 }
 export interface ArretMap  {
   nb_defi: number;
