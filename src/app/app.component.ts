@@ -5,6 +5,7 @@ import { DefiService } from './defi.service';
 import { Observable } from 'rxjs';
 import { Chami, Defi, User } from "./AllDefinitions";
 import firebase from 'firebase/app';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-root',
@@ -97,10 +98,35 @@ export class AppComponent {
     this.defi_edited = defi;
   }
 
-  updateDefi(defi:Defi) {
-    console.log("modification defi"+defi.defi);
-    this.defiService.putDefi(defi);
+  async updateDefi(defiSaisiedefi:string, defiSaisietitre: string, defiSaisiedateDeCreation: string, defiSaisiedescription: string, defiSaisieauteur: string, defiSaisiecode_arret: string, defiSaisietype :string, defiSaisieversion: string, defiSaisiearret: string, defiSaisiepoints: string, defiSaisieduree: string, defiSaisieprologue: string, defiSaisieepilogue: string, defiSaisiecommentaire: string) {
+  const dateObject = new Date(new Date().getTime())
+    let d : Defi = {
+      defi:defiSaisiedefi,
+      titre:defiSaisietitre.replace("'","''"),
+      dateDeCreation:defiSaisiedateDeCreation,
+      description:defiSaisiedescription.replace("'","''"),
+      auteur:defiSaisieauteur,
+      code_arret:defiSaisiecode_arret,
+      type: defiSaisietype,
+      dateDeModification: dateObject.toLocaleString(),
+      version: +defiSaisieversion,
+      arret: defiSaisiearret.replace("'","''"),
+      points: +defiSaisiepoints,
+      duree: defiSaisieduree.replace("'","''"),
+      prologue: defiSaisieprologue.replace("'","''"),
+      epilogue: defiSaisieepilogue.replace("'","''"),
+      commentaire: defiSaisiecommentaire.replace("'","''")
+    }
+    console.log("modification defi"+d.defi);
+    await this.defiService.putDefi(d);
     this.defi_edited = null;
+    this.recupDefiUnUser();
+  }
+
+  async deleteDefi(d:Defi) {
+    await this.defiService.deleteDefi(d);
+    this.defi_edited = null;
+    this.recupDefiUnUser();
   }
 
   createDefi() {

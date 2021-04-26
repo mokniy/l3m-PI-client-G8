@@ -3,6 +3,15 @@
 <button type="button" (click)="modeCreateArret()" class="btn btn-primary btn-lg btn-block">Créer un arrêt</button>
 <button type="button" (click)="modeCreateDefi()" class="btn btn-secondary btn-lg btn-block">Créer un défi</button>
 
+<label for="choix_bieres">Indiquez votre bière préférée :</label>
+<input list="bieres" type="text" id="choix_bieres">
+<datalist id="bieres">
+  <option value="Meteor">
+  <option value="Pils">
+  <option value="Kronenbourg">
+  <option value="Grimbergen">
+</datalist>
+
 <div *ngIf="createArret">
   <br/>
   <h2 style="text-align: center;">Debut formulaire création d'un arret</h2>
@@ -97,8 +106,7 @@
     </div>
   </div>
   -->
-
-  <div *ngIf="obsBDD.length !== 0" class="col-8">
+  <div *ngIf="obsBDD.length !== 0" class="col-12">
     <button
       (click)="closeChoiceArretInBDD()"
       type="button"
@@ -107,14 +115,14 @@
     >
       <span aria-hidden="true">&times;</span></button
     ><br />
-    <form (ngSubmit)="creationDefi(InputID.value,InputTITRE.value,SelectArret.value,InputDescription.value)">
+    <form (ngSubmit)="creationDefi(InputID.value,InputTITRE.value, SelectType.value,SelectArret.value,InputDescription.value, InputVERSION.value, InputPOINTS.value, InputDUREE.value, InputPrologue.value, InputEpilogue.value, InputCommentaire.value, InputMotClef.value)">
       <div class="form-group">
-        <label for="exampleFormControlSelect2">Example multiple select</label>
+        <label for="Arret">Arret</label>
         <select
           #SelectArret
           multiple
           class="form-control"
-          id="exampleFormControlSelect2"
+          id="Arret"
           required
         >
           <option *ngFor="let unArret of obsBDD">
@@ -129,19 +137,71 @@
           </option>
         </select>
 
+        <!--Une ligne 2 champs-->
         <div class="form-row">
           <div class="form-group col-md-6">
             <label>ID du défi : </label>
-            <input #InputID class="form-control" name="InputAge" type="text" placeholder="ID"/>
+            <input #InputID class="form-control" name="InputID" type="text" placeholder="ID"/>
           </div>
           <div class="form-group col-md-6">
             <label>Titre : </label>
-            <input #InputTITRE class="form-control" name="InputVille" type="text" placeholder="Titre"/>
+            <input #InputTITRE class="form-control" name="InputTITRE" type="text" placeholder="Titre"/>
           </div>
         </div>
+        <!--Fin une ligne 2 champs-->
+
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label for="type" class="input-group-text">Type</label>
+          </div>
+          <select
+          #SelectType
+          class="custom-select"
+          id="type"
+          required
+        >
+        <option>Enigme</option>
+        <option>Challenge</option>
+        </select>
+        </div>
+
+
+
         <label>Description : </label>
-        <textarea #InputDescription class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea #InputDescription class="form-control" rows="3"></textarea>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Version : </label>
+            <input #InputVERSION class="form-control" name="InputVersion" type="number" placeholder="Version"/>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Points : </label>
+            <input #InputPOINTS class="form-control" name="InputPoints" type="number" placeholder="Points"/>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Durée : </label>
+            <input #InputDUREE class="form-control" name="InputDuree" type="text" placeholder="Durée"/>
+          </div>
+        </div>
+
+        <label>Prologue : </label>
+        <textarea #InputPrologue class="form-control" rows="3"></textarea>
+
+        <label>Epilogue : </label>
+        <textarea #InputEpilogue class="form-control" rows="3"></textarea>
+
+        <label>Commentaire : </label>
+        <textarea #InputCommentaire class="form-control" rows="3"></textarea>
+
+
       </div>
+
+      <label for="basic-url">Veuillez saisir les mots clefs associés au défi en les séparant avec un espace.</label>
+      <input #InputMotClef type="text" class="form-control"  placeholder="Entrez les mots clefs séparés par des espaces.">
+
+
       <input class="btn btn-secondary" type="submit" />
     </form>
   </div>

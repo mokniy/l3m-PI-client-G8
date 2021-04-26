@@ -13,7 +13,11 @@ export class DefiService {
   private DefisOfAnUser = new BehaviorSubject<Defi[]>( [] );
   readonly obsChallUser = this.DefisOfAnUser.asObservable();
 
-constructor() { }
+constructor() {
+  const dateObject = new Date(new Date().getTime())
+  const humanDateFormat = dateObject.toLocaleString()
+  console.log(humanDateFormat)
+ }
 
 
 async getAllDefi(){
@@ -61,5 +65,18 @@ async postDefi(defi: Defi): Promise<Defi> {
   return res.json();
 }
 
+
+async deleteDefi(defi: Defi) {
+  console.log('Je suis dans la suppression du défi'+JSON.stringify(defi));
+  console.log(JSON.parse(JSON.stringify(defi)))
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/defis/"+defi.defi,
+  {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(defi)
+  });
+}
 }
 

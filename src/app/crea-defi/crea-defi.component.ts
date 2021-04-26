@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Chami } from './../AllDefinitions';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Arret, Defi } from '../AllDefinitions';
 import { MapService } from '../map.service';
@@ -27,7 +28,10 @@ export class CreaDefiComponent implements OnInit {
   }
 
   //INPUT USER AUTH
-  constructor(private MapService : MapService, private defiService : DefiService) { }
+  constructor(private MapService : MapService, private defiService : DefiService) {
+  }
+
+  @Input() userConnected!: Chami;
 
   ngOnInit() {
   }
@@ -56,29 +60,33 @@ export class CreaDefiComponent implements OnInit {
     this.MapService.closeChoiceArretInAPI()
   }
 
-  async creationDefi(defiID:string,defiTitre:string,arretInfo:string,descriptionSaisie:string) {
+  //METTRE EN PLACE MOT CLEF PUIS METTRE EN PLACE LA CREATION DE QUESTION/INDICE
+  async creationDefi(defiID:string,defiTitre:string, defiType : string,arretInfo:string,descriptionSaisie:string, versionSaisie: string, pointsSaisie :string, dureeSaisie: string, prologueSaisie: string, epilogueSaisie: string, commentaireSaisie:string, motClefSaisie:string) {
     const arretInfoSplited = arretInfo.trim().split(",")
+    const dateObject = new Date(new Date().getTime())
     let d : Defi = {
       defi: defiID,
       titre: defiTitre.replace("'","''"),
-      dateDeCreation:'',
+      dateDeCreation: dateObject.toLocaleString(),
       description:descriptionSaisie.replace("'","''"),
-      auteur:'yanis.mokni@gmail.com',
+      auteur:this.userConnected.pseudo,
       code_arret:arretInfoSplited[2].trim(),
-      type: 'enigme',
+      type:defiType.replace("'","''"),
       dateDeModification: '',
-      version: 1,
-      arret: '',
-      points: 15,
-      duree: '',
-      prologue: '',
-      epilogue: '',
-      commentaire: ''
+      version: +versionSaisie,
+      arret: arretInfoSplited[2].trim().replace("'","''"),
+      points: +pointsSaisie,
+      duree: dureeSaisie.replace("'","''"),
+      prologue: prologueSaisie.replace("'","''"),
+      epilogue: epilogueSaisie.replace("'","''"),
+      commentaire: commentaireSaisie.replace("'","''")
     }
-    await this.defiService.postDefi(d);
+    const rep = await this.defiService.postDefi(d);
     this.MapService.recupArretAvecDefiAPIPerso();
     this.createDefi=false
     this.closeChoiceArretInBDD();
+
+    //AJOUT MOT CLEF DANS BDD
   }
 
   creationArret(streetMapSaisie:string,arretInfo:string) {
