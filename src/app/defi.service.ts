@@ -66,7 +66,7 @@ async postDefi(defi: DefiTmp): Promise<Defi> {
 }
 
 async deleteDefi(defi: Defi) {
-  console.log('Je suis dans la suppression du défi'+JSON.stringify(defi));
+  console.log('Je suis dans la suppression du défi', defi);
   console.log(JSON.parse(JSON.stringify(defi)))
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/defis/"+defi.defi,
   {
@@ -82,7 +82,7 @@ async deleteDefi(defi: Defi) {
 
 async postMotClef(mot:MotClefTmp): Promise<MotClef> {
   //Je suis dans la création du mot clef : "{\"mot_mc\":\"beta\"}"
-  console.log('Je suis dans la création du mot clef : '+JSON.stringify(mot));
+  console.log('Je suis dans la création du mot clef : ', mot);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/motclef/",
   {
       method: "POST",
@@ -91,7 +91,25 @@ async postMotClef(mot:MotClefTmp): Promise<MotClef> {
       },
       body: JSON.stringify(mot)
   });
-  return await res.json();
+  const R =  await res.json();
+  console.log(mot, "=>", R);
+  return R;
+}
+
+async postListMotClef(listMot:MotClefTmp[]): Promise<MotClef[]> {
+  //Je suis dans la création du mot clef : "{\"mot_mc\":\"beta\"}"
+  console.log('Je suis dans la création des mots clef : ', listMot);
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/motclef/list",
+  {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(listMot)
+  });
+  const R =  await res.json();
+  console.log(listMot, "=>", R);
+  return R;
 }
 
 async postChercher(C: Chercher) {

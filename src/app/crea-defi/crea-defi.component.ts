@@ -39,6 +39,10 @@ export class CreaDefiComponent implements OnInit {
 
   //INPUT USER AUTH
   constructor(private MapService : MapService, private defiService : DefiService) {
+    const tst:MotClefTmp[] = [{mot_mc:"a"},{mot_mc:"b"},{mot_mc:"c"}]
+    const tst2 = ["a", "b", "c"].map(x=>this.createMotClefTmp(x))
+    console.log(JSON.stringify(tst))
+    console.log(JSON.stringify(tst2))
   }
 
   @Input() userConnected!: Chami;
@@ -98,22 +102,28 @@ export class CreaDefiComponent implements OnInit {
     console.log("ID CREER : "+rep.defi);
 
     //ON COUPE LA CHAINE DE CARACT DES MOTS CLEFS
-      const lesMotsClefs = motClefSaisie.trim().toLowerCase().replace("'","''").split(" ").filter(function(elem, index, self) {
+      const lesMotsClefs = motClefSaisie.trim().toLowerCase().replace("'","''").split(" ").filter(
+        function(elem, index, self) {
         return index === self.indexOf(elem);
-    })
-    console.log(lesMotsClefs);
-    //AJOUT MOT CLEF DANS BDD
-    console.log("debut")
-    const MotClefInBDD = await Promise.all(
-      lesMotsClefs.map(async x => await this.defiService.postMotClef({mot_mc : x}))
-    );
-    console.log("fin");
-    console.log(MotClefInBDD);
+       }).map( x =>
+        this.createMotClefTmp(x)
+        )
 
+    console.log(lesMotsClefs);
+
+    //NEW VERSION
+    console.log("debut")
+    const MotClefInBDD = await this.defiService.postListMotClef(lesMotsClefs)
+    console.log("fin");
+    console.log(lesMotsClefs, "et", MotClefInBDD, ".");
     //AVEC LE RETOUR ON INSERE DANS CHERCHER => CREER CHERCHER
     MotClefInBDD.forEach(  async element => {
       await this.defiService.postChercher({id_defi:rep.defi,id_mc:element.id_mc})
     });
+  }
+
+  createMotClefTmp(s:string):MotClefTmp {
+    return {mot_mc:s}
   }
 
   creationArret(streetMapSaisie:string,arretInfo:string) {
