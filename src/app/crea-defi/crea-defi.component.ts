@@ -1,7 +1,7 @@
 import { Chami, DefiTmp, MotClefTmp } from './../AllDefinitions';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Arret, Defi } from '../AllDefinitions';
+import { Arret, Defi, Indice, IndiceTmp } from '../AllDefinitions';
 import { MapService } from '../map.service';
 import { DefiService } from './../defi.service';
 
@@ -12,15 +12,72 @@ import { DefiService } from './../defi.service';
 })
 export class CreaDefiComponent implements OnInit {
 
+  @ViewChild('indice') indiceSaisie!: ElementRef;
+  @ViewChild('points') indicePointsSaisie!: ElementRef;
+
   public createDefi=false;
   public createArret=false;
   public editArret=false;
+  public labelEdited:string="";
+  public indices: IndiceTmp[]=[];
+
+  viderListe():void{
+    this.indices = [];
+  }
+
+  addElement(element:string, points:string){
+
+    this.indices.push({
+      label_ind:"I"+(this.indices.length+1),
+      description_ind: element,
+      points_ind: +points
+    });
+    console.log(this.indices)
+    this.indiceSaisie.nativeElement.value = '';
+    this.indicePointsSaisie.nativeElement.value ='';
+      }
+
+  deleteElement(index:number){
+    this.indices.splice(index,1);
+  }
+
+  editMode(label:string): void {
+    this.labelEdited=label;
+  }
+
+  editIndiceAnnule() :void{
+    this.labelEdited="";
+  }
+
+  editIndice(indice:string, index:number) :void{
+    this.indices[index]={
+      label_ind:"I"+(index+1),
+      description_ind: indice,
+      points_ind: this.indices[index].points_ind,
+    };
+    this.labelEdited="";
+
+    console.log(this.indices);
+  }
+
+  editIndicePoints(points:string, index:number) :void{
+    this.indices[index]={
+      label_ind:"I"+(index+1),
+      description_ind: this.indices[index].description_ind,
+      points_ind: +points,
+    };
+    this.labelEdited="";
+
+    console.log(this.indices);
+  }
+
 
   modeEditArret(){
     this.createArret= false;
     this.createDefi=false;
     this.editArret=true;
     this.closeChoiceArretInBDD();
+    this.indices=[];
   }
 
   modeCreateArret(){
@@ -28,6 +85,7 @@ export class CreaDefiComponent implements OnInit {
     this.createDefi=false;
     this.editArret=false;
     this.closeChoiceArretInBDD();
+    this.indices=[];
   }
 
   modeCreateDefi(){
@@ -35,14 +93,11 @@ export class CreaDefiComponent implements OnInit {
     this.createArret=false;
     this.editArret=false;
     this.closeChoiceArretInAPI();
+    this.indices=[];
   }
 
   //INPUT USER AUTH
   constructor(private MapService : MapService, private defiService : DefiService) {
-    const tst:MotClefTmp[] = [{mot_mc:"a"},{mot_mc:"b"},{mot_mc:"c"}]
-    const tst2 = ["a", "b", "c"].map(x=>this.createMotClefTmp(x))
-    console.log(JSON.stringify(tst))
-    console.log(JSON.stringify(tst2))
   }
 
   @Input() userConnected!: Chami;
@@ -76,6 +131,7 @@ export class CreaDefiComponent implements OnInit {
 
   //METTRE EN PLACE MOT CLEF PUIS METTRE EN PLACE LA CREATION DE QUESTION/INDICE
   async creationDefi(defiTitre:string, defiType : string,arretInfo:string,descriptionSaisie:string, versionSaisie: string, pointsSaisie :string, dureeSaisie: string, prologueSaisie: string, epilogueSaisie: string, commentaireSaisie:string, motClefSaisie:string) {
+    console.log("rezrzerze")
     const arretInfoSplited = arretInfo.trim().split(",")
     const dateObject = new Date(new Date().getTime())
     let d : DefiTmp = {
@@ -109,17 +165,28 @@ export class CreaDefiComponent implements OnInit {
         this.createMotClefTmp(x)
         )
 
-    console.log(lesMotsClefs);
+        if(lesMotsClefs.length > 1 || (lesMotsClefs.length === 1 && lesMotsClefs[0].mot_mc !== "") ) {
+          console.log(lesMotsClefs);
+          console.log("Liste mot clef : "+lesMotsClefs+" size : "+lesMotsClefs.length);
+          //GENERATION SYSTEME MOT CLE
+          console.log("debut")
+          const MotClefInBDD = await this.defiService.postListMotClef(lesMotsClefs)
+          console.log("fin");
+          console.log(lesMotsClefs, "et", MotClefInBDD, ".");
+          MotClefInBDD.forEach(  async element => {
+            await this.defiService.postChercher({id_defi:rep.defi,id_mc:element.id_mc})
+          });
+        }
 
-    //NEW VERSION
-    console.log("debut")
-    const MotClefInBDD = await this.defiService.postListMotClef(lesMotsClefs)
-    console.log("fin");
-    console.log(lesMotsClefs, "et", MotClefInBDD, ".");
-    //AVEC LE RETOUR ON INSERE DANS CHERCHER => CREER CHERCHER
-    MotClefInBDD.forEach(  async element => {
-      await this.defiService.postChercher({id_defi:rep.defi,id_mc:element.id_mc})
-    });
+        if(this.indices.length !== 0) {
+          //GENERATION SYSTEME INDICE
+          this.indices.forEach(element => {
+            element.id_defi=rep.defi
+          });
+          await this.defiService.postListIndice(this.indices);
+          this.viderListe();
+        }
+
   }
 
   createMotClefTmp(s:string):MotClefTmp {

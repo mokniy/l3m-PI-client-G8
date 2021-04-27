@@ -18,13 +18,15 @@ import { AngularFireModule } from '@angular/fire';
 import {FormsModule} from '@angular/forms';
 import { MapComponent } from './map/map.component'
 import { CreaDefiComponent } from './crea-defi/crea-defi.component';
+import { FicheDefiComponent } from './fiche-defi/fiche-defi.component';
 
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     MapComponent,
-      CreaDefiComponent
+      CreaDefiComponent,
+      FicheDefiComponent
    ],
   imports: [
     BrowserModule,

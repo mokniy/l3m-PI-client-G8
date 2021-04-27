@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp } from "./AllDefinitions";
+import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp, Indice, IndiceTmp } from "./AllDefinitions";
 
 @Injectable({
   providedIn: 'root'
@@ -97,7 +97,6 @@ async postMotClef(mot:MotClefTmp): Promise<MotClef> {
 }
 
 async postListMotClef(listMot:MotClefTmp[]): Promise<MotClef[]> {
-  //Je suis dans la création du mot clef : "{\"mot_mc\":\"beta\"}"
   console.log('Je suis dans la création des mots clef : ', listMot);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/motclef/list",
   {
@@ -125,6 +124,27 @@ async postChercher(C: Chercher) {
   });
 }
 
+async recupererMotClefUnDefi(id:string){
+  const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/chercher/allmc/'+id);
+  const data = await response.json();
+  console.log(data)
+  return data as MotClef[]
+}
+
+async postListIndice(listIndice:IndiceTmp[]): Promise<Indice[]> {
+  console.log('Je suis dans la création des indices : ', listIndice);
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/indice/list",
+  {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(listIndice)
+  });
+  const R =  await res.json();
+  console.log(listIndice, "=>", R);
+  return R;
+}
 
 }
 

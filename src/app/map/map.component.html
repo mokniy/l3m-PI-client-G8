@@ -27,7 +27,7 @@
   <br />
   <br />
   <br />
-  <div class="container" *ngIf="obsTest | async as Defis">
+  <div class="container" *ngIf="obsUnArret | async as Defis">
     <div *ngIf="Defis.length !== 0" class="table">
       <button
         (click)="closeDefi()"
@@ -48,7 +48,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let Defi of Defis">
+          <tr (click)="tstAffichage(Defi)" *ngFor="let Defi of Defis">
             <td>{{ Defi.defi }}</td>
             <td>{{ Defi.titre }}</td>
             <td>{{ Defi.description }}</td>
@@ -58,5 +58,9 @@
         </tbody>
       </table>
     </div>
+    <div *ngIf="defiExergue !== undefined">
+      <app-fiche-defi [defiRecu]="defiExergue" ></app-fiche-defi>
+    </div>
+    <br/>
   </div>
 </mat-drawer-content>

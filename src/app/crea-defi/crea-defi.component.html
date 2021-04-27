@@ -3,6 +3,46 @@
 <button type="button" (click)="modeCreateArret()" class="btn btn-secondary btn-lg btn-block">Créer un arrêt</button>
 <button type="button" (click)="modeCreateDefi()" class="btn btn-secondary btn-lg btn-block">Créer un défi</button>
 <button type="button" (click)="modeEditArret()" class="btn btn-primary btn-lg btn-block">Editer un arrêt</button>
+<!--
+  <div class="form-group">
+    <label for="exampleInputEmail1">Indice</label>
+    <input type="text" #indice class="form-control" placeholder="Indice">
+    <br/>
+    <input type="number" #points class="form-control" placeholder="Points">
+  </div>
+  <button class="btn btn-secondary"(click)="addElement(indice.value,points.value)">Ajouter</button>
+
+<br>
+<div class="table-responsive-lg">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Label</th>
+      <th scope="col">Indice</th>
+      <th scope="col">Points</th>
+      <th scope="col">Modifier</th>
+      <th scope="col">Supprimer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let indice of indices; let index = index;">
+      <th scope="row">{{index}}</th>
+      <td *ngIf="indiceEdited!==indice.description" (dblclick)="editMode(indice.description)">{{indice.description}} </td>
+      <td *ngIf="indiceEdited===indice.description"><input type="text" #newIndice value="{{indice.description}}">
+        <button type="submit" class="btn btn-outline-success" (click)="editIndice(newIndice.value,index)">Valider</button></td>
+        <td *ngIf="indiceEdited!==indice.description" (dblclick)="editMode(indice.description)">{{indice.points}} </td>
+        <td *ngIf="indiceEdited===indice.description"><input type="text" #newPoints value="{{indice.points}}">
+          <button type="submit" class="btn btn-outline-success" (click)="editIndicePoints(newPoints.value,index)">Valider</button></td>
+      <td *ngIf="indiceEdited!==indice.description"><button type="submit" class="btn btn-outline-secondary" (click)="editMode(indice.description)">Editer</button></td>
+      <td *ngIf="indiceEdited===indice.description"><button type="submit" class="btn btn-outline-warning  " (click)="editIndiceAnnule()">Annuler</button></td>
+      <td>
+        <button class="btn btn-outline-danger" (click)="deleteElement(index)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+-->
 
 <div *ngIf="createArret">
   <br/>
@@ -243,6 +283,46 @@
 
 
       </div>
+<!-- ################################INDICE################################ -->
+      <div class="form-group">
+        <label for="exampleInputEmail1">Indice</label>
+        <input type="text" #indice class="form-control" placeholder="Indice">
+        <br/>
+        <input type="number" #points class="form-control" placeholder="Points">
+      </div>
+      <input type="button" value="Ajouter" class="btn btn-secondary"(click)="addElement(indice.value,points.value)"/>
+
+    <br>
+    <div class="table-responsive-lg">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Label</th>
+          <th scope="col">Indice</th>
+          <th scope="col">Points</th>
+          <th scope="col">Modifier</th>
+          <th scope="col">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let indice of indices; let index = index;">
+          <th scope="row">{{index}}</th>
+          <td *ngIf="labelEdited!==indice.label_ind" (dblclick)="editMode(indice.label_ind)">{{indice.description_ind}} </td>
+          <td *ngIf="labelEdited===indice.label_ind"><input type="text" #newIndice value="{{indice.description_ind}}">
+            <button  class="btn btn-outline-success" (click)="editIndice(newIndice.value,index)">Valider</button></td>
+            <td *ngIf="labelEdited!==indice.label_ind" (dblclick)="editMode(indice.label_ind)">{{indice.points_ind}} </td>
+            <td *ngIf="labelEdited===indice.label_ind"><input type="text" #newPoints value="{{indice.points_ind}}">
+              <button  class="btn btn-outline-success" (click)="editIndicePoints(newPoints.value,index)">Valider</button></td>
+          <td *ngIf="labelEdited!==indice.label_ind"><button  class="btn btn-outline-secondary" (click)="editMode(indice.label_ind)">Editer</button></td>
+          <td *ngIf="labelEdited===indice.label_ind"><button  class="btn btn-outline-warning  " (click)="editIndiceAnnule()">Annuler</button></td>
+          <td>
+            <button class="btn btn-outline-danger" (click)="deleteElement(index)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <!-- ################################INDICE################################ -->
 
       <label for="basic-url">Veuillez saisir les mots clefs associés au défi en les séparant avec un espace.</label>
       <input #InputMotClef type="text" class="form-control"  placeholder="Entrez les mots clefs séparés par des espaces.">

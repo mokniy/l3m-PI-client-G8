@@ -9,7 +9,7 @@
     <mat-icon [matMenuTriggerFor]="menuConnect"> account_circle </mat-icon>
   </ng-template>
   <mat-icon *ngIf="obsLogin | async as user; else showLogin" [matMenuTriggerFor]="menuDisconnect">
-    account_circle
+    <img src={{user.photoURL}}/>
   </mat-icon>
   <mat-menu #menuConnect="matMenu">
     <button (click)="login()" mat-menu-item>

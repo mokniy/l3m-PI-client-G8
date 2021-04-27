@@ -43,6 +43,11 @@ export interface DefiTmp {
   readonly commentaire:string;
 }
 
+export interface DefiAffichage {
+  motsClefs: MotClef[];
+  defi: Defi;
+}
+
 export interface Arret {
   readonly code : string;
   readonly lib_arret: string;
@@ -85,4 +90,19 @@ export interface MotClefTmp {
 export interface Chercher{
   readonly id_defi : string;
   readonly id_mc: string;
+}
+
+export interface IndiceTmp{
+  readonly label_ind:string;
+  readonly description_ind:string;
+  readonly points_ind:number;
+  id_defi?:string;
+}
+
+export interface Indice{
+  readonly id_ind:string;
+  readonly label_ind:string;
+  readonly description_ind:string;
+  readonly points_ind:number;
+  readonly id_defi:string;
 }

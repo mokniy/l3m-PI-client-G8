@@ -5,7 +5,6 @@ import { DefiService } from './defi.service';
 import { Observable } from 'rxjs';
 import { Chami, Defi, User } from "./AllDefinitions";
 import firebase from 'firebase/app';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-root',
