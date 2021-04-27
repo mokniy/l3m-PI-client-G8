@@ -149,4 +149,21 @@ async postArret(arret: Arret): Promise<Defi> {
   return res.json();
 }
 
+/////////MODIFICATION ARRET
+
+async putArret(arret: Arret): Promise<Arret> {
+  console.log(JSON.stringify(arret));
+  console.log(arret.code);
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/arret/"+arret.code,
+  {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(arret)
+  });
+  console.log("Update ARRET réalisé: "+ res)
+  return res.json();
+}
+
 }

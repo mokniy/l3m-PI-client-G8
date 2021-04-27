@@ -26,6 +26,23 @@ export interface Defi {
   readonly commentaire:string;
 }
 
+export interface DefiTmp {
+  readonly titre:string;
+  readonly dateDeCreation:string;
+  readonly description:string;
+  readonly auteur:string;
+  readonly code_arret:string;
+  readonly type:string;
+  readonly dateDeModification:string;
+  readonly version:number;
+  readonly arret:string;
+  readonly points:number;
+  readonly duree:string;
+  readonly prologue:string;
+  readonly epilogue:string;
+  readonly commentaire:string;
+}
+
 export interface Arret {
   readonly code : string;
   readonly lib_arret: string;
@@ -53,4 +70,19 @@ export function rgbToHex(str :string) {
   let g:number = +splitted[1]
   let b:number = +splitted[2]
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b)+"";
+}
+
+export interface MotClef {
+  readonly id_mc : string;
+  readonly mot_mc: string;
+}
+
+export interface MotClefTmp {
+  readonly mot_mc: string;
+}
+
+
+export interface Chercher{
+  readonly id_defi : string;
+  readonly id_mc: string;
 }

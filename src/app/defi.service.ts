@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Defi, Chami } from "./AllDefinitions";
+import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp } from "./AllDefinitions";
 
 @Injectable({
   providedIn: 'root'
@@ -51,10 +51,10 @@ async putDefi(defi: Defi): Promise<Defi> {
 }
 
 
-async postDefi(defi: Defi): Promise<Defi> {
-  console.log('Je suis dans la création du défi'+JSON.stringify(defi));
+async postDefi(defi: DefiTmp): Promise<Defi> {
+  console.log('Je suis dans la création du défi : '+JSON.stringify(defi));
   console.log(JSON.parse(JSON.stringify(defi)))
-  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/defis/"+defi.defi,
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/defis/",
   {
       method: "POST",
       headers: {
@@ -64,7 +64,6 @@ async postDefi(defi: Defi): Promise<Defi> {
   });
   return res.json();
 }
-
 
 async deleteDefi(defi: Defi) {
   console.log('Je suis dans la suppression du défi'+JSON.stringify(defi));
@@ -78,5 +77,36 @@ async deleteDefi(defi: Defi) {
       body: JSON.stringify(defi)
   });
 }
+
+////////////////////////////////////////TEST MOT CLEF
+
+async postMotClef(mot:MotClefTmp): Promise<MotClef> {
+  //Je suis dans la création du mot clef : "{\"mot_mc\":\"beta\"}"
+  console.log('Je suis dans la création du mot clef : '+JSON.stringify(mot));
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/motclef/",
+  {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(mot)
+  });
+  return await res.json();
+}
+
+async postChercher(C: Chercher) {
+  console.log('Je suis dans la création du chercher : '+JSON.stringify(C));
+  console.log(JSON.parse(JSON.stringify(C)))
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/chercher/"+C.id_defi+"&"+C.id_mc,
+  {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(C)
+  });
+}
+
+
 }
 

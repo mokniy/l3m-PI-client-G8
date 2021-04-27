@@ -1,16 +1,8 @@
 
 <div class="container">
-<button type="button" (click)="modeCreateArret()" class="btn btn-primary btn-lg btn-block">Créer un arrêt</button>
+<button type="button" (click)="modeCreateArret()" class="btn btn-secondary btn-lg btn-block">Créer un arrêt</button>
 <button type="button" (click)="modeCreateDefi()" class="btn btn-secondary btn-lg btn-block">Créer un défi</button>
-
-<label for="choix_bieres">Indiquez votre bière préférée :</label>
-<input list="bieres" type="text" id="choix_bieres">
-<datalist id="bieres">
-  <option value="Meteor">
-  <option value="Pils">
-  <option value="Kronenbourg">
-  <option value="Grimbergen">
-</datalist>
+<button type="button" (click)="modeEditArret()" class="btn btn-primary btn-lg btn-block">Editer un arrêt</button>
 
 <div *ngIf="createArret">
   <br/>
@@ -54,6 +46,26 @@
   </form>
 </div>
 <br/>
+<div *ngIf="editArret">
+  <br/>
+  <h2 style="text-align: center;">Debut formulaire edit d'un défi</h2>
+  <p><b>RECUP QUE DANS BDD</b></p>
+  <form (ngSubmit)="recupLibIn(InputLib.value)">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Libelle d'arret : </label>
+        <input
+          #InputLib
+          class="form-control"
+          name="InputAge"
+          type="text"
+          placeholder="Libelle"
+        />
+      </div>
+    </div>
+    <input class="btn btn-secondary" type="submit" />
+  </form>
+</div>
 </div>
 
 
@@ -96,17 +108,10 @@
 </div>
 
 
-<!--CREATION DEFI-->
 <div *ngIf="obsArretInBDD | async as obsBDD" class="container">
 
-  <!--
-  <div *ngIf="obsBDD.length === 0 && !createArret" class="col-8">
-    <div class="alert alert-warning" role="alert">
-      Aucun arrêt trouvé, <a (click)="modeCreateArret()" class="alert-link">veuillez le créer</a>.
-    </div>
-  </div>
-  -->
-  <div *ngIf="obsBDD.length !== 0" class="col-12">
+<!--EDITION ARRET-->
+  <div *ngIf="obsBDD.length !== 0 && editArret === true" class="col-12">
     <button
       (click)="closeChoiceArretInBDD()"
       type="button"
@@ -115,7 +120,52 @@
     >
       <span aria-hidden="true">&times;</span></button
     ><br />
-    <form (ngSubmit)="creationDefi(InputID.value,InputTITRE.value, SelectType.value,SelectArret.value,InputDescription.value, InputVERSION.value, InputPOINTS.value, InputDUREE.value, InputPrologue.value, InputEpilogue.value, InputCommentaire.value, InputMotClef.value)">
+    <form (ngSubmit)="updateArret(SelectArretEdit.value,InputEditStreetmap.value)">
+      <div class="form-group">
+        <label for="Arret">Arret</label>
+        <select
+          #SelectArretEdit
+          multiple
+          class="form-control"
+          id="Arret"
+          required
+        >
+          <option *ngFor="let unArret of obsBDD">
+            {{
+                "Commune : " +
+                unArret.properties.COMMUNE +
+                ", " +
+                unArret.properties.LIBELLE+
+                ", " +
+                unArret.properties.CODE
+            }}
+          </option>
+        </select>
+        <label>Lien streetmap : </label>
+        <textarea #InputEditStreetmap class="form-control" rows="3"></textarea>
+      </div>
+      <input class="btn btn-secondary" type="submit" />
+    </form>
+  </div>
+
+<!--CREATION DEFI-->
+  <!--
+  <div *ngIf="obsBDD.length === 0 && !createArret" class="col-8">
+    <div class="alert alert-warning" role="alert">
+      Aucun arrêt trouvé, <a (click)="modeCreateArret()" class="alert-link">veuillez le créer</a>.
+    </div>
+  </div>
+  -->
+  <div *ngIf="obsBDD.length !== 0 && editArret === false" class="col-12">
+    <button
+      (click)="closeChoiceArretInBDD()"
+      type="button"
+      class="close"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span></button
+    ><br />
+    <form (ngSubmit)="creationDefi(InputTITRE.value, SelectType.value,SelectArret.value,InputDescription.value, InputVERSION.value, InputPOINTS.value, InputDUREE.value, InputPrologue.value, InputEpilogue.value, InputCommentaire.value, InputMotClef.value)">
       <div class="form-group">
         <label for="Arret">Arret</label>
         <select
@@ -139,10 +189,6 @@
 
         <!--Une ligne 2 champs-->
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label>ID du défi : </label>
-            <input #InputID class="form-control" name="InputID" type="text" placeholder="ID"/>
-          </div>
           <div class="form-group col-md-6">
             <label>Titre : </label>
             <input #InputTITRE class="form-control" name="InputTITRE" type="text" placeholder="Titre"/>
