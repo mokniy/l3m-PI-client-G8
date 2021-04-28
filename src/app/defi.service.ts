@@ -221,7 +221,7 @@ async deleteQuestionsOfDefi(idDefi:string) {
 
 async deleteMotsClefsOfDefi(idDefi:string) {
   console.log('Je suis dans la suppression des motsClefs de un defi');
-  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/question/deleteallmc/"+idDefi,
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/motclef/deleteallmotclef/"+idDefi,
   {
       method: "DELETE",
       headers: {

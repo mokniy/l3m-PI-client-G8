@@ -276,6 +276,7 @@ export class EditDefiComponent implements OnInit {
         this.defiService.postListIndice(this.indicesEdit);
       }
 
+      console.log("QUESTION : !!!"+JSON.stringify(this.questionsEdit) + JSON.stringify(this.questionsInit)  )
       if(JSON.stringify(this.questionsEdit)!==JSON.stringify(this.questionsInit)){
         await this.defiService.deleteQuestionsOfDefi(d.defi);
         this.defiService.postListQuestion(this.questionsEdit);
@@ -290,7 +291,7 @@ export class EditDefiComponent implements OnInit {
         }).map( x =>
           this.createMotClefTmp(x)
           )
-
+          console.log("MOT CLEF : !!!"+JSON.stringify(this.lesMotsClefsEdit) + JSON.stringify(this.lesMotsClefsInit)  )
           if(JSON.stringify(this.lesMotsClefsEdit) !== JSON.stringify(this.lesMotsClefsInit)  )
           {
             await this.defiService.deleteMotsClefsOfDefi(d.defi)
