@@ -1,12 +1,23 @@
-    <div *ngIf="defiAfficheObs | async as defiAffiche">
+<div *ngIf="defiAfficheObs | async as defiAffiche">
+  <br/>
+  <div class="card border-dark mb-6" >
+    <div class="card-header">Défi : <b>{{defiRecu.defi}}</b> réalisé par <b>{{defiRecu.auteur}}</b>.</div>
+    <div class="card-body text-dark" style="padding: 5px;">
+
+      <h5 style="margin-bottom: 3px;" class="card-title" >{{defiRecu.titre}}</h5>
+
+      <small>Type : {{defiAffiche.leDefi.type}}</small>
+      -
+      <a *ngIf='defiAffiche.lArret.streetMap !== ""' href="{{defiAffiche.lArret.streetMap}}" target="_blank"> <small >Arrêt : {{defiAffiche.lArret.lib_arret}} , Jouer à distance !</small></a>
+
       <br/>
-      <div class="card border-dark mb-6" >
-        <div class="card-header">Défi : <b>{{defiRecu.defi}}</b> réalisé par <b>{{defiRecu.auteur}}</b>.</div>
-        <div class="card-body text-dark">
-          <h5 class="card-title" >{{defiRecu.titre}}</h5>
-          <a href="{{defiAffiche.lArret.streetMap}}" target="_blank"> <small >Jouer à distance !</small></a>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <p><small>Mot-clef associé au défi : {{defiAffiche.lesMotsClefs[0].mot_mc}}</small></p>
-        </div>
-      </div>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+      <div style="margin-top: 0px;" *ngIf='defiAffiche.leDefi.dateDeModification === ""; then thenBlock else elseBlock'></div>
+      <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{defiAffiche.leDefi.dateDeCreation}}. Aucune modification.</small></p></ng-template>
+      <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{defiAffiche.leDefi.dateDeCreation}} - Derniére modification : {{defiAffiche.leDefi.dateDeModification}}.</small></p></ng-template>
+
+      <p *ngIf="defiAffiche.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{defiAffiche.lesMotsClefs[0].mot_mc}}</small></p>
     </div>
+  </div>
+</div>

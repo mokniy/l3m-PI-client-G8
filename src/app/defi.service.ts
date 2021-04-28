@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp, Indice, IndiceTmp, QuestionTmp, Question } from "./AllDefinitions";
 
 @Injectable({
@@ -12,6 +12,15 @@ export class DefiService {
 
   private DefisOfAnUser = new BehaviorSubject<Defi[]>( [] );
   readonly obsChallUser = this.DefisOfAnUser.asObservable();
+
+  private IndicesOfDefi = new Subject<Indice[]>();
+  readonly obsIndices = this.IndicesOfDefi.asObservable();
+
+  private QuestionsOfDefi = new Subject<Question[]>();
+  readonly obsQuestions = this.QuestionsOfDefi.asObservable();
+
+  private MotClefsOfDefi = new BehaviorSubject<MotClef[]>( [] );
+  readonly obsMotClefs = this.MotClefsOfDefi.asObservable();
 
 constructor() {
   const dateObject = new Date(new Date().getTime())
@@ -33,6 +42,32 @@ async getAllDefiOfAnUsers(user:Chami){
   const data = await response.json();
   //console.log(data)
   this.DefisOfAnUser.next( data as Defi[] );
+}
+
+async getAllIndicesOfDefi(defi:Defi){
+  const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/indice/allindice/'+defi.defi);
+  const data = await response.json();
+  console.log(data)
+  this.IndicesOfDefi.next( data as Indice[] );
+}
+
+async getAllQuestionsOfDefi(defi:Defi){
+  const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/question/allquestion/'+defi.defi);
+  const data = await response.json();
+  this.QuestionsOfDefi.next( data as Question[] );
+}
+
+async getAllMotClefsOfDefi(defi:Defi):Promise<MotClef[]>{
+  const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/chercher/allmc/'+defi.defi);
+  const data = await response.json();
+  this.MotClefsOfDefi.next( data as MotClef[] );
+  return data as MotClef[]
+}
+
+closeEditDefi() {
+  this.MotClefsOfDefi.next( [] );
+  this.QuestionsOfDefi.next( [] );
+  this.IndicesOfDefi.next( []);
 }
 
 async putDefi(defi: Defi): Promise<Defi> {
@@ -146,6 +181,17 @@ async postListIndice(listIndice:IndiceTmp[]): Promise<Indice[]> {
   return R;
 }
 
+async deleteIndicesOfDefi(idDefi:string) {
+  console.log('Je suis dans la suppression des indices de un defi');
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/indice/deleteallindice/"+idDefi,
+  {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+  });
+}
+
 async postListQuestion(listQuestion:QuestionTmp[]): Promise<Question[]> {
   console.log('Je suis dans la création des questions : ', listQuestion);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/question/list",
@@ -159,6 +205,30 @@ async postListQuestion(listQuestion:QuestionTmp[]): Promise<Question[]> {
   const R =  await res.json();
   console.log(listQuestion, "=>", R);
   return R;
+}
+
+async deleteQuestionsOfDefi(idDefi:string) {
+  console.log('Je suis dans la suppression des questions de un defi');
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/question/deleteallquestion/"+idDefi,
+  {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body:""
+  });
+}
+
+async deleteMotsClefsOfDefi(idDefi:string) {
+  console.log('Je suis dans la suppression des motsClefs de un defi');
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/question/deleteallmc/"+idDefi,
+  {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body:""
+  });
 }
 
 }

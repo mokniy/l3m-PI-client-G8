@@ -42,7 +42,9 @@ export class FicheDefiComponent implements OnInit {
     this.affichageDuDefi = {
       lArret : arret,
       leDefi : this.defiRecu,
-      lesMotsClefs : motClef
+      lesMotsClefs : motClef,
+      lesIndices : [],
+      lesQuestions : []
     }
     this.defiAfficheSubj.next(this.affichageDuDefi);
   }

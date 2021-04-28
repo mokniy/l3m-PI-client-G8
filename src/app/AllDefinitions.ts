@@ -123,4 +123,6 @@ export interface AffichageDefi {
   readonly leDefi:Defi;
   readonly lArret: Arret;
   readonly lesMotsClefs: MotClef[]
+  readonly lesQuestions: Question[]
+  readonly lesIndices: Indice[]
 }
