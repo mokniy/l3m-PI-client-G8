@@ -1,7 +1,7 @@
 import { Chami, DefiTmp, MotClefTmp } from './../AllDefinitions';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Arret, Defi, Indice, IndiceTmp } from '../AllDefinitions';
+import { Arret, Defi, Indice, IndiceTmp, QuestionTmp } from '../AllDefinitions';
 import { MapService } from '../map.service';
 import { DefiService } from './../defi.service';
 
@@ -15,18 +15,87 @@ export class CreaDefiComponent implements OnInit {
   @ViewChild('indice') indiceSaisie!: ElementRef;
   @ViewChild('points') indicePointsSaisie!: ElementRef;
 
+  @ViewChild('question') questionSaisie!: ElementRef;
+  @ViewChild('secret') secretSaisie!: ElementRef;
+  @ViewChild('pointsQuestion') questionPointsSaisie!: ElementRef;
+
   public createDefi=false;
   public createArret=false;
   public editArret=false;
   public labelEdited:string="";
   public indices: IndiceTmp[]=[];
+  public questions: QuestionTmp[]=[];
+  public labelEditedQuestion:string="";
+
+
+  addQuestion(question:string,secret:string,points:string){
+this.questions.push({
+  label_qst:"Q"+(this.questions.length+1),
+  description_qst: question,
+  secret_qst:secret,
+  points_qst:+points
+  })
+  this.questionSaisie.nativeElement.value = '';
+  this.questionPointsSaisie.nativeElement.value ='';
+  this.secretSaisie.nativeElement.value = '';
+  }
+
+  deleteQuestion(index:number){
+    this.questions.splice(index,1);
+  }
+
+  editModeQuestion(label:string): void {
+    this.labelEditedQuestion=label;
+  }
+  editQuestionAnnule() :void{
+    this.labelEditedQuestion="";
+  }
+
+  editQuestion(question:string, index:number) :void{
+    this.questions[index]={
+      label_qst:"Q"+(index+1),
+      description_qst: question,
+      secret_qst: this.questions[index].secret_qst,
+      points_qst: this.questions[index].points_qst,
+    };
+    this.labelEditedQuestion="";
+
+    console.log(this.questions);
+  }
+
+  editQuestionPoints(points:string, index:number) :void{
+    this.questions[index]={
+      label_qst:"Q"+(index+1),
+      description_qst: this.questions[index].description_qst,
+      secret_qst: this.questions[index].secret_qst,
+      points_qst: +points,
+    };
+    this.labelEditedQuestion="";
+
+    console.log(this.questions);
+  }
+
+  editSecret(secret:string, index:number) :void{
+    this.questions[index]={
+      label_qst:"Q"+(index+1),
+      description_qst: this.questions[index].description_qst,
+      secret_qst: secret,
+      points_qst: this.questions[index].points_qst,
+    };
+    this.labelEditedQuestion="";
+
+    console.log(this.questions);
+  }
+
 
   viderListe():void{
     this.indices = [];
   }
+  viderListeQuestion():void{
+    this.questions = [];
+  }
 
   addElement(element:string, points:string){
-
     this.indices.push({
       label_ind:"I"+(this.indices.length+1),
       description_ind: element,
@@ -185,6 +254,15 @@ export class CreaDefiComponent implements OnInit {
           });
           await this.defiService.postListIndice(this.indices);
           this.viderListe();
+        }
+
+        if(this.questions.length !== 0) {
+          //GENERATION SYSTEME QUESTION
+          this.questions.forEach(element => {
+            element.id_defi=rep.defi
+          });
+          await this.defiService.postListQuestion(this.questions);
+          this.viderListeQuestion();
         }
 
   }

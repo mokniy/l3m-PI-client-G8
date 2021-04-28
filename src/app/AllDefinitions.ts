@@ -43,11 +43,6 @@ export interface DefiTmp {
   readonly commentaire:string;
 }
 
-export interface DefiAffichage {
-  motsClefs: MotClef[];
-  defi: Defi;
-}
-
 export interface Arret {
   readonly code : string;
   readonly lib_arret: string;
@@ -105,4 +100,27 @@ export interface Indice{
   readonly description_ind:string;
   readonly points_ind:number;
   readonly id_defi:string;
+}
+
+export interface Question {
+  readonly id_qst:string;
+  readonly label_qst:string;
+  readonly description_qst:string;
+  readonly secret_qst:string;
+  readonly points_qst:number;
+  readonly id_defi:string;
+}
+
+export interface QuestionTmp {
+  readonly label_qst:string;
+  readonly description_qst:string;
+  readonly secret_qst:string;
+  readonly points_qst: number;
+  id_defi?:string;
+}
+
+export interface AffichageDefi {
+  readonly leDefi:Defi;
+  readonly lArret: Arret;
+  readonly lesMotsClefs: MotClef[]
 }

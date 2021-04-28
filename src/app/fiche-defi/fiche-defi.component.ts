@@ -1,6 +1,8 @@
+import { MapService } from './../map.service';
 import { DefiService } from './../defi.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { Defi, DefiAffichage } from '../AllDefinitions';
+import { AffichageDefi, Defi, MotClef, Arret } from '../AllDefinitions';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-fiche-defi',
@@ -9,40 +11,39 @@ import { Defi, DefiAffichage } from '../AllDefinitions';
 })
 export class FicheDefiComponent implements OnInit {
 
-  public motsClefs:string="ezaeza";
 
+  private defiAfficheSubj = new Subject<AffichageDefi>();
+  readonly defiAfficheObs = this.defiAfficheSubj.asObservable();
 
-  @Input() defiRecu: Defi = {
-    defi: "-1",
-    titre: "",
-    dateDeCreation: "",
-    description: "",
-    auteur: "",
-    code_arret: "",
-    type: "",
-    dateDeModification: "",
-    version: -1,
-    arret: "",
-    points: -1,
-    duree: "",
-    prologue: "",
-    epilogue: "",
-    commentaire: ""
-  }
+  private affichageDuDefi!:AffichageDefi
 
-  public defiAffiche:DefiAffichage = {
-    defi:this.defiRecu,
-    motsClefs:[]
-  };
+  @Input() defiRecu !: Defi;
 
-  constructor(private defiService : DefiService) {
+  constructor(private defiService : DefiService, private mapService : MapService) {
   }
 
   ngOnInit() {
+    this.initFiche()
   }
 
-  async recupMotClef() {
-      this.defiAffiche.motsClefs =  await this.defiService.recupererMotClefUnDefi(this.defiRecu.defi);
+  async recupMotClef():Promise<MotClef[]>{
+    const lesMotsClefs = await this.defiService.recupererMotClefUnDefi(this.defiRecu.defi);
+    return lesMotsClefs
   }
 
+  async recupArret():Promise<Arret>{
+    const arret = await this.mapService.recupUnArret(this.defiRecu.code_arret);
+    return arret
+  }
+
+  async initFiche() {
+    const arret = await this.recupArret()
+    const motClef = await this.recupMotClef()
+    this.affichageDuDefi = {
+      lArret : arret,
+      leDefi : this.defiRecu,
+      lesMotsClefs : motClef
+    }
+    this.defiAfficheSubj.next(this.affichageDuDefi);
+  }
 }

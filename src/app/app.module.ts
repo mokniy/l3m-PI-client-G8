@@ -19,14 +19,18 @@ import {FormsModule} from '@angular/forms';
 import { MapComponent } from './map/map.component'
 import { CreaDefiComponent } from './crea-defi/crea-defi.component';
 import { FicheDefiComponent } from './fiche-defi/fiche-defi.component';
+import { GestProfilComponent } from './gest-profil/gest-profil.component';
+import { EditDefiComponent } from './edit-defi/edit-defi.component';
 
 
 @NgModule({
-  declarations: [		
+  declarations: [				
     AppComponent,
     MapComponent,
       CreaDefiComponent,
-      FicheDefiComponent
+      FicheDefiComponent,
+      GestProfilComponent,
+      EditDefiComponent
    ],
   imports: [
     BrowserModule,

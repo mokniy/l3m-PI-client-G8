@@ -166,4 +166,12 @@ async putArret(arret: Arret): Promise<Arret> {
   return res.json();
 }
 
+/////////RECUPERATION UN ARRET
+
+async recupUnArret(code_arret: string): Promise<Arret> {
+  console.log(code_arret);
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/arret/"+code_arret);
+  console.log(res.json);
+  return res.json();
+}
 }

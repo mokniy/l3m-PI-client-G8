@@ -1,12 +1,12 @@
-    <div *ngIf="defiRecu !== undefined">
+    <div *ngIf="defiAfficheObs | async as defiAffiche">
       <br/>
       <div class="card border-dark mb-6" >
         <div class="card-header">Défi : <b>{{defiRecu.defi}}</b> réalisé par <b>{{defiRecu.auteur}}</b>.</div>
         <div class="card-body text-dark">
-          <footer class="blockquote-footer">Distanciel : </footer>
           <h5 class="card-title" >{{defiRecu.titre}}</h5>
+          <a href="{{defiAffiche.lArret.streetMap}}" target="_blank"> <small >Jouer à distance !</small></a>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <p><small>Mot-clef associé au défi : {{defiAffiche.motsClefs[0]}}</small></p>
+          <p><small>Mot-clef associé au défi : {{defiAffiche.lesMotsClefs[0].mot_mc}}</small></p>
         </div>
       </div>
     </div>

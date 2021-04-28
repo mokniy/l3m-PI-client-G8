@@ -1,4 +1,3 @@
-import { DefiService } from './../defi.service';
 import { Component, OnInit } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { Observable } from 'rxjs';

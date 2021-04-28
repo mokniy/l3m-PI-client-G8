@@ -1,0 +1,56 @@
+<section *ngIf="userRecu.chami !== undefined">
+  <h4>Mise à jour des informations du profil.</h4>
+  <form
+    (ngSubmit)="
+      updateUser(
+        InputAge.value,
+        InputVille.value,
+        InputDescription.value,
+        InputMail.value
+      )
+    "
+  >
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Age : </label>
+        <input
+          #InputAge
+          class="form-control"
+          name="InputAge"
+          type="number"
+          placeholder="Age"
+          value="{{ userRecu.chami.age }}"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Ville : </label>
+        <input
+          #InputVille
+          class="form-control"
+          name="InputVille"
+          type="text"
+          placeholder="Ville"
+          value="{{ userRecu.chami.ville }}"
+        />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description : </label>
+      <textarea
+        #InputDescription
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        value="{{ userRecu.chami.description }}"
+        rows="3"
+      ></textarea>
+    </div>
+    <input
+      hidden
+      #InputMail
+      name="InputMail"
+      type="text"
+      value="{{ userRecu.oauthUser.email }}"
+    />
+    <input class="btn btn-secondary" type="submit" />
+  </form>
+</section>

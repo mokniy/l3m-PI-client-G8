@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp, Indice, IndiceTmp } from "./AllDefinitions";
+import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp, Indice, IndiceTmp, QuestionTmp, Question } from "./AllDefinitions";
 
 @Injectable({
   providedIn: 'root'
@@ -143,6 +143,21 @@ async postListIndice(listIndice:IndiceTmp[]): Promise<Indice[]> {
   });
   const R =  await res.json();
   console.log(listIndice, "=>", R);
+  return R;
+}
+
+async postListQuestion(listQuestion:QuestionTmp[]): Promise<Question[]> {
+  console.log('Je suis dans la création des questions : ', listQuestion);
+  const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/question/list",
+  {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(listQuestion)
+  });
+  const R =  await res.json();
+  console.log(listQuestion, "=>", R);
   return R;
 }
 

@@ -1,0 +1,70 @@
+<h4>Voici vos défis, pour en modifier un il suffit de cliquer dessus !</h4>
+<table class="table" *ngIf="obsChallUser | async as Defis" class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th>Defi</th>
+      <th>titre</th>
+      <th>description</th>
+      <th>auteur</th>
+      <th>dateCreation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr (click)="editedModeForDefi(Defi)" *ngFor="let Defi of Defis">
+      <td>{{ Defi.defi }}</td>
+      <td>{{ Defi.titre }}</td>
+      <td>{{ Defi.description }}</td>
+      <td>{{ Defi.auteur }}</td>
+      <td>{{ Defi.dateDeCreation }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--METTRE EN PLACE DES PARTIALS-->
+<!--METTRE EN PLACE LIST ARRET-->
+<section *ngIf="defi_edited !== null">
+  <form (ngSubmit)="updateDefi(defi_edited.defi,titreDefi.value,defi_edited.dateDeCreation, descriptionDefi.value,defi_edited.auteur,defi_edited.code_arret,defi_edited.type, versionDefi.value,defi_edited.arret, pointsDefi.value, dureeDefi.value, prologueDefi.value, epilogueDefi.value, commentaireDefi.value)">
+    <hr />
+    <h3 style="text-align: center;"><b>Edition du défi : {{ defi_edited.defi }}</b></h3>
+    <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Titre : </label>
+      <input #titreDefi class="form-control" name="titreDefi" type="text" placeholder="Titre" value="{{ defi_edited.titre }}" />
+    </div>
+    </div>
+    <div class="form-group">
+      <label>Description : </label>
+      <textarea #descriptionDefi class="form-control" name="InputDescription" value="{{ defi_edited.description }}" rows="3"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Version : </label>
+        <input #versionDefi class="form-control" name="versionDefi" type="number" placeholder="Version" value="{{ defi_edited.version }}"  />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Points : </label>
+        <input #pointsDefi class="form-control" name="pointsDefi" type="number" placeholder="Points" value="{{ defi_edited.points }}" />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Durée : </label>
+        <input #dureeDefi class="form-control" name="dureeDefi" type="text" placeholder="Durée" value="{{ defi_edited.duree }}" />
+      </div>
+    </div>
+
+    <label>Prologue : </label>
+    <textarea #prologueDefi class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{ defi_edited.prologue }}" ></textarea>
+
+    <label>Epilogue : </label>
+    <textarea #epilogueDefi class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{ defi_edited.epilogue }}" ></textarea>
+
+    <label>Commentaire : </label>
+    <textarea #commentaireDefi class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{ defi_edited.commentaire }}" ></textarea>
+
+
+    <br/>
+    <button class="btn btn-outline-success" type="submit"><i class="fa fa-check "></i>Modifier</button>
+  </form>
+  <br/>
+  <button (click)="deleteDefi(defi_edited)" class="btn btn-outline-danger"><i class="fa fa-trash"></i>Supprimer</button>
+</section>

@@ -3,14 +3,16 @@
 <button type="button" (click)="modeCreateArret()" class="btn btn-secondary btn-lg btn-block">Créer un arrêt</button>
 <button type="button" (click)="modeCreateDefi()" class="btn btn-secondary btn-lg btn-block">Créer un défi</button>
 <button type="button" (click)="modeEditArret()" class="btn btn-primary btn-lg btn-block">Editer un arrêt</button>
-<!--
-  <div class="form-group">
-    <label for="exampleInputEmail1">Indice</label>
-    <input type="text" #indice class="form-control" placeholder="Indice">
+
+ <!--<div class="form-group">
+    <label for="exampleInputEmail1">Question</label>
+    <input type="text" #question class="form-control" placeholder="Question">
     <br/>
-    <input type="number" #points class="form-control" placeholder="Points">
+    <input type="text" #secret class="form-control" placeholder="Secret">
+    <br/>
+    <input type="number" #pointsQuestion class="form-control" placeholder="Points">
   </div>
-  <button class="btn btn-secondary"(click)="addElement(indice.value,points.value)">Ajouter</button>
+  <button class="btn btn-secondary"(click)="addQuestion(question.value,secret.value,pointsQuestion.value)">Ajouter</button>
 
 <br>
 <div class="table-responsive-lg">
@@ -18,25 +20,33 @@
   <thead>
     <tr>
       <th scope="col">Label</th>
-      <th scope="col">Indice</th>
+      <th scope="col">Question</th>
+      <th scope="col">Secret</th>
       <th scope="col">Points</th>
       <th scope="col">Modifier</th>
       <th scope="col">Supprimer</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let indice of indices; let index = index;">
-      <th scope="row">{{index}}</th>
-      <td *ngIf="indiceEdited!==indice.description" (dblclick)="editMode(indice.description)">{{indice.description}} </td>
-      <td *ngIf="indiceEdited===indice.description"><input type="text" #newIndice value="{{indice.description}}">
-        <button type="submit" class="btn btn-outline-success" (click)="editIndice(newIndice.value,index)">Valider</button></td>
-        <td *ngIf="indiceEdited!==indice.description" (dblclick)="editMode(indice.description)">{{indice.points}} </td>
-        <td *ngIf="indiceEdited===indice.description"><input type="text" #newPoints value="{{indice.points}}">
-          <button type="submit" class="btn btn-outline-success" (click)="editIndicePoints(newPoints.value,index)">Valider</button></td>
-      <td *ngIf="indiceEdited!==indice.description"><button type="submit" class="btn btn-outline-secondary" (click)="editMode(indice.description)">Editer</button></td>
-      <td *ngIf="indiceEdited===indice.description"><button type="submit" class="btn btn-outline-warning  " (click)="editIndiceAnnule()">Annuler</button></td>
+    <tr *ngFor="let question of questions; let index = index;">
+      <th scope="row">{{question.label_qst}}</th>
+      <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.description_qst}} </td>
+      <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newQuestion value="{{question.description_qst}}">
+        <button type="submit" class="btn btn-outline-success" (click)="editQuestion(newQuestion.value,index)">Valider</button></td>
+
+        <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.secret_qst}} </td>
+      <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newSecret value="{{question.secret_qst}}">
+        <button type="submit" class="btn btn-outline-success" (click)="editSecret(newSecret.value,index)">Valider</button></td>
+
+
+        <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editModeQuestion(question.description_qst)">{{question.points_qst}} </td>
+        <td *ngIf="labelEditedQuestion===question.description_qst"><input type="number" #newPointsQuestion value="{{question.points_qst}}">
+          <button type="submit" class="btn btn-outline-success" (click)="editQuestionPoints(newPointsQuestion.value,index)">Valider</button></td>
+
+      <td *ngIf="labelEditedQuestion!==question.description_qst"><button type="submit" class="btn btn-outline-secondary" (click)="editModeQuestion(question.description_qst)">Editer</button></td>
+      <td *ngIf="labelEditedQuestion===question.description_qst"><button type="submit" class="btn btn-outline-warning  " (click)="editQuestionAnnule()">Annuler</button></td>
       <td>
-        <button class="btn btn-outline-danger" (click)="deleteElement(index)">Supprimer</button>
+        <button class="btn btn-outline-danger" (click)="deleteQuestion(index)">Supprimer</button>
       </td>
     </tr>
   </tbody>
@@ -283,6 +293,61 @@
 
 
       </div>
+
+
+      <!-- ################################QUESTION################################ -->
+      <div class="form-group">
+        <label for="exampleInputEmail1">Question</label>
+        <input type="text" #question class="form-control" placeholder="Question">
+        <br/>
+        <input type="text" #secret class="form-control" placeholder="Secret">
+        <br/>
+        <input type="number" #pointsQuestion class="form-control" placeholder="Points">
+      </div>
+      <input type="button" value="Ajouter" class="btn btn-secondary"(click)="addQuestion(question.value,secret.value,pointsQuestion.value)"/>
+
+    <br>
+    <div class="table-responsive-lg">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Label</th>
+          <th scope="col">Question</th>
+          <th scope="col">Secret</th>
+          <th scope="col">Points</th>
+          <th scope="col">Modifier</th>
+          <th scope="col">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let question of questions; let index = index;">
+          <th scope="row">{{question.label_qst}}</th>
+          <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.description_qst}} </td>
+          <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newQuestion value="{{question.description_qst}}">
+            <button type="submit" class="btn btn-outline-success" (click)="editQuestion(newQuestion.value,index)">Valider</button></td>
+
+            <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.secret_qst}} </td>
+          <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newSecret value="{{question.secret_qst}}">
+            <button type="submit" class="btn btn-outline-success" (click)="editSecret(newSecret.value,index)">Valider</button></td>
+
+
+            <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editModeQuestion(question.description_qst)">{{question.points_qst}} </td>
+            <td *ngIf="labelEditedQuestion===question.description_qst"><input type="number" #newPointsQuestion value="{{question.points_qst}}">
+              <button type="submit" class="btn btn-outline-success" (click)="editQuestionPoints(newPointsQuestion.value,index)">Valider</button></td>
+
+          <td *ngIf="labelEditedQuestion!==question.description_qst"><button type="submit" class="btn btn-outline-secondary" (click)="editModeQuestion(question.description_qst)">Editer</button></td>
+          <td *ngIf="labelEditedQuestion===question.description_qst"><button type="submit" class="btn btn-outline-warning  " (click)="editQuestionAnnule()">Annuler</button></td>
+          <td>
+            <button class="btn btn-outline-danger" (click)="deleteQuestion(index)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <!-- ################################QUESTION################################ -->
+
+
+
 <!-- ################################INDICE################################ -->
       <div class="form-group">
         <label for="exampleInputEmail1">Indice</label>
@@ -306,7 +371,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let indice of indices; let index = index;">
-          <th scope="row">{{index}}</th>
+          <th scope="row">{{indice.label_ind}}</th>
           <td *ngIf="labelEdited!==indice.label_ind" (dblclick)="editMode(indice.label_ind)">{{indice.description_ind}} </td>
           <td *ngIf="labelEdited===indice.label_ind"><input type="text" #newIndice value="{{indice.description_ind}}">
             <button  class="btn btn-outline-success" (click)="editIndice(newIndice.value,index)">Valider</button></td>
