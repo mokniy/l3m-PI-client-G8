@@ -1,4 +1,4 @@
-import { Chami, DefiTmp, MotClefTmp } from './../AllDefinitions';
+import { Chami, createMotClefTmp, DefiTmp, escape_quote, MotClefTmp } from './../AllDefinitions';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Arret, Defi, Indice, IndiceTmp, QuestionTmp } from '../AllDefinitions';
@@ -28,13 +28,11 @@ export class CreaDefiComponent implements OnInit {
   public labelEditedQuestion:string="";
 
 
+/////QUESTION
+
+
   addQuestion(question:string,secret:string,points:string){
-this.questions.push({
-  label_qst:"Q"+(this.questions.length+1),
-  description_qst: question,
-  secret_qst:secret,
-  points_qst:+points
-  })
+  this.questions.push(this.defiService.addQuestionService(question,secret,points,this.questions.length))
   this.questionSaisie.nativeElement.value = '';
   this.questionPointsSaisie.nativeElement.value ='';
   this.secretSaisie.nativeElement.value = '';
@@ -44,20 +42,9 @@ this.questions.push({
     this.questions.splice(index,1);
   }
 
-  editModeQuestion(label:string): void {
-    this.labelEditedQuestion=label;
-  }
-  editQuestionAnnule() :void{
-    this.labelEditedQuestion="";
-  }
 
   editQuestion(question:string, index:number) :void{
-    this.questions[index]={
-      label_qst:"Q"+(index+1),
-      description_qst: question,
-      secret_qst: this.questions[index].secret_qst,
-      points_qst: this.questions[index].points_qst,
-    };
+    this.questions[index]=this.defiService.editQuestionService(question, this.questions[index]);
     this.labelEditedQuestion="";
 
     console.log(this.questions);
@@ -86,6 +73,15 @@ this.questions.push({
 
     console.log(this.questions);
   }
+
+  editModeQuestion(label:string): void {
+    this.labelEditedQuestion=label;
+  }
+
+  editQuestionAnnule() :void{
+    this.labelEditedQuestion="";
+  }
+  ///// FIN QUESTION
 
 
   viderListe():void{
@@ -121,7 +117,7 @@ this.questions.push({
   editIndice(indice:string, index:number) :void{
     this.indices[index]={
       label_ind:"I"+(index+1),
-      description_ind: indice,
+      description_ind: indice.replace(/'/g,"''"),
       points_ind: this.indices[index].points_ind,
     };
     this.labelEdited="";
@@ -200,48 +196,40 @@ this.questions.push({
 
   //METTRE EN PLACE MOT CLEF PUIS METTRE EN PLACE LA CREATION DE QUESTION/INDICE
   async creationDefi(defiTitre:string, defiType : string,arretInfo:string,descriptionSaisie:string, versionSaisie: string, pointsSaisie :string, dureeSaisie: string, prologueSaisie: string, epilogueSaisie: string, commentaireSaisie:string, motClefSaisie:string) {
-    console.log("rezrzerze")
     const arretInfoSplited = arretInfo.trim().split(",")
     const dateObject = new Date(new Date().getTime())
     let d : DefiTmp = {
-      titre: defiTitre.replace("'","''"),
+      titre: escape_quote(defiTitre),
       dateDeCreation: dateObject.toLocaleString(),
-      description:descriptionSaisie.replace("'","''"),
+      description:escape_quote(descriptionSaisie),
       auteur:this.userConnected.pseudo,
       code_arret:arretInfoSplited[2].trim(),
-      type:defiType.replace("'","''"),
+      type:escape_quote(defiType),
       dateDeModification: '',
       version: +versionSaisie,
-      arret: arretInfoSplited[2].trim().replace("'","''"),
+      arret: escape_quote(arretInfoSplited[2].trim()),
       points: +pointsSaisie,
-      duree: dureeSaisie.replace("'","''"),
-      prologue: prologueSaisie.replace("'","''"),
-      epilogue: epilogueSaisie.replace("'","''"),
-      commentaire: commentaireSaisie.replace("'","''")
+      duree: escape_quote(dureeSaisie),
+      prologue: escape_quote(prologueSaisie),
+      epilogue: escape_quote(epilogueSaisie),
+      commentaire: escape_quote(commentaireSaisie)
     }
     const rep = await this.defiService.postDefi(d);
     this.MapService.recupArretAvecDefiAPIPerso();
     this.createDefi=false;
     this.closeChoiceArretInBDD();
 
-    console.log("ID CREER : "+rep.defi);
-
     //ON COUPE LA CHAINE DE CARACT DES MOTS CLEFS
-      const lesMotsClefs = motClefSaisie.trim().toLowerCase().replace("'","''").split(" ").filter(
+      const lesMotsClefs = motClefSaisie.trim().toLowerCase().replace(/'/g,"''").split(" ").filter(
         function(elem, index, self) {
         return index === self.indexOf(elem);
        }).map( x =>
-        this.createMotClefTmp(x)
+          createMotClefTmp(x)
         )
 
         if(lesMotsClefs.length > 1 || (lesMotsClefs.length === 1 && lesMotsClefs[0].mot_mc !== "") ) {
-          console.log(lesMotsClefs);
-          console.log("Liste mot clef : "+lesMotsClefs+" size : "+lesMotsClefs.length);
           //GENERATION SYSTEME MOT CLE
-          console.log("debut")
           const MotClefInBDD = await this.defiService.postListMotClef(lesMotsClefs)
-          console.log("fin");
-          console.log(lesMotsClefs, "et", MotClefInBDD, ".");
           MotClefInBDD.forEach(  async element => {
             await this.defiService.postChercher({id_defi:rep.defi,id_mc:element.id_mc})
           });
@@ -252,6 +240,7 @@ this.questions.push({
           this.indices.forEach(element => {
             element.id_defi=rep.defi
           });
+          this.indices.forEach(element => element.label_ind = "I"+(this.indices.indexOf(element)+1))
           await this.defiService.postListIndice(this.indices);
           this.viderListe();
         }
@@ -261,21 +250,18 @@ this.questions.push({
           this.questions.forEach(element => {
             element.id_defi=rep.defi
           });
+          this.questions.forEach(element => element.label_qst = "Q"+(this.questions.indexOf(element)+1))
           await this.defiService.postListQuestion(this.questions);
           this.viderListeQuestion();
         }
 
   }
 
-  createMotClefTmp(s:string):MotClefTmp {
-    return {mot_mc:s}
-  }
-
   creationArret(streetMapSaisie:string,arretInfo:string) {
     const arretInfoSplited = arretInfo.trim().split(",")
     let a : Arret = {
       code: arretInfoSplited[2].trim(),
-      lib_arret: arretInfoSplited[1].trim().replace("'","''"),
+      lib_arret: arretInfoSplited[1].trim().replace(/'/g,"''"),
       streetMap: streetMapSaisie
     }
     this.MapService.postArret(a);
@@ -287,7 +273,7 @@ this.questions.push({
     const arretInfoSplited = arretInfo.trim().split(",")
     let a : Arret = {
       code: arretInfoSplited[2].trim(),
-      lib_arret: arretInfoSplited[1].trim().replace("'","''"),
+      lib_arret: arretInfoSplited[1].trim().replace(/'/g,"''"),
       streetMap: streetMapSaisie
     }
     this.MapService.putArret(a);

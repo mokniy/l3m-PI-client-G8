@@ -1,0 +1,7 @@
+<!--REALISATION DUNE VISITE-->
+  <div *ngIf="obsVisite !== undefined">
+    <span *ngIf="obsVisite | async as uneVisite">
+      {{uneVisite | json}}
+    </span>
+  </div>
+<!--FIN REALISATION DUNE VISITE-->

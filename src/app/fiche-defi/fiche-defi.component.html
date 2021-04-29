@@ -1,23 +1,62 @@
-<div *ngIf="defiAfficheObs | async as defiAffiche">
+<div *ngIf="affichageDuDefi !== undefined">
   <br/>
   <div class="card border-dark mb-6" >
-    <div class="card-header">Défi : <b>{{defiRecu.defi}}</b> réalisé par <b>{{defiRecu.auteur}}</b>.</div>
+    <div class="card-header">Défi : <b>{{affichageDuDefi.leDefi.defi}} - {{affichageDuDefi.leDefi.titre}}</b> réalisé par <b>{{affichageDuDefi.leDefi.auteur}}</b>.</div>
     <div class="card-body text-dark" style="padding: 5px;">
 
-      <h5 style="margin-bottom: 3px;" class="card-title" >{{defiRecu.titre}}</h5>
-
-      <small>Type : {{defiAffiche.leDefi.type}}</small>
+      <small>Type : {{affichageDuDefi.leDefi.type}}</small>
       -
-      <a *ngIf='defiAffiche.lArret.streetMap !== ""' href="{{defiAffiche.lArret.streetMap}}" target="_blank"> <small >Arrêt : {{defiAffiche.lArret.lib_arret}} , Jouer à distance !</small></a>
-
+      <a *ngIf='affichageDuDefi.lArret.streetMap !== ""' href="{{affichageDuDefi.lArret.streetMap}}" target="_blank"> <small >Arrêt : {{affichageDuDefi.lArret.lib_arret}} , Jouer à distance !</small></a>
       <br/>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <div class="container">
+        <div class="row">
+          <div class="col-8">
+            <div class="card-text">
+              <h6>Description: </h6>
+              <p style="white-space:pre-wrap">{{affichageDuDefi.leDefi.description}}</p>
+            </div>
 
-      <div style="margin-top: 0px;" *ngIf='defiAffiche.leDefi.dateDeModification === ""; then thenBlock else elseBlock'></div>
-      <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{defiAffiche.leDefi.dateDeCreation}}. Aucune modification.</small></p></ng-template>
-      <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{defiAffiche.leDefi.dateDeCreation}} - Derniére modification : {{defiAffiche.leDefi.dateDeModification}}.</small></p></ng-template>
+            <div class="card-text">
+              <h6>Prologue: </h6>
+              <p style="white-space:pre" >{{affichageDuDefi.leDefi.prologue}}</p>
+            </div>
 
-      <p *ngIf="defiAffiche.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{defiAffiche.lesMotsClefs[0].mot_mc}}</small></p>
+
+            <div class="card-text">
+              <h6>Epilogue: </h6>
+              <p style="white-space:pre" >{{affichageDuDefi.leDefi.epilogue}}</p>
+            </div>
+
+
+            <div class="card-text">
+              <h6>Commentaire: </h6>
+              <p style="white-space:pre" >{{affichageDuDefi.leDefi.commentaire}}</p>
+            </div>
+
+          </div>
+          <div class="col-4">
+            <div class="card-text">
+              <h6>Points: {{affichageDuDefi.leDefi.points}}</h6>
+            </div>
+
+            <div class="card-text">
+              <h6>Durée: {{affichageDuDefi.leDefi.duree}}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+      <div style="margin-top: 0px;" *ngIf='affichageDuDefi.leDefi.dateDeModification === ""; then thenBlock else elseBlock'></div>
+      <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{affichageDuDefi.leDefi.dateDeCreation}}.</small></p></ng-template>
+      <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{affichageDuDefi.leDefi.dateDeCreation}} - Derniere modification : {{affichageDuDefi.leDefi.dateDeModification}}.</small></p></ng-template>
+
+      <p *ngIf="affichageDuDefi.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{affichageDuDefi.lesMotsClefs[0].mot_mc}}</small></p>
     </div>
   </div>
 </div>

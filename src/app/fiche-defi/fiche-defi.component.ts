@@ -2,7 +2,7 @@ import { MapService } from './../map.service';
 import { DefiService } from './../defi.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { AffichageDefi, Defi, MotClef, Arret } from '../AllDefinitions';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-fiche-defi',
@@ -11,41 +11,32 @@ import { Subject } from 'rxjs';
 })
 export class FicheDefiComponent implements OnInit {
 
-
-  private defiAfficheSubj = new Subject<AffichageDefi>();
-  readonly defiAfficheObs = this.defiAfficheSubj.asObservable();
-
-  private affichageDuDefi!:AffichageDefi
-
-  @Input() defiRecu !: Defi;
+  public affichageDuDefi!:AffichageDefi
 
   constructor(private defiService : DefiService, private mapService : MapService) {
+    this.mapService.obsDefiAffiche.subscribe(async x =>
+      this.affichageDuDefi = {
+        lArret : await this.recupArret(x.code_arret),
+        leDefi : x,
+        lesMotsClefs : await this.recupMotClef(x.defi),
+      })
   }
 
   ngOnInit() {
-    this.initFiche()
   }
 
-  async recupMotClef():Promise<MotClef[]>{
-    const lesMotsClefs = await this.defiService.recupererMotClefUnDefi(this.defiRecu.defi);
+  get obsDefiAffiche(): Observable<Defi> {
+    return this.mapService.obsDefiAffiche;
+  }
+
+  async recupMotClef(id_defi:string):Promise<MotClef[]>{
+    const lesMotsClefs = await this.defiService.recupererMotClefUnDefi(id_defi);
     return lesMotsClefs
   }
 
-  async recupArret():Promise<Arret>{
-    const arret = await this.mapService.recupUnArret(this.defiRecu.code_arret);
+  async recupArret(code_arret:string):Promise<Arret>{
+    const arret = await this.mapService.recupUnArret(code_arret);
     return arret
   }
 
-  async initFiche() {
-    const arret = await this.recupArret()
-    const motClef = await this.recupMotClef()
-    this.affichageDuDefi = {
-      lArret : arret,
-      leDefi : this.defiRecu,
-      lesMotsClefs : motClef,
-      lesIndices : [],
-      lesQuestions : []
-    }
-    this.defiAfficheSubj.next(this.affichageDuDefi);
-  }
 }

@@ -21,16 +21,18 @@ import { CreaDefiComponent } from './crea-defi/crea-defi.component';
 import { FicheDefiComponent } from './fiche-defi/fiche-defi.component';
 import { GestProfilComponent } from './gest-profil/gest-profil.component';
 import { EditDefiComponent } from './edit-defi/edit-defi.component';
+import { NewVisiteComponent } from './new-visite/new-visite.component';
 
 
 @NgModule({
-  declarations: [				
+  declarations: [					
     AppComponent,
     MapComponent,
       CreaDefiComponent,
       FicheDefiComponent,
       GestProfilComponent,
-      EditDefiComponent
+      EditDefiComponent,
+      NewVisiteComponent
    ],
   imports: [
     BrowserModule,

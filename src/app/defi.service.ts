@@ -32,15 +32,12 @@ constructor() {
 async getAllDefi(){
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/defis/');
   const data = await response.json();
-  //console.log(data)
   this.DefisSubj.next( data as Defi[]);
 }
 
 async getAllDefiOfAnUsers(user:Chami){
-  //console.log(user.pseudo)
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/defis/auteur/'+user.pseudo);
   const data = await response.json();
-  //console.log(data)
   this.DefisOfAnUser.next( data as Defi[] );
 }
 
@@ -57,11 +54,11 @@ async getAllQuestionsOfDefi(defi:Defi){
   this.QuestionsOfDefi.next( data as Question[] );
 }
 
-async getAllMotClefsOfDefi(defi:Defi):Promise<MotClef[]>{
+async getAllMotClefsOfDefi(defi:Defi):Promise<MotClefTmp[]>{
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/chercher/allmc/'+defi.defi);
   const data = await response.json();
   this.MotClefsOfDefi.next( data as MotClef[] );
-  return data as MotClef[]
+  return data as MotClefTmp[]
 }
 
 closeEditDefi() {
@@ -71,8 +68,6 @@ closeEditDefi() {
 }
 
 async putDefi(defi: Defi): Promise<Defi> {
-  console.log(JSON.stringify(defi));
-  console.log(defi.description);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/defis/"+defi.defi,
   {
       method: "PUT",
@@ -190,6 +185,7 @@ async deleteIndicesOfDefi(idDefi:string) {
         'Content-Type': 'application/json;charset=utf-8'
       },
   });
+  return res;
 }
 
 async postListQuestion(listQuestion:QuestionTmp[]): Promise<Question[]> {
@@ -217,6 +213,7 @@ async deleteQuestionsOfDefi(idDefi:string) {
       },
       body:""
   });
+  return res;
 }
 
 async deleteMotsClefsOfDefi(idDefi:string) {
@@ -229,7 +226,24 @@ async deleteMotsClefsOfDefi(idDefi:string) {
       },
       body:""
   });
+  return res;
+}
+
+///////////////////CREATION ET MODIFICATION QUESTION
+addQuestionService(question:string,secret:string,points:string,length:number):QuestionTmp {
+  return {
+    label_qst:"Q"+(length+1),
+    description_qst: question,
+    secret_qst:secret,
+    points_qst:+points
+    }
+}
+
+editQuestionService(question:string,questionOriginal:QuestionTmp):QuestionTmp {
+  return {
+    ...questionOriginal,
+    description_qst: question
+    }
 }
 
 }
-

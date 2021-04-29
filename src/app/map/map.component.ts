@@ -11,13 +11,8 @@ import { MapService } from '../map.service';
 })
 export class MapComponent implements OnInit {
   tileLayerUrl = OSM_TILE_LAYER_URL;
-  public defiExergue !: Defi|undefined;
 
   constructor(private MapService : MapService) {
-    if(this.defiExergue === undefined ){
-      console.log("Defi inexistant")
-    }
-    console.log(this.defiExergue)
   }
 
   ngOnInit(): void {
@@ -30,7 +25,6 @@ export class MapComponent implements OnInit {
 
   closeDefi(): void{
     this.MapService.closeDefi();
-    this.defiExergue = undefined;
   }
 
 ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
@@ -48,17 +42,15 @@ export class MapComponent implements OnInit {
 
   displayDefi(i: number) {
     this.MapService.displayDefi(i);
-    this.defiExergue = undefined;
   }
 
   getUrlMarker(nb_defi:number): string {
-    //console.log("'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png'");
     return "https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png";
   }
   ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
 
   ////////////////////////////////////AFFICHAGE DEFI
   tstAffichage(defi:Defi) {
-    this.defiExergue = defi;
+    this.MapService.newDefiAffiche(defi)
   }
 }

@@ -90,7 +90,7 @@
 </thead>
 <tbody>
   <tr *ngFor="let question of questionsEdit; let index = index;">
-    <th scope="row">{{question.label_qst}}</th>
+    <th scope="row">Q{{index+1}}</th>
     <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.description_qst}} </td>
     <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newQuestion value="{{question.description_qst}}">
       <button type="submit" class="btn btn-outline-success" (click)="editQuestion(newQuestion.value,index)">Valider</button></td>
@@ -141,7 +141,7 @@
 </thead>
 <tbody>
   <tr *ngFor="let indice of indicesEdit let index = index;">
-    <th scope="row">{{indice.label_ind}}</th>
+    <th scope="row">I{{index+1}}</th>
     <td *ngIf="labelEdited!==indice.label_ind" (dblclick)="editMode(indice.label_ind)">{{indice.description_ind}} </td>
     <td *ngIf="labelEdited===indice.label_ind"><input type="text" #newIndice value="{{indice.description_ind}}">
       <button  class="btn btn-outline-success" (click)="editIndice(newIndice.value,index)">Valider</button></td>

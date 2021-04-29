@@ -37,30 +37,26 @@
       >
         <span aria-hidden="true">&times;</span>
       </button>
-      <table class="table">
+      <table class="table table-hover" >
         <thead class="thead-dark">
           <tr>
             <th>Defi</th>
-            <th>titre</th>
-            <th>description</th>
-            <th>auteur</th>
-            <th>dateCreation</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Date de création</th>
           </tr>
         </thead>
         <tbody>
-          <tr (click)="tstAffichage(Defi)" *ngFor="let Defi of Defis">
+          <tr class="pointer" (click)="tstAffichage(Defi)" *ngFor="let Defi of Defis">
             <td>{{ Defi.defi }}</td>
             <td>{{ Defi.titre }}</td>
-            <td>{{ Defi.description }}</td>
             <td>{{ Defi.auteur }}</td>
             <td>{{ Defi.dateDeCreation }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div *ngIf="defiExergue !== undefined">
-      <app-fiche-defi [defiRecu]="defiExergue" ></app-fiche-defi>
-    </div>
+      <app-fiche-defi ></app-fiche-defi>
     <br/>
   </div>
 </mat-drawer-content>

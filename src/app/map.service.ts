@@ -174,4 +174,14 @@ async recupUnArret(code_arret: string): Promise<Arret> {
   console.log(res.json);
   return res.json();
 }
+
+/////////////////////////////////////////
+
+private defiAfficheSubj = new Subject<Defi>();
+readonly obsDefiAffiche = this.defiAfficheSubj.asObservable();
+
+newDefiAffiche(d:Defi) {
+  this.defiAfficheSubj.next(d)
+}
+
 }

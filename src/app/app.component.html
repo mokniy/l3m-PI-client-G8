@@ -169,11 +169,14 @@
       {{ tst | async | json }}
       <br />
 
-      Notre user : {{ obsUser | async | json }}
+      <!--Notre user : {{ obsUser | async | json }}-->
       <br />
       <br />
       <br />
       <br />
+      <div *ngIf='defiNewVisite !== undefined '>
+        <app-new-visite [defiRecu]="defiNewVisite"></app-new-visite>
+      </div>
       <br />
       <br />
       <br />
@@ -182,3 +185,4 @@
 
   </mat-drawer-content>
 </mat-drawer-container>
+
