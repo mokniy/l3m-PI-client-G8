@@ -1,16 +1,28 @@
 <section *ngIf="userRecu.chami !== undefined">
   <h4>Mise à jour des informations du profil.</h4>
+  <p *ngIf="pseudoUsed">
+    Déjà utilisé !!!!
+  </p>
   <form
     (ngSubmit)="
       updateUser(
         InputAge.value,
         InputVille.value,
         InputDescription.value,
-        InputMail.value
+        InputMail.value,
+        InputPseudo.value
       )
     "
   >
     <div class="form-row">
+      <label>Pseudo : </label>
+      <input
+        #InputPseudo
+        class="form-control"
+        type="text"
+        placeholder="Pseudo"
+        value="{{ userRecu.chami.pseudo }}"
+      />
       <div class="form-group col-md-6">
         <label>Age : </label>
         <input

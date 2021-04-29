@@ -12,7 +12,7 @@ import { MapService } from '../map.service';
 export class MapComponent implements OnInit {
   tileLayerUrl = OSM_TILE_LAYER_URL;
 
-  constructor(private MapService : MapService) {
+  constructor(private mapService : MapService) {
   }
 
   ngOnInit(): void {
@@ -20,28 +20,28 @@ export class MapComponent implements OnInit {
 
 ///////////////////////////AFFICHAGE DEFI ARRET
   get obsUnArret(): Observable<Defi[]> {
-    return this.MapService.obsChallArret;
+    return this.mapService.obsChallArret;
   }
 
   closeDefi(): void{
-    this.MapService.closeDefi();
+    this.mapService.closeDefi();
   }
 
 ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
   get obsArrets(): Observable<ArretMap[]> {
-    return this.MapService.arretsObs;
+    return this.mapService.arretsObs;
   }
 
   get obsLignes(): Observable<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]> {
-    return this.MapService.lignesObs;
+    return this.mapService.lignesObs;
   }
 
   colorationLines(i: number): string | undefined {
-    return this.MapService.colorationLines(i);
+    return this.mapService.colorationLines(i);
   }
 
   displayDefi(i: number) {
-    this.MapService.displayDefi(i);
+    this.mapService.displayDefi(i);
   }
 
   getUrlMarker(nb_defi:number): string {
@@ -51,6 +51,6 @@ export class MapComponent implements OnInit {
 
   ////////////////////////////////////AFFICHAGE DEFI
   tstAffichage(defi:Defi) {
-    this.MapService.newDefiAffiche(defi)
+    this.mapService.newDefiAffiche(defi)
   }
 }

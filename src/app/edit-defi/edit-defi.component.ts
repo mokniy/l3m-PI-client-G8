@@ -245,7 +245,7 @@ export class EditDefiComponent implements OnInit {
         auteur:defiSaisieauteur,
         code_arret:defiSaisiecode_arret,
         type: defiSaisietype,
-        dateDeModification: current_date.toLocaleString(),
+        dateDeModification: current_date().toLocaleString(),
         version: +defiSaisieversion,
         arret: escape_quote(defiSaisiearret),
         points: +defiSaisiepoints,
@@ -296,7 +296,6 @@ export class EditDefiComponent implements OnInit {
               });
             }
           }
-
 
       this.defi_edited = null;
       this.recupDefiUnUser();

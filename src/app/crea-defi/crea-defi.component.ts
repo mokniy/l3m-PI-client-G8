@@ -107,15 +107,11 @@ export class CreaDefiComponent implements OnInit {
   editQuestion(question:string, index:number) :void{
     this.questions[index]=this.defiService.editQuestionService(question, this.questions[index]);
     this.labelEditedQuestion="";
-
-    console.log(this.questions);
   }
 
   editQuestionPoints(points:string, index:number) :void{
     this.questions[index]=this.defiService.editQuestionPointsService(points,this.questions[index]);
     this.labelEditedQuestion="";
-
-    console.log(this.questions);
   }
 
   editSecret(secret:string, index:number) :void{
@@ -169,7 +165,7 @@ export class CreaDefiComponent implements OnInit {
     const arretInfoSplited = arretInfo.trim().split(",")
     let d : DefiTmp = {
       titre: escape_quote(defiTitre),
-      dateDeCreation: current_date.toLocaleString(),
+      dateDeCreation: current_date().toLocaleString(),
       description:escape_quote(descriptionSaisie),
       auteur:this.userConnected.pseudo,
       code_arret:arretInfoSplited[2].trim(),

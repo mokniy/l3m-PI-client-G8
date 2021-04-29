@@ -56,10 +56,10 @@ export class AppComponent {
     this.defiService.getAllDefi();
   }
 
-  createUser(name: string, a: string, ville: string, description: string) {
+  createUser(name: string, a: string, ville: string, description: string, pseudo:string) {
     console.log(name, a);
     this.UserService.postUser({
-      pseudo: name,
+      pseudo: pseudo,
       age: +a,
       ville: ville,
       description: description,

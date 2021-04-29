@@ -64,17 +64,20 @@
               InputName.value,
               InputAge.value,
               InputVille.value,
-              InputDescription.value
+              InputDescription.value,
+              InputPseudo.value
             )
           " >
           <div class="form-row">
+            <label>Pseudo : </label>
+            <input #InputPseudo class="form-control" type="text" placeholder="Pseudo"/>
             <div class="form-group col-md-6">
               <label>Age : </label>
-              <input #InputAge class="form-control" name="InputAge" type="number" placeholder="Age"/>
+              <input #InputAge class="form-control" type="number" placeholder="Age"/>
             </div>
             <div class="form-group col-md-6" >
               <label>Ville : </label>
-              <input #InputVille class="form-control" name="InputVille" type="text" placeholder="Ville"/>
+              <input #InputVille class="form-control" type="text" placeholder="Ville"/>
             </div>
           </div>
           <div class="form-group">
@@ -83,7 +86,6 @@
           </div>
           <input hidden #InputName name="InputName" type="text" value="{{ OneUser.oauthUser.email }}" />
           <input class="btn btn-secondary" type="submit" />
-          <!--<button (click)="createUserV2(InputName.value,InputAge.value)">SUBMIT AVEC BUTTON</button>-->
         </form>
       </div>
       <br />
@@ -94,7 +96,7 @@
         <br />
         <br />
           <h1 style="text-align: center">
-            Bienvenue {{ OneUser.oauthUser.displayName }} !
+            Bienvenue {{ OneUser.chami.pseudo }} !
           </h1>
           <hr />
           <!--COMPOSANT GESTION DU PROFIL-->

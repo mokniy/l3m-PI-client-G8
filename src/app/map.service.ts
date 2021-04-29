@@ -175,7 +175,7 @@ async recupUnArret(code_arret: string): Promise<Arret> {
   return res.json();
 }
 
-/////////////////////////////////////////
+/////////////////////////////////////////FICHE
 
 private defiAfficheSubj = new Subject<Defi>();
 readonly obsDefiAffiche = this.defiAfficheSubj.asObservable();
