@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp, Indice, IndiceTmp, QuestionTmp, Question } from "./AllDefinitions";
+import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp, Indice, IndiceTmp, QuestionTmp, Question, escape_quote } from "./AllDefinitions";
 
 @Injectable({
   providedIn: 'root'
@@ -244,6 +244,58 @@ editQuestionService(question:string,questionOriginal:QuestionTmp):QuestionTmp {
     ...questionOriginal,
     description_qst: question
     }
+}
+
+editQuestionPointsService(points:string,questionOriginal:QuestionTmp):QuestionTmp {
+  return {
+    ...questionOriginal,
+    points_qst: +points
+    }
+}
+
+editQuestionSecretService(secret:string,questionOriginal:QuestionTmp):QuestionTmp {
+  return {
+    ...questionOriginal,
+    secret_qst: secret
+    }
+}
+
+///////////////////CREATION ET MODIFICATION INDICE
+addIndiceService(indice:string, points:string,length:number):IndiceTmp {
+  return {
+    label_ind:"I"+(length+1),
+    description_ind: indice,
+    points_ind: +points
+    }
+}
+
+editIndiceService(indice:string,indiceOriginal:IndiceTmp):IndiceTmp {
+  return {
+    ...indiceOriginal,
+    description_ind: indice
+    }
+}
+
+editIndicePointsService(points:string,indiceOriginal:IndiceTmp):IndiceTmp {
+  return {
+    ...indiceOriginal,
+    points_ind: +points
+    }
+}
+
+///////////////////CREATION ET MODIFICATION MOTCLEF
+
+decoupeMotClef(motClefSaisie:string){
+  return escape_quote(motClefSaisie.trim().toLowerCase()).split(" ").filter(
+    function(elem, index, self) {
+    return index === self.indexOf(elem);
+  }).map( x =>
+      this.createMotClefTmp(x)
+    )
+}
+
+createMotClefTmp(s:string):MotClefTmp {
+  return {mot_mc:s}
 }
 
 }

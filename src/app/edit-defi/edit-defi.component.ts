@@ -1,4 +1,4 @@
-import { createMotClefTmp, escape_quote, MotClef, MotClefTmp } from './../AllDefinitions';
+import { current_date, escape_quote, MotClef, MotClefTmp } from './../AllDefinitions';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Defi, IndiceTmp, Indice, QuestionTmp, Question } from '../AllDefinitions';
@@ -136,10 +136,6 @@ export class EditDefiComponent implements OnInit {
   });
   return str
 }
-  async recupIndicesUnDefi(defi:Defi){
-    await this.defiService.getAllIndicesOfDefi(defi);
-}
-
 
   async recupMotClef(defi:Defi){
     await this.defiService.getAllMotClefsOfDefi(defi);
@@ -174,26 +170,18 @@ export class EditDefiComponent implements OnInit {
 
   editQuestionPoints(points:string, index:number) :void{
     this.questionsEdit[index]={
-      label_qst:"Q"+(index+1),
-      description_qst: this.questionsEdit[index].description_qst.replace(/'/g,"''"),
-      secret_qst: this.questionsEdit[index].secret_qst.replace(/'/g,"''"),
-      points_qst: +points,
+      ...this.defiService.editQuestionPointsService(points,this.questionsEdit[index]),
       id_defi: this.defi_edited?.defi
     };
     this.labelEditedQuestion="";
-
   }
 
   editSecret(secret:string, index:number) :void{
     this.questionsEdit[index]={
-      label_qst:"Q"+(index+1),
-      description_qst: this.questionsEdit[index].description_qst.replace(/'/g,"''"),
-      secret_qst: secret.replace(/'/g,"''"),
-      points_qst: this.questionsEdit[index].points_qst,
+      ...this.defiService.editQuestionSecretService(secret,this.questionsEdit[index]),
       id_defi: this.defi_edited?.defi
     };
     this.labelEditedQuestion="";
-
   }
 
   editModeQuestion(label:string): void {
@@ -205,19 +193,38 @@ export class EditDefiComponent implements OnInit {
   }
   ///// FIN QUESTION
 
-  addElement(element:string, points:string){
+/////INDICE
+  async recupIndicesUnDefi(defi:Defi){
+    await this.defiService.getAllIndicesOfDefi(defi);
+  }
+
+  addElement(indice:string, points:string){
     this.indicesEdit.push({
-      label_ind:"I"+(this.indicesEdit.length+1),
-      description_ind: element.replace(/'/g,"''"),
-      points_ind: +points,
+      ...this.defiService.addIndiceService(indice,points,this.indicesEdit.length),
       id_defi: this.defi_edited?.defi
     });
     this.indiceSaisie.nativeElement.value = '';
     this.indicePointsSaisie.nativeElement.value ='';
-      }
+  }
 
   deleteElement(index:number){
     this.indicesEdit.splice(index,1);
+  }
+
+  editIndice(indice:string, index:number) :void{
+    this.indicesEdit[index]={
+      ...this.defiService.editIndiceService(indice,this.indicesEdit[index]),
+      id_defi: this.defi_edited?.defi
+    };
+    this.labelEdited="";
+  }
+
+  editIndicePoints(points:string, index:number) :void{
+    this.indicesEdit[index]={
+      ...this.defiService.editIndicePointsService(points,this.indicesEdit[index]),
+      id_defi: this.defi_edited?.defi
+    };
+    this.labelEdited="";
   }
 
   editMode(label:string): void {
@@ -227,32 +234,10 @@ export class EditDefiComponent implements OnInit {
   editIndiceAnnule() :void{
     this.labelEdited="";
   }
-
-  editIndice(indice:string, index:number) :void{
-    this.indicesEdit[index]={
-      label_ind:"I"+(index+1),
-      description_ind: indice.replace(/'/g,"''"),
-      points_ind: this.indicesEdit[index].points_ind,
-      id_defi: this.defi_edited?.defi
-    };
-    this.labelEdited="";
-
-  }
-
-  editIndicePoints(points:string, index:number) :void{
-    this.indicesEdit[index]={
-      label_ind:"I"+(index+1),
-      description_ind: this.indicesEdit[index].description_ind,
-      points_ind: +points,
-      id_defi: this.defi_edited?.defi
-    };
-    this.labelEdited="";
-
-  }
+  /////FIN INDICE
 
   async updateDefi(defiSaisiedefi:string, defiSaisietitre: string, defiSaisiedateDeCreation: string, defiSaisiedescription: string, defiSaisieauteur: string, defiSaisiecode_arret: string, defiSaisietype :string, defiSaisieversion: string, defiSaisiearret: string, defiSaisiepoints: string, defiSaisieduree: string, defiSaisieprologue: string, defiSaisieepilogue: string, defiSaisiecommentaire: string, motClefSaisie:string) {
-    const dateObject = new Date(new Date().getTime())
-      let d : Defi = {
+        let d : Defi = {
         defi:defiSaisiedefi,
         titre:escape_quote(defiSaisietitre),
         dateDeCreation:defiSaisiedateDeCreation,
@@ -260,7 +245,7 @@ export class EditDefiComponent implements OnInit {
         auteur:defiSaisieauteur,
         code_arret:defiSaisiecode_arret,
         type: defiSaisietype,
-        dateDeModification: dateObject.toLocaleString(),
+        dateDeModification: current_date.toLocaleString(),
         version: +defiSaisieversion,
         arret: escape_quote(defiSaisiearret),
         points: +defiSaisiepoints,
@@ -295,12 +280,8 @@ export class EditDefiComponent implements OnInit {
       //VERIFIER SI MOT CLEF ON CHANGE
 
       //ON COUPE LA CHAINE DE CARACT DES MOTS CLEFS
-        this.lesMotsClefsEdit = motClefSaisie.trim().toLowerCase().replace(/'/g,"''").split(" ").filter(
-          function(elem, index, self) {
-          return index === self.indexOf(elem);
-        }).map( x =>
-            createMotClefTmp(x)
-          )
+        this.lesMotsClefsEdit = this.defiService.decoupeMotClef(motClefSaisie)
+
           console.log("MOT CLEF : !!!"+JSON.stringify(this.lesMotsClefsEdit) + JSON.stringify(this.lesMotsClefsInit)  )
           if(JSON.stringify(this.lesMotsClefsEdit) !== JSON.stringify(this.lesMotsClefsInit)  )
           {

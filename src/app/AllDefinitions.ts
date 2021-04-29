@@ -137,7 +137,6 @@ export function rgbToHex(str :string) {
 export function escape_quote(s:string):string {
   return s.replace(/'/g,"''")
 }
-
-export function createMotClefTmp(s:string):MotClefTmp {
-  return {mot_mc:s}
+export function current_date(): Date{
+  return new Date(new Date().getTime())
 }

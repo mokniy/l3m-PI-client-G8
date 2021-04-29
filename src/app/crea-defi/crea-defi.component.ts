@@ -1,4 +1,4 @@
-import { Chami, createMotClefTmp, DefiTmp, escape_quote, MotClefTmp } from './../AllDefinitions';
+import { Chami, current_date, DefiTmp, escape_quote, MotClefTmp } from './../AllDefinitions';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Arret, Defi, Indice, IndiceTmp, QuestionTmp } from '../AllDefinitions';
@@ -26,140 +26,6 @@ export class CreaDefiComponent implements OnInit {
   public indices: IndiceTmp[]=[];
   public questions: QuestionTmp[]=[];
   public labelEditedQuestion:string="";
-
-
-/////QUESTION
-
-
-  addQuestion(question:string,secret:string,points:string){
-  this.questions.push(this.defiService.addQuestionService(question,secret,points,this.questions.length))
-  this.questionSaisie.nativeElement.value = '';
-  this.questionPointsSaisie.nativeElement.value ='';
-  this.secretSaisie.nativeElement.value = '';
-  }
-
-  deleteQuestion(index:number){
-    this.questions.splice(index,1);
-  }
-
-
-  editQuestion(question:string, index:number) :void{
-    this.questions[index]=this.defiService.editQuestionService(question, this.questions[index]);
-    this.labelEditedQuestion="";
-
-    console.log(this.questions);
-  }
-
-  editQuestionPoints(points:string, index:number) :void{
-    this.questions[index]={
-      label_qst:"Q"+(index+1),
-      description_qst: this.questions[index].description_qst,
-      secret_qst: this.questions[index].secret_qst,
-      points_qst: +points,
-    };
-    this.labelEditedQuestion="";
-
-    console.log(this.questions);
-  }
-
-  editSecret(secret:string, index:number) :void{
-    this.questions[index]={
-      label_qst:"Q"+(index+1),
-      description_qst: this.questions[index].description_qst,
-      secret_qst: secret,
-      points_qst: this.questions[index].points_qst,
-    };
-    this.labelEditedQuestion="";
-
-    console.log(this.questions);
-  }
-
-  editModeQuestion(label:string): void {
-    this.labelEditedQuestion=label;
-  }
-
-  editQuestionAnnule() :void{
-    this.labelEditedQuestion="";
-  }
-  ///// FIN QUESTION
-
-
-  viderListe():void{
-    this.indices = [];
-  }
-  viderListeQuestion():void{
-    this.questions = [];
-  }
-
-  addElement(element:string, points:string){
-    this.indices.push({
-      label_ind:"I"+(this.indices.length+1),
-      description_ind: element,
-      points_ind: +points
-    });
-    console.log(this.indices)
-    this.indiceSaisie.nativeElement.value = '';
-    this.indicePointsSaisie.nativeElement.value ='';
-      }
-
-  deleteElement(index:number){
-    this.indices.splice(index,1);
-  }
-
-  editMode(label:string): void {
-    this.labelEdited=label;
-  }
-
-  editIndiceAnnule() :void{
-    this.labelEdited="";
-  }
-
-  editIndice(indice:string, index:number) :void{
-    this.indices[index]={
-      label_ind:"I"+(index+1),
-      description_ind: indice.replace(/'/g,"''"),
-      points_ind: this.indices[index].points_ind,
-    };
-    this.labelEdited="";
-
-    console.log(this.indices);
-  }
-
-  editIndicePoints(points:string, index:number) :void{
-    this.indices[index]={
-      label_ind:"I"+(index+1),
-      description_ind: this.indices[index].description_ind,
-      points_ind: +points,
-    };
-    this.labelEdited="";
-
-    console.log(this.indices);
-  }
-
-
-  modeEditArret(){
-    this.createArret= false;
-    this.createDefi=false;
-    this.editArret=true;
-    this.closeChoiceArretInBDD();
-    this.indices=[];
-  }
-
-  modeCreateArret(){
-    this.createArret= true;
-    this.createDefi=false;
-    this.editArret=false;
-    this.closeChoiceArretInBDD();
-    this.indices=[];
-  }
-
-  modeCreateDefi(){
-    this.createDefi= true;
-    this.createArret=false;
-    this.editArret=false;
-    this.closeChoiceArretInAPI();
-    this.indices=[];
-  }
 
   //INPUT USER AUTH
   constructor(private MapService : MapService, private defiService : DefiService) {
@@ -194,13 +60,116 @@ export class CreaDefiComponent implements OnInit {
     this.MapService.closeChoiceArretInAPI()
   }
 
+  modeEditArret(){
+    this.createArret= false;
+    this.createDefi=false;
+    this.editArret=true;
+    this.closeChoiceArretInBDD();
+    this.indices=[];
+    this.questions = [];
+  }
+
+  modeCreateArret(){
+    this.createArret= true;
+    this.createDefi=false;
+    this.editArret=false;
+    this.closeChoiceArretInBDD();
+    this.indices=[];
+    this.questions = [];
+  }
+
+  modeCreateDefi(){
+    this.createDefi= true;
+    this.createArret=false;
+    this.editArret=false;
+    this.closeChoiceArretInAPI();
+    this.indices=[];
+    this.questions = [];
+  }
+
+  viderListe():void{
+    this.indices = [];
+    this.questions = [];
+  }
+
+/////QUESTION
+  addQuestion(question:string,secret:string,points:string){
+    this.questions.push(this.defiService.addQuestionService(question,secret,points,this.questions.length))
+    this.questionSaisie.nativeElement.value = '';
+    this.questionPointsSaisie.nativeElement.value ='';
+    this.secretSaisie.nativeElement.value = '';
+  }
+
+  deleteQuestion(index:number){
+    this.questions.splice(index,1);
+  }
+
+  editQuestion(question:string, index:number) :void{
+    this.questions[index]=this.defiService.editQuestionService(question, this.questions[index]);
+    this.labelEditedQuestion="";
+
+    console.log(this.questions);
+  }
+
+  editQuestionPoints(points:string, index:number) :void{
+    this.questions[index]=this.defiService.editQuestionPointsService(points,this.questions[index]);
+    this.labelEditedQuestion="";
+
+    console.log(this.questions);
+  }
+
+  editSecret(secret:string, index:number) :void{
+    this.questions[index]=this.defiService.editQuestionSecretService(secret,this.questions[index])
+    this.labelEditedQuestion="";
+  }
+
+  editModeQuestion(label:string): void {
+    this.labelEditedQuestion=label;
+  }
+
+  editQuestionAnnule() :void{
+    this.labelEditedQuestion="";
+  }
+  ///// FIN QUESTION
+
+  /////INDICE
+
+  addElement(indice:string, points:string){
+    this.indices.push(this.defiService.addIndiceService(indice,points,this.indices.length));
+    this.indiceSaisie.nativeElement.value = '';
+    this.indicePointsSaisie.nativeElement.value ='';
+  }
+
+  deleteElement(index:number){
+    this.indices.splice(index,1);
+  }
+
+  editIndice(indice:string, index:number) :void{
+    this.indices[index]=this.defiService.editIndiceService(indice,this.indices[index]);
+    this.labelEdited="";
+  }
+
+  editIndicePoints(points:string, index:number) :void{
+    this.indices[index]=this.defiService.editIndicePointsService(points,this.indices[index]);
+    this.labelEdited="";
+  }
+
+  editMode(label:string): void {
+    this.labelEdited=label;
+  }
+
+  editIndiceAnnule() :void{
+    this.labelEdited="";
+  }
+
+  /////FIN INDICE
+
   //METTRE EN PLACE MOT CLEF PUIS METTRE EN PLACE LA CREATION DE QUESTION/INDICE
   async creationDefi(defiTitre:string, defiType : string,arretInfo:string,descriptionSaisie:string, versionSaisie: string, pointsSaisie :string, dureeSaisie: string, prologueSaisie: string, epilogueSaisie: string, commentaireSaisie:string, motClefSaisie:string) {
     const arretInfoSplited = arretInfo.trim().split(",")
-    const dateObject = new Date(new Date().getTime())
     let d : DefiTmp = {
       titre: escape_quote(defiTitre),
-      dateDeCreation: dateObject.toLocaleString(),
+      dateDeCreation: current_date.toLocaleString(),
       description:escape_quote(descriptionSaisie),
       auteur:this.userConnected.pseudo,
       code_arret:arretInfoSplited[2].trim(),
@@ -220,12 +189,7 @@ export class CreaDefiComponent implements OnInit {
     this.closeChoiceArretInBDD();
 
     //ON COUPE LA CHAINE DE CARACT DES MOTS CLEFS
-      const lesMotsClefs = motClefSaisie.trim().toLowerCase().replace(/'/g,"''").split(" ").filter(
-        function(elem, index, self) {
-        return index === self.indexOf(elem);
-       }).map( x =>
-          createMotClefTmp(x)
-        )
+      const lesMotsClefs = this.defiService.decoupeMotClef(motClefSaisie);
 
         if(lesMotsClefs.length > 1 || (lesMotsClefs.length === 1 && lesMotsClefs[0].mot_mc !== "") ) {
           //GENERATION SYSTEME MOT CLE
@@ -242,7 +206,6 @@ export class CreaDefiComponent implements OnInit {
           });
           this.indices.forEach(element => element.label_ind = "I"+(this.indices.indexOf(element)+1))
           await this.defiService.postListIndice(this.indices);
-          this.viderListe();
         }
 
         if(this.questions.length !== 0) {
@@ -252,8 +215,8 @@ export class CreaDefiComponent implements OnInit {
           });
           this.questions.forEach(element => element.label_qst = "Q"+(this.questions.indexOf(element)+1))
           await this.defiService.postListQuestion(this.questions);
-          this.viderListeQuestion();
         }
+        this.viderListe();
 
   }
 
