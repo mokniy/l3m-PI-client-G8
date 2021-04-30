@@ -4,57 +4,14 @@
 <button type="button" (click)="modeCreateDefi()" class="btn btn-secondary btn-lg btn-block">Créer un défi</button>
 <button type="button" (click)="modeEditArret()" class="btn btn-primary btn-lg btn-block">Editer un arrêt</button>
 
- <!--<div class="form-group">
-    <label for="exampleInputEmail1">Question</label>
-    <input type="text" #question class="form-control" placeholder="Question">
-    <br/>
-    <input type="text" #secret class="form-control" placeholder="Secret">
-    <br/>
-    <input type="number" #pointsQuestion class="form-control" placeholder="Points">
-  </div>
-  <button class="btn btn-secondary"(click)="addQuestion(question.value,secret.value,pointsQuestion.value)">Ajouter</button>
-
-<br>
-<div class="table-responsive-lg">
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Label</th>
-      <th scope="col">Question</th>
-      <th scope="col">Secret</th>
-      <th scope="col">Points</th>
-      <th scope="col">Modifier</th>
-      <th scope="col">Supprimer</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let question of questions; let index = index;">
-      <th scope="row">{{question.label_qst}}</th>
-      <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.description_qst}} </td>
-      <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newQuestion value="{{question.description_qst}}">
-        <button type="submit" class="btn btn-outline-success" (click)="editQuestion(newQuestion.value,index)">Valider</button></td>
-
-        <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.secret_qst}} </td>
-      <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newSecret value="{{question.secret_qst}}">
-        <button type="submit" class="btn btn-outline-success" (click)="editSecret(newSecret.value,index)">Valider</button></td>
-
-
-        <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editModeQuestion(question.description_qst)">{{question.points_qst}} </td>
-        <td *ngIf="labelEditedQuestion===question.description_qst"><input type="number" #newPointsQuestion value="{{question.points_qst}}">
-          <button type="submit" class="btn btn-outline-success" (click)="editQuestionPoints(newPointsQuestion.value,index)">Valider</button></td>
-
-      <td *ngIf="labelEditedQuestion!==question.description_qst"><button type="submit" class="btn btn-outline-secondary" (click)="editModeQuestion(question.description_qst)">Editer</button></td>
-      <td *ngIf="labelEditedQuestion===question.description_qst"><button type="submit" class="btn btn-outline-warning  " (click)="editQuestionAnnule()">Annuler</button></td>
-      <td>
-        <button class="btn btn-outline-danger" (click)="deleteQuestion(index)">Supprimer</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-</div>
--->
-
 <div *ngIf="createArret">
+  <button
+    (click)="closeChoiceArret()"
+    type="button"
+    class="close"
+    aria-label="Close"
+  >
+    <span aria-hidden="true">&times;</span></button>
   <br/>
   <h2 style="text-align: center;">Debut formulaire création d'un arret</h2>
   <p><b>RECUP PAS DANS BDD</b></p>
@@ -76,6 +33,14 @@
 </div>
 
 <div *ngIf="createDefi">
+  <button
+    (click)="closeChoiceArret()"
+    type="button"
+    class="close"
+    aria-label="Close"
+  >
+    <span aria-hidden="true">&times;</span></button>
+  <br/>
   <br/>
   <h2 style="text-align: center;">Debut formulaire création d'un défi</h2>
   <p><b>RECUP QUE DANS BDD</b></p>
@@ -97,6 +62,14 @@
 </div>
 <br/>
 <div *ngIf="editArret">
+  <button
+    (click)="closeChoiceArret()"
+    type="button"
+    class="close"
+    aria-label="Close"
+  >
+    <span aria-hidden="true">&times;</span></button>
+  <br/>
   <br/>
   <h2 style="text-align: center;">Debut formulaire edit d'un défi</h2>
   <p><b>RECUP QUE DANS BDD</b></p>
@@ -157,7 +130,6 @@
   </div>
 </div>
 
-
 <div *ngIf="obsArretInBDD | async as obsBDD" class="container">
 
 <!--EDITION ARRET-->
@@ -198,16 +170,15 @@
     </form>
   </div>
 
-<!--CREATION DEFI-->
-  <!--
-  <div *ngIf="obsBDD.length === 0 && !createArret" class="col-8">
+  <!--DEBUT FORM CREATION DEFI-->
+  <!--Aucun arret dispo-->
+  <div *ngIf="obsBDD.length === 0 && indispo " class="col-8">
     <div class="alert alert-warning" role="alert">
       Aucun arrêt trouvé, <a (click)="modeCreateArret()" class="alert-link">veuillez le créer</a>.
     </div>
   </div>
-  -->
 
-  <!--DEBUT FORM CREATION DEFI-->
+  <!--Arret dispo-->
   <div *ngIf="obsBDD.length !== 0 && editArret === false" class="col-12">
     <button
       (click)="closeChoiceArretInBDD()"
@@ -248,7 +219,6 @@
         </div>
         <!--Fin une ligne 2 champs-->
 
-
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <label for="type" class="input-group-text">Type</label>
@@ -263,8 +233,6 @@
         <option>Challenge</option>
         </select>
         </div>
-
-
 
         <label>Description : </label>
         <textarea #InputDescription class="form-control" rows="3"></textarea>

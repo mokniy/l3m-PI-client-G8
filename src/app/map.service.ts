@@ -93,7 +93,7 @@ closeDefi():void {
 private ArretForALibelleInBDD = new Subject<GeoJSON.Feature<GeoJSON.LineString | GeoJSON.MultiLineString, any>[]>();
 readonly obsArretInBDD = this.ArretForALibelleInBDD.asObservable();
 
-async recupWithLibelleInBDD(s: string) {
+async recupWithLibelleInBDD(s: string):Promise<boolean> {
   //PRESENT BDD
   const responseBDD = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/');
   const dataAPISpringBoot = await responseBDD.json();
@@ -106,6 +106,11 @@ async recupWithLibelleInBDD(s: string) {
   let tmp = data.features.filter(elt => regexp.test(elt.properties.CODE) && tabOfAllArret.find(newElt => newElt.code === elt.properties.CODE))
   console.log("RES RECUP BDD => "+tmp)
   this.ArretForALibelleInBDD.next(tmp);
+  if(tmp.length===0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 closeChoiceArretInBDD():void {

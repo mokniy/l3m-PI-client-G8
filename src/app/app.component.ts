@@ -63,7 +63,7 @@ export class AppComponent {
   createUser(name: string, a: string, ville: string, description: string, pseudo:string) {
     console.log(name, a);
     this.UserService.postUser({
-      pseudo: escape_quote(pseudo),
+      pseudo: escape_quote(pseudo).trim(),
       age: +a,
       ville: escape_quote(ville),
       description: escape_quote(description),

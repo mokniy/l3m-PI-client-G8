@@ -27,6 +27,8 @@ export class CreaDefiComponent implements OnInit {
   public questions: QuestionTmp[]=[];
   public labelEditedQuestion:string="";
 
+  public indispo:boolean=false;
+
   //INPUT USER AUTH
   constructor(private MapService : MapService, private defiService : DefiService) {
   }
@@ -45,7 +47,7 @@ export class CreaDefiComponent implements OnInit {
   }
 
   async recupLibIn(s:string){
-    await this.MapService.recupWithLibelleInBDD(s)
+    this.indispo = await this.MapService.recupWithLibelleInBDD(s)
   }
 
   async recupLibNotIn(s:string){
@@ -60,6 +62,13 @@ export class CreaDefiComponent implements OnInit {
     this.MapService.closeChoiceArretInAPI()
   }
 
+  closeChoiceArret() {
+    this.createArret= false;
+    this.createDefi=false;
+    this.editArret=false;
+    this.indispo=false;
+  }
+
   modeEditArret(){
     this.createArret= false;
     this.createDefi=false;
@@ -67,6 +76,7 @@ export class CreaDefiComponent implements OnInit {
     this.closeChoiceArretInBDD();
     this.indices=[];
     this.questions = [];
+    this.indispo=false;
   }
 
   modeCreateArret(){
@@ -76,6 +86,7 @@ export class CreaDefiComponent implements OnInit {
     this.closeChoiceArretInBDD();
     this.indices=[];
     this.questions = [];
+    this.indispo=false;
   }
 
   modeCreateDefi(){
@@ -85,6 +96,7 @@ export class CreaDefiComponent implements OnInit {
     this.closeChoiceArretInAPI();
     this.indices=[];
     this.questions = [];
+    this.indispo=false;
   }
 
   viderListe():void{

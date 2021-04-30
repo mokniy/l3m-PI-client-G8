@@ -24,7 +24,7 @@ export class GestProfilComponent implements OnInit {
 
   async updateUser(age: string, ville: string, description: string, mail: string,pseudo: string) {
     await this.UserService.putUser({
-      pseudo: escape_quote(pseudo),
+      pseudo: escape_quote(pseudo).trim(),
       age: +age,
       ville: escape_quote(ville),
       description: escape_quote(description),
