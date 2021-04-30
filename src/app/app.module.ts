@@ -22,17 +22,19 @@ import { FicheDefiComponent } from './fiche-defi/fiche-defi.component';
 import { GestProfilComponent } from './gest-profil/gest-profil.component';
 import { EditDefiComponent } from './edit-defi/edit-defi.component';
 import { NewVisiteComponent } from './new-visite/new-visite.component';
+import { AlertConComponent } from './alert-con/alert-con.component';
 
 
 @NgModule({
-  declarations: [					
+  declarations: [						
     AppComponent,
     MapComponent,
       CreaDefiComponent,
       FicheDefiComponent,
       GestProfilComponent,
       EditDefiComponent,
-      NewVisiteComponent
+      NewVisiteComponent,
+      AlertConComponent
    ],
   imports: [
     BrowserModule,

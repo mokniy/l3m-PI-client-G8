@@ -43,6 +43,7 @@
         <mat-option value="push">Push</mat-option>
       </mat-select>
     </mat-form-field>
+
     <div class="container">
       <!--COMPOSANT MAP-->
       <app-map></app-map>
@@ -51,51 +52,7 @@
     <div class="container">
     <section *ngIf="obsUser | async as OneUser">
       <section *ngIf="OneUser.chami === undefined">
-        <br />
-        <br />
-        <h1 style="text-align: center">
-          Bienvenue {{ OneUser.oauthUser.displayName }} ! Veuillez terminer l'inscription.
-        </h1>
-        <div class="alert alert-warning" role="alert">
-          <b>Bienvenue sur le site des Chamis ! Veuillez saisir votre âge, pseudo et ville pour confirmer votre inscription avec l'email : {{ OneUser.oauthUser.email }}</b>
-          <br/>
-          <br/>
-
-        <form (ngSubmit)="
-            createUser(
-              InputName.value,
-              InputAge.value,
-              InputVille.value,
-              InputDescription.value,
-              InputPseudo.value
-            )
-          " >
-
-          <label>Pseudo : </label>
-          <input #InputPseudo class="form-control" type="text" placeholder="Pseudo"/>
-          <div style="display: flex; justify-content: end; align-items: center; padding: 10px;" *ngIf="obsUsed | async as allReadyUsed">
-            <mat-icon>warning</mat-icon>
-            <b>Ce pseudo est déjà utilisé.</b>
-           </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label>Age : </label>
-              <input #InputAge class="form-control" type="number" placeholder="Age"/>
-            </div>
-            <div class="form-group col-md-6" >
-              <label>Ville : </label>
-              <input #InputVille class="form-control" type="text" placeholder="Ville"/>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Description : </label>
-            <textarea #InputDescription class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description"></textarea>
-          </div>
-          <input hidden #InputName name="InputName" type="text" value="{{ OneUser.oauthUser.email }}" />
-          <input class="btn btn-secondary" type="submit" />
-        </form>
-      </div>
-      <br />
+      <app-alert-con [userRecu]="OneUser"></app-alert-con>
       </section>
 
         <section *ngIf="OneUser.chami !== undefined">

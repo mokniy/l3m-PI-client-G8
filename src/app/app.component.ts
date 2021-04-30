@@ -40,10 +40,6 @@ export class AppComponent {
     return this.UserService.userObs;
   }
 
-  get obsUsed(): Observable<boolean> {
-    return this.UserService.alReadyUseSubjObs;
-  }
-
   login() {
     this.UserService.login();
   }
@@ -58,16 +54,5 @@ export class AppComponent {
 
   recupDefi() {
     this.defiService.getAllDefi();
-  }
-
-  createUser(name: string, a: string, ville: string, description: string, pseudo:string) {
-    console.log(name, a);
-    this.UserService.postUser({
-      pseudo: escape_quote(pseudo).trim(),
-      age: +a,
-      ville: escape_quote(ville),
-      description: escape_quote(description),
-      email: name,
-    });
   }
 }
