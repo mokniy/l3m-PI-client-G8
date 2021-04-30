@@ -3,7 +3,7 @@ import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { UtilisateurService } from './utilisateur.service';
 import { DefiService } from './defi.service';
 import { Observable } from 'rxjs';
-import { Chami, Defi, User, Visite } from "./AllDefinitions";
+import { Chami, Defi, escape_quote, User, Visite } from "./AllDefinitions";
 import firebase from 'firebase/app';
 
 @Component({
@@ -40,6 +40,10 @@ export class AppComponent {
     return this.UserService.userObs;
   }
 
+  get obsUsed(): Observable<boolean> {
+    return this.UserService.alReadyUseSubjObs;
+  }
+
   login() {
     this.UserService.login();
   }
@@ -59,10 +63,10 @@ export class AppComponent {
   createUser(name: string, a: string, ville: string, description: string, pseudo:string) {
     console.log(name, a);
     this.UserService.postUser({
-      pseudo: pseudo,
+      pseudo: escape_quote(pseudo),
       age: +a,
-      ville: ville,
-      description: description,
+      ville: escape_quote(ville),
+      description: escape_quote(description),
       email: name,
     });
   }

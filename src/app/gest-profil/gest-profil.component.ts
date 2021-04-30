@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { escape_quote, User } from '../AllDefinitions';
 import { UtilisateurService } from '../utilisateur.service';
 
@@ -10,8 +11,6 @@ import { UtilisateurService } from '../utilisateur.service';
 })
 export class GestProfilComponent implements OnInit {
 
-  public pseudoUsed = false;
-
   constructor(private UserService: UtilisateurService) { }
 
   @Input() userRecu !: User;
@@ -19,19 +18,17 @@ export class GestProfilComponent implements OnInit {
   ngOnInit() {
   }
 
+  get obsUsed(): Observable<boolean> {
+    return this.UserService.alReadyUseSubjObs;
+  }
+
   async updateUser(age: string, ville: string, description: string, mail: string,pseudo: string) {
-    const res = await this.UserService.putUser({
-      pseudo: pseudo,
+    await this.UserService.putUser({
+      pseudo: escape_quote(pseudo),
       age: +age,
       ville: escape_quote(ville),
       description: escape_quote(description),
       email: mail
     });
-    if(res === undefined) {
-      this.pseudoUsed = true
-      console.log("IMPOSSIBLE")
-    } else {
-      this.pseudoUsed = false
-    }
   }
 }

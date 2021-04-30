@@ -21,6 +21,9 @@ export class UtilisateurService {
   private chamiSubj = new Subject<Chami>();
   readonly chamiObs = this.chamiSubj.asObservable();
 
+  //CHAMI CONNECTE (JUSTE DONNE BDD)
+  private alReadyUseSubj = new BehaviorSubject<boolean>(false);
+  readonly alReadyUseSubjObs = this.alReadyUseSubj.asObservable();
 
   constructor(public auth: AngularFireAuth) {
     // Le chami lié retrouvé à partir du compte Google lors de la connexion
@@ -46,6 +49,7 @@ export class UtilisateurService {
         prompt: 'select_account'
       });
       this.auth.signInWithPopup(provider);
+      this.alReadyUseSubj.next(false)
   }
 
   logout(): void {
@@ -89,7 +93,11 @@ export class UtilisateurService {
       });
       this.chamiSubj.next(user)
       console.log("finito"+ res)
+      this.alReadyUseSubj.next(false)
+    } else {
+      this.alReadyUseSubj.next(true)
     }
+
   }
 
   async putUser(user: Chami): Promise<Response | undefined> {
@@ -106,7 +114,10 @@ export class UtilisateurService {
     });
     this.chamiSubj.next(user)
     console.log("finchamiSubjito"+ res)
+    this.alReadyUseSubj.next(false)
     return res;
+  } else {
+    this.alReadyUseSubj.next(true)
   }
   return undefined;
 }

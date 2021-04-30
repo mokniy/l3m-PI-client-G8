@@ -1,8 +1,5 @@
 <section *ngIf="userRecu.chami !== undefined">
   <h4>Mise à jour des informations du profil.</h4>
-  <p *ngIf="pseudoUsed">
-    Déjà utilisé !!!!
-  </p>
   <form
     (ngSubmit)="
       updateUser(
@@ -14,15 +11,19 @@
       )
     "
   >
+  <label>Pseudo : </label>
+  <input
+    #InputPseudo
+    class="form-control"
+    type="text"
+    placeholder="Pseudo"
+    value="{{ userRecu.chami.pseudo }}"
+  />
+  <div style="display: flex; justify-content: end; align-items: center; padding: 10px;" *ngIf="obsUsed | async as allReadyUsed">
+    <mat-icon>warning</mat-icon>
+    <b>Ce pseudo est déjà utilisé.</b>
+   </div>
     <div class="form-row">
-      <label>Pseudo : </label>
-      <input
-        #InputPseudo
-        class="form-control"
-        type="text"
-        placeholder="Pseudo"
-        value="{{ userRecu.chami.pseudo }}"
-      />
       <div class="form-group col-md-6">
         <label>Age : </label>
         <input

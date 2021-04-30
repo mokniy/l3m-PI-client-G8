@@ -43,9 +43,10 @@
         <mat-option value="push">Push</mat-option>
       </mat-select>
     </mat-form-field>
-
-    <!--COMPOSANT MAP-->
-    <app-map></app-map>
+    <div class="container">
+      <!--COMPOSANT MAP-->
+      <app-map></app-map>
+    </div>
 
     <div class="container">
     <section *ngIf="obsUser | async as OneUser">
@@ -55,10 +56,11 @@
         <h1 style="text-align: center">
           Bienvenue {{ OneUser.oauthUser.displayName }} ! Veuillez terminer l'inscription.
         </h1>
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-warning" role="alert">
           <b>Bienvenue sur le site des Chamis ! Veuillez saisir votre âge, pseudo et ville pour confirmer votre inscription avec l'email : {{ OneUser.oauthUser.email }}</b>
           <br/>
           <br/>
+
         <form (ngSubmit)="
             createUser(
               InputName.value,
@@ -68,10 +70,14 @@
               InputPseudo.value
             )
           " >
+
+          <label>Pseudo : </label>
+          <input #InputPseudo class="form-control" type="text" placeholder="Pseudo"/>
+          <div style="display: flex; justify-content: end; align-items: center; padding: 10px;" *ngIf="obsUsed | async as allReadyUsed">
+            <mat-icon>warning</mat-icon>
+            <b>Ce pseudo est déjà utilisé.</b>
+           </div>
           <div class="form-row">
-            <label>Pseudo : </label>
-            <input #InputPseudo class="form-control" type="text" placeholder="Pseudo"/>
-            <p>Ce pseudo est déjà utilisé.</p>
             <div class="form-group col-md-6">
               <label>Age : </label>
               <input #InputAge class="form-control" type="number" placeholder="Age"/>
