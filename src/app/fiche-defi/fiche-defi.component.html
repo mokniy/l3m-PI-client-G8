@@ -1,46 +1,46 @@
-<div *ngIf="affichageDuDefi !== undefined">
+<div *ngIf="affichageDuDefi | async as D">
   <br/>
   <div class="card border-dark mb-6" >
-    <div class="card-header">Défi : <b>{{affichageDuDefi.leDefi.defi}} - {{affichageDuDefi.leDefi.titre}}</b> réalisé par <b>{{affichageDuDefi.leDefi.auteur}}</b>.</div>
+    <div class="card-header">Défi : <b>{{D.leDefi.defi}} - {{D.leDefi.titre}}</b> réalisé par <b>{{D.leDefi.auteur}}</b>.</div>
     <div class="card-body text-dark" style="padding: 5px;">
 
-      <small>Type : {{affichageDuDefi.leDefi.type}}</small>
+      <small>Type : {{D.leDefi.type}}</small>
       -
-      <a *ngIf='affichageDuDefi.lArret.streetMap !== ""' href="{{affichageDuDefi.lArret.streetMap}}" target="_blank"> <small >Arrêt : {{affichageDuDefi.lArret.lib_arret}} , Jouer à distance !</small></a>
+      <a *ngIf='D.lArret.streetMap !== ""' [href]="D.lArret.streetMap" target="_blank"> <small >Arrêt : {{D.lArret.lib_arret}} , Jouer à distance !</small></a>
       <br/>
       <div class="container">
         <div class="row">
           <div class="col-8">
             <div class="card-text">
               <h6>Description: </h6>
-              <p style="white-space:pre-wrap">{{affichageDuDefi.leDefi.description}}</p>
+              <p style="white-space:pre-wrap">{{D.leDefi.description}}</p>
             </div>
 
             <div class="card-text">
               <h6>Prologue: </h6>
-              <p style="white-space:pre" >{{affichageDuDefi.leDefi.prologue}}</p>
+              <p style="white-space:pre" >{{D.leDefi.prologue}}</p>
             </div>
 
 
             <div class="card-text">
               <h6>Epilogue: </h6>
-              <p style="white-space:pre" >{{affichageDuDefi.leDefi.epilogue}}</p>
+              <p style="white-space:pre" >{{D.leDefi.epilogue}}</p>
             </div>
 
 
             <div class="card-text">
               <h6>Commentaire: </h6>
-              <p style="white-space:pre" >{{affichageDuDefi.leDefi.commentaire}}</p>
+              <p style="white-space:pre" >{{D.leDefi.commentaire}}</p>
             </div>
 
           </div>
           <div class="col-4">
             <div class="card-text">
-              <h6>Points: {{affichageDuDefi.leDefi.points}}</h6>
+              <h6>Points: {{D.leDefi.points}}</h6>
             </div>
 
             <div class="card-text">
-              <h6>Durée: {{affichageDuDefi.leDefi.duree}}</h6>
+              <h6>Durée: {{D.leDefi.duree}}</h6>
             </div>
           </div>
         </div>
@@ -52,11 +52,11 @@
 
 
 
-      <div style="margin-top: 0px;" *ngIf='affichageDuDefi.leDefi.dateDeModification === ""; then thenBlock else elseBlock'></div>
-      <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{affichageDuDefi.leDefi.dateDeCreation}}.</small></p></ng-template>
-      <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{affichageDuDefi.leDefi.dateDeCreation}} - Derniere modification : {{affichageDuDefi.leDefi.dateDeModification}}.</small></p></ng-template>
+      <div style="margin-top: 0px;" *ngIf='D.leDefi.dateDeModification === ""; then thenBlock else elseBlock'></div>
+      <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}}.</small></p></ng-template>
+      <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}} - Derniere modification : {{D.leDefi.dateDeModification}}.</small></p></ng-template>
 
-      <p *ngIf="affichageDuDefi.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{affichageDuDefi.lesMotsClefs[0].mot_mc}}</small></p>
+      <p *ngIf="D.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{D.lesMotsClefs[0].mot_mc}}</small></p>
     </div>
   </div>
 </div>

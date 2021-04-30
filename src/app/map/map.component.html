@@ -56,7 +56,9 @@
         </tbody>
       </table>
     </div>
-      <app-fiche-defi ></app-fiche-defi>
+    <!--je sais pas si j'ai le getter dans map.compo attendez, defiService.defiCourant ?
+    Non la on utilise le service map pour publier celui q'on affiche obsDefiAffiche-->
+      <app-fiche-defi [defi] = "obsDefiAffiche | async"></app-fiche-defi>
     <br/>
   </div>
 </mat-drawer-content>

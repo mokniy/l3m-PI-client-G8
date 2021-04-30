@@ -67,13 +67,6 @@ export class AppComponent {
     });
   }
 
-  //TESTMERGE//
-  get tst(): Observable<Chami> {
-    return this.UserService.newRegisteredChamiObs;
-  }
-  tstv2() {
-    this.UserService.tst();
-  }
 
   //get tst(): Observable<Chami | User | undefined> | undefined{
   //return this.UserService.merged;

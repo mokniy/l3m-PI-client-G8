@@ -53,4 +53,8 @@ export class MapComponent implements OnInit {
   tstAffichage(defi:Defi) {
     this.mapService.newDefiAffiche(defi)
   }
+
+  get obsDefiAffiche(): Observable<Defi> {
+    return this.mapService.obsDefiAffiche;
+  }
 }

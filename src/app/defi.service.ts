@@ -7,6 +7,12 @@ import { Defi, Chami, DefiTmp, MotClef, Chercher, MotClefTmp, Indice, IndiceTmp,
 })
 export class DefiService {
 
+  //voici la troupe d'observable
+  //ce service est utilisé dans plusieurs composants
+  // OK mais à la limite ça ne m'inquiète pas d'en avoir beaucoup dans un service
+  // C'est plutôt au niveau des composant qu'il faut les minimiser
+
+  // Allons voir dans le composant qui semble poser problème
   private DefisSubj = new BehaviorSubject<Defi[]>( [] );
   readonly obsAllChall = this.DefisSubj.asObservable();
 
