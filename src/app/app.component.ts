@@ -3,7 +3,7 @@ import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { UtilisateurService } from './utilisateur.service';
 import { DefiService } from './defi.service';
 import { Observable } from 'rxjs';
-import { Chami, Defi, escape_quote, User, Visite } from "./AllDefinitions";
+import { Chami, Defi, User } from "./AllDefinitions";
 import firebase from 'firebase/app';
 
 @Component({

@@ -111,13 +111,40 @@ export interface AffichageDefi {
   readonly lesMotsClefs: MotClef[]
 }
 
-export interface Visite {
+/////////////VISITE/////////////
+export interface NouvelleVisite {
   readonly leDefi:Defi;
   readonly lArret: Arret;
   readonly lesMotsClefs: MotClef[]
   readonly lesQuestions: Question[]
   readonly lesIndices: Indice[]
 }
+
+export interface Visite {
+  readonly id_vis :string;
+  readonly date_vis :string;
+  readonly mode_vis :string;
+  readonly statut_vis :string;
+  readonly pts_vis : number;
+  readonly score_vis : number;
+  readonly temps_vis :string;
+  readonly id_visiteur :string;
+  readonly id_defis :string;
+  readonly commentaire :string;
+}
+
+export interface VisiteTmp {
+  readonly date_vis :string;
+  readonly mode_vis :string;
+  readonly statut_vis :string;
+  readonly pts_vis : number;
+  readonly score_vis : number;
+  readonly temps_vis :string;
+  readonly id_visiteur :string;
+  readonly id_defis :string;
+  readonly commentaire :string;
+}
+
 
 /////////////////////////////FUNCTION/////////////////////////////
 

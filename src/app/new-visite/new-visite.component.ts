@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { current_date, VisiteTmp } from './../AllDefinitions';
+import { UtilisateurService } from './../utilisateur.service';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Defi, Visite } from '../AllDefinitions';
+import { NouvelleVisite, User } from '../AllDefinitions';
 import { VisiteService } from '../visite.service';
 
 @Component({
@@ -10,21 +12,33 @@ import { VisiteService } from '../visite.service';
 })
 export class NewVisiteComponent implements OnInit {
 
-  @Input() defiRecu !: string;
-
-  constructor(private visiteService: VisiteService) {
+  constructor(private userService: UtilisateurService,private visiteService: VisiteService) {
   }
 
   ngOnInit() {
-    console.log("recu"+this.defiRecu)
-    this.tstVisite();
   }
 
-  get obsVisite(): Observable<Visite | undefined> {
+  get obsUser(): Observable<User | undefined> {
+    return this.userService.userObs;
+  }
+
+  get obsVisite(): Observable<NouvelleVisite | undefined> {
     return this.visiteService.obsVisiteEnCour;
   }
 
-  tstVisite() {
-    this.visiteService.newVisite(this.defiRecu);
+  createVisite(visiteEnCrea:NouvelleVisite,pseudo:string, comSaisie:string, staSaisie:string, modSaisie:string, temSaisie:string) {
+    const visite:VisiteTmp = {
+      id_defis:visiteEnCrea.leDefi.defi,
+      id_visiteur:pseudo,
+      pts_vis:-1,
+      score_vis:-1,
+      date_vis:current_date().toLocaleString(),
+      temps_vis:temSaisie,
+      mode_vis: modSaisie,
+      statut_vis: staSaisie,
+      commentaire: comSaisie
+    }
+    console.log(visite)
   }
+
 }

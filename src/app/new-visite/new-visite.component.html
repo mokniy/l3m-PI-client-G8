@@ -1,7 +1,46 @@
 <!--REALISATION DUNE VISITE-->
-  <div *ngIf="obsVisite !== undefined">
-    <span *ngIf="obsVisite | async as uneVisite">
-      {{uneVisite | json}}
-    </span>
+  <div *ngIf="obsVisite !== undefined && obsUser !== undefined">
+    <div *ngIf="obsVisite | async as uneVisite">
+      <div *ngIf="obsUser | async as user">
+        <div *ngIf="user.chami !== undefined">
+            {{uneVisite | json}}
+
+          <h3>Nouvelle visite pour "{{uneVisite.leDefi.titre}}" avec le compte {{user.chami.pseudo}}</h3>
+          <form>
+            <!--TROIS PREMIER CHAMPS-->
+            <div class="form-group">
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="intputModVis">Mode de visite</label>
+                  <select #intputModVis id="intputModVis" class="form-control">
+                    <option selected>Présentiel</option>
+                    <option>Distanciel</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="inputStaVis">Status de la visite</label>
+                  <select #inputStaVis id="inputStaVis" class="form-control">
+                    <option selected>Répondu</option>
+                    <option>Abandon</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="inputDuree">Durée de la visite</label>
+                  <input #inputDuree type="text" class="form-control" id="inputDuree">
+                </div>
+              </div>
+            </div>
+            <!--FIN TROIS PREMIER CHAMPS-->
+            <div class="form-group">
+              <label for="commentaireArea">Un commentaire, une suggestion ? N'hésite pas !</label>
+              <textarea #commentaireArea class="form-control" id="commentaireArea" rows="3"></textarea>
+            </div>
+          </form>
+
+      </div>
+    </div>
+  </div>
   </div>
 <!--FIN REALISATION DUNE VISITE-->

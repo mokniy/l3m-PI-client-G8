@@ -45,13 +45,6 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-
-
       <div style="margin-top: 0px;" *ngIf='D.leDefi.dateDeModification === ""; then thenBlock else elseBlock'></div>
       <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}}.</small></p></ng-template>
       <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}} - Derniere modification : {{D.leDefi.dateDeModification}}.</small></p></ng-template>
@@ -59,4 +52,10 @@
       <p *ngIf="D.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{displayMotClef(D.lesMotsClefs)}}</small></p>
     </div>
   </div>
+  <br/>
+  <button  class="btn btn-secondary pull-right" (click)="debutNewVis()" >Faire la visite !</button>
+  <div *ngIf = "newVisite">
+    <app-new-visite></app-new-visite>
+  </div>
 </div>
+<br/>

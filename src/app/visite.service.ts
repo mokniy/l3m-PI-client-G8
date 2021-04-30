@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Visite, Question, Indice, Defi, MotClef, Arret } from './AllDefinitions';
+import { NouvelleVisite, Question, Indice, Defi, MotClef, Arret } from './AllDefinitions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VisiteService {
 
-  private visiteEnCour = new BehaviorSubject<Visite | undefined>(undefined);
+  private visiteEnCour = new BehaviorSubject<NouvelleVisite | undefined>(undefined);
   readonly obsVisiteEnCour = this.visiteEnCour.asObservable();
 
 constructor() { }
@@ -28,7 +28,7 @@ async newVisite(id:string) {
   const responseArret = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/arret/"+dataDefi.code_arret);
   const dataArret = await responseArret.json() as Arret;
 
-  const v:Visite = {
+  const v:NouvelleVisite = {
     leDefi:dataDefi,
     lArret:dataArret,
     lesIndices:dataIndice,
@@ -37,6 +37,10 @@ async newVisite(id:string) {
   }
   console.log(v);
   this.visiteEnCour.next(v)
+}
+
+closeNewVisite() {
+  this.visiteEnCour.next(undefined)
 }
 
 

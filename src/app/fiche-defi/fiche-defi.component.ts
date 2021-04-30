@@ -1,3 +1,4 @@
+import { VisiteService } from './../visite.service';
 import { MapService } from './../map.service';
 import { DefiService } from './../defi.service';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
@@ -19,15 +20,20 @@ export class FicheDefiComponent implements OnInit {
     if (leDefi) {
       const P = Promise.all([this.recupArret(leDefi.code_arret), this.recupMotClef(leDefi.defi)]);
       P.then( ([lArret, lesMotsClefs]) => this.defiSubj.next({leDefi, lArret, lesMotsClefs}) );
+      this.newVisite = false;
+      this.visiteService.closeNewVisite();
     } else {
       this.defiSubj.next(null);
+      this.newVisite = false;
     }
   }
+
+  public newVisite = false;
 
   private defiSubj = new Subject<AffichageDefi | null>();
   readonly affichageDuDefi: Observable<AffichageDefi | null> = this.defiSubj.asObservable();
 
-  constructor(private defiService : DefiService, private mapService : MapService) {
+  constructor(private defiService : DefiService, private mapService : MapService, private visiteService : VisiteService) {
   }
 
   ngOnInit() {
@@ -58,6 +64,13 @@ export class FicheDefiComponent implements OnInit {
       );
       console.log("Mot : "+lesMotsClefs);
     return lesMotsClefs;
+  }
+
+  debutNewVis() {
+    this.newVisite = true;
+    if(this.defi) {
+      this.visiteService.newVisite(this.defi.defi)
+    }
   }
 
 }
