@@ -12,7 +12,6 @@ export class DefiService {
   // OK mais à la limite ça ne m'inquiète pas d'en avoir beaucoup dans un service
   // C'est plutôt au niveau des composant qu'il faut les minimiser
 
-  // Allons voir dans le composant qui semble poser problème
   private DefisSubj = new BehaviorSubject<Defi[]>( [] );
   readonly obsAllChall = this.DefisSubj.asObservable();
 
@@ -169,6 +168,9 @@ async recupererMotClefUnDefi(id:string){
 
 async postListIndice(listIndice:IndiceTmp[]): Promise<Indice[]> {
   console.log('Je suis dans la création des indices : ', listIndice);
+  listIndice.forEach(element => {
+    element.description_ind=escape_quote(element.description_ind)
+  });
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/indice/list",
   {
       method: "POST",
@@ -196,6 +198,10 @@ async deleteIndicesOfDefi(idDefi:string) {
 
 async postListQuestion(listQuestion:QuestionTmp[]): Promise<Question[]> {
   console.log('Je suis dans la création des questions : ', listQuestion);
+  listQuestion.forEach(element => {
+    element.description_qst=escape_quote(element.description_qst),
+    element.secret_qst=escape_quote(element.secret_qst)
+  });
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/question/list",
   {
       method: "POST",
@@ -297,7 +303,7 @@ decoupeMotClef(motClefSaisie:string){
     return index === self.indexOf(elem);
   }).map( x =>
       this.createMotClefTmp(x)
-    )
+    ).filter(word => word.mot_mc !== "");
 }
 
 createMotClefTmp(s:string):MotClefTmp {

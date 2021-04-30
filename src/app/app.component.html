@@ -56,7 +56,7 @@
           Bienvenue {{ OneUser.oauthUser.displayName }} ! Veuillez terminer l'inscription.
         </h1>
         <div class="alert alert-danger" role="alert">
-          <b>Bienvenue sur le site des Chamis ! Veuillez saisir votre âge pour confirmer votre inscription avec l'email : {{ OneUser.oauthUser.email }}</b>
+          <b>Bienvenue sur le site des Chamis ! Veuillez saisir votre âge, pseudo et ville pour confirmer votre inscription avec l'email : {{ OneUser.oauthUser.email }}</b>
           <br/>
           <br/>
         <form (ngSubmit)="
@@ -71,6 +71,7 @@
           <div class="form-row">
             <label>Pseudo : </label>
             <input #InputPseudo class="form-control" type="text" placeholder="Pseudo"/>
+            <p>Ce pseudo est déjà utilisé.</p>
             <div class="form-group col-md-6">
               <label>Age : </label>
               <input #InputAge class="form-control" type="number" placeholder="Age"/>

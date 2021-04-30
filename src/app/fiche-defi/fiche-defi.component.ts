@@ -11,19 +11,6 @@ import { Observable, Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush // Pour minimiser les rendus et les évaluations
 })
 export class FicheDefiComponent implements OnInit {
-  //avec le constructeur ca se declenchais qu'une fois non , ça s'abonnait bien
-  // ça se déclanchait du coup à chaque fois
-  // MAIS
-  // la vue n'était pas synchro avec un observable
-  // Angular tâtonnait un peu pour savoir quand il fallait la rafraichir
-  // Comme on avait des appels asynchrone (avec des promesses), il ne s'en sortait pas vraiment
-  // Dans un cas comme ça (appels asynchrones) il faut effectivement passer par un observable pour gérer la vue
-  //ok tres bien on a le modéle au moin si on est amené à devoir faire la même on va bien le regarder maintenant
-  // Oui, pour vos composants :
-  //   1) Si possible, un composant "pur" juste avec des @Input
-  //   2) Si besoin de récupérer des données asynchrone (Promesses ou Observable) dans le composant, sans pouvoir passer par les @Input
-  //      alors faire une synchro de la vue avec un observable
-  //Ok tres bien je garde ces notes de côte merci
   private _defi: Defi | null = null;
   @Input() // On passe par un attribut calculé pour pouvoir déclancher les calculs
   get defi(): Defi | null {return this._defi;}
@@ -46,10 +33,6 @@ export class FicheDefiComponent implements OnInit {
   ngOnInit() {
   }
 
-  /*get obsDefiAffiche(): Observable<Defi> {
-    return this.mapService.obsDefiAffiche;
-  }*/
-
   private async recupMotClef(id_defi:string):Promise<MotClef[]>{
     const lesMotsClefs = await this.defiService.recupererMotClefUnDefi(id_defi);
     return lesMotsClefs
@@ -58,6 +41,23 @@ export class FicheDefiComponent implements OnInit {
   private async recupArret(code_arret:string):Promise<Arret>{
     const arret = await this.mapService.recupUnArret(code_arret);
     return arret
+  }
+
+  displayMotClef(tabMC:MotClef[]):string{
+    console.log(JSON.stringify(tabMC))
+    let lesMotsClefs:string="";
+    tabMC.forEach(x =>
+      {
+        if(lesMotsClefs===""){
+          lesMotsClefs+=x.mot_mc
+        }
+        else {
+          lesMotsClefs+=",   "+x.mot_mc
+        }
+        }
+      );
+      console.log("Mot : "+lesMotsClefs);
+    return lesMotsClefs;
   }
 
 }

@@ -75,7 +75,7 @@ export interface Chercher{
 
 export interface IndiceTmp{
   label_ind:string;
-  readonly description_ind:string;
+  description_ind:string;
   readonly points_ind:number;
   id_defi?:string;
 }
@@ -98,9 +98,9 @@ export interface Question {
 }
 
 export interface QuestionTmp {
- label_qst:string;
-  readonly description_qst:string;
-  readonly secret_qst:string;
+  label_qst:string;
+  description_qst:string;
+  secret_qst:string;
   readonly points_qst: number;
   id_defi?:string;
 }

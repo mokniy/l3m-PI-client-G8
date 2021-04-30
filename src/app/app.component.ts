@@ -66,13 +66,4 @@ export class AppComponent {
       email: name,
     });
   }
-
-
-  //get tst(): Observable<Chami | User | undefined> | undefined{
-  //return this.UserService.merged;
-  //}
-
-  //TESTMERGE//
-
-
 }

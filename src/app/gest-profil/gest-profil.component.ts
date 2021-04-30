@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { User } from '../AllDefinitions';
+import { escape_quote, User } from '../AllDefinitions';
 import { UtilisateurService } from '../utilisateur.service';
 
 @Component({
@@ -23,8 +23,8 @@ export class GestProfilComponent implements OnInit {
     const res = await this.UserService.putUser({
       pseudo: pseudo,
       age: +age,
-      ville: ville.replace("'","''"),
-      description: description.trim().replace("'","''"),
+      ville: escape_quote(ville),
+      description: escape_quote(description),
       email: mail
     });
     if(res === undefined) {

@@ -85,7 +85,8 @@ async getAllDefiOfAnArret(unArret:ArretMap){
 }
 
 closeDefi():void {
-  this.DefisOfAnArret.next([])
+  this.DefisOfAnArret.next([]);
+  this.stopAffDefi();
 }
 
 ////////////////////RECUPERATION ARRET AVEC UN LIBELLE DANS BDD
@@ -184,4 +185,7 @@ newDefiAffiche(d:Defi) {
   this.defiAfficheSubj.next(d)
 }
 
+stopAffDefi() {
+  this.defiAfficheSubj.next(undefined)
+}
 }

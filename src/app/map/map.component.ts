@@ -41,6 +41,7 @@ export class MapComponent implements OnInit {
   }
 
   displayDefi(i: number) {
+    this.mapService.stopAffDefi()
     this.mapService.displayDefi(i);
   }
 

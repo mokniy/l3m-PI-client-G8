@@ -56,7 +56,7 @@
       <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}}.</small></p></ng-template>
       <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}} - Derniere modification : {{D.leDefi.dateDeModification}}.</small></p></ng-template>
 
-      <p *ngIf="D.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{D.lesMotsClefs[0].mot_mc}}</small></p>
+      <p *ngIf="D.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{displayMotClef(D.lesMotsClefs)}}</small></p>
     </div>
   </div>
 </div>
