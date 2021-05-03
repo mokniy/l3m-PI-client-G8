@@ -109,8 +109,8 @@ export class UtilisateurService {
     }
   }
 
-  async putUser(user: Chami): Promise<Response | undefined> {
-    if ((await this.getChamiWithPseudo(user.pseudo)) === undefined) {
+  async putUser(user: Chami, userCo: User): Promise<Response | undefined> {
+    if ((await this.getChamiWithPseudo(user.pseudo)) === undefined || user.pseudo === userCo.chami?.pseudo) {
       console.log(JSON.stringify(user));
       console.log(user.description);
       const res = await fetch(
@@ -131,5 +131,9 @@ export class UtilisateurService {
       this.alReadyUseSubj.next(true);
     }
     return undefined;
+  }
+
+  resetUsedObs(){
+    this.alReadyUseSubj.next(false)
   }
 }

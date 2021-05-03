@@ -28,10 +28,11 @@ import { PageProfilComponent } from './page/page-profil/page-profil.component';
 import { PageNewdefiComponent } from './page/page-newdefi/page-newdefi.component';
 import { PageCommunauteComponent } from './page/page-communaute/page-communaute.component';
 import { PageJeuComponent } from './page/page-jeu/page-jeu.component';
+import { AlertCoNecessaireComponent } from './alert-co-necessaire/alert-co-necessaire.component';
 
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     MapComponent,
       CreaDefiComponent,
@@ -44,7 +45,8 @@ import { PageJeuComponent } from './page/page-jeu/page-jeu.component';
       PageProfilComponent,
       PageNewdefiComponent,
       PageCommunauteComponent,
-      PageJeuComponent
+      PageJeuComponent,
+      AlertCoNecessaireComponent
    ],
   imports: [
     BrowserModule,

@@ -5,8 +5,6 @@ EALISATION DUNE VISITE-->
     <div *ngIf="obsVisite | async as uneVisite">
       <div *ngIf="obsUser | async as user;else elseDoThat">
         <div *ngIf="user.chami !== undefined">
-          <button (click)="tst()">ENVOI VISITE</button>
-          <!--{{uneVisite | json}}-->
           <h3>Nouvelle visite pour "{{uneVisite.leDefi.titre}}" avec le compte {{user.chami.pseudo}}</h3>
           <form (ngSubmit)="createVisite(uneVisite,user.chami.pseudo,commentaireArea.value,inputStaVis.value,intputModVis.value,inputDuree.value)" >
             <!--TROIS PREMIER CHAMPS-->
@@ -97,9 +95,6 @@ EALISATION DUNE VISITE-->
   </div>
 
   <ng-template #elseDoThat>
-    <br/><br/>
-    <div class="alert alert-warning" role="alert">
-      <p> <b>Pour réaliser votre visite veuillez vous connecter !</b> </p>
-    </div>
+    <app-alert-co-necessaire></app-alert-co-necessaire>
   </ng-template>
 <!--FIN REALISATION DUNE VISITE-->

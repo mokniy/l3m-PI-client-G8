@@ -11,7 +11,9 @@ import { UtilisateurService } from '../utilisateur.service';
 })
 export class GestProfilComponent implements OnInit {
 
-  constructor(private UserService: UtilisateurService) { }
+  constructor(private userService: UtilisateurService) {
+    this.userService.resetUsedObs();
+  }
 
   @Input() userRecu !: User;
 
@@ -19,16 +21,16 @@ export class GestProfilComponent implements OnInit {
   }
 
   get obsUsed(): Observable<boolean> {
-    return this.UserService.alReadyUseSubjObs;
+    return this.userService.alReadyUseSubjObs;
   }
 
   async updateUser(age: string, ville: string, description: string, mail: string,pseudo: string) {
-    await this.UserService.putUser({
+    await this.userService.putUser({
       pseudo: escape_quote(pseudo).trim(),
       age: +age,
       ville: escape_quote(ville),
       description: escape_quote(description),
       email: mail
-    });
+    },this.userRecu);
   }
 }

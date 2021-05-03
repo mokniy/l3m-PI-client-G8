@@ -1,4 +1,5 @@
-<h4>Voici vos défis, pour en modifier un il suffit de cliquer dessus !</h4>
+<a href="http://localhost:4200/creer_defi" class="btn btn-outline-dark">+ Ajouter un défi</a>
+<br/><br/>
 <table class="table" *ngIf="obsChallUser | async as Defis" class="table">
   <thead class="thead-dark">
     <tr>
@@ -64,17 +65,8 @@
     <br/>
     <section *ngIf="(obsQuestion | async)">
 <!-- ################################QUESTION################################ -->
-<div class="form-group">
-  <label for="exampleInputEmail1">Question</label>
-  <input type="text" #question class="form-control" placeholder="Question">
-  <br/>
-  <input type="text" #secret class="form-control" placeholder="Secret">
-  <br/>
-  <input type="number" #pointsQuestion class="form-control" placeholder="Points">
-</div>
-<input type="button" value="Ajouter" class="btn btn-secondary"(click)="addQuestion(question.value,secret.value,pointsQuestion.value)"/>
-
-<br>
+<h4>Questions</h4>
+<div class="rounded border">
 <div class="table-responsive-lg">
 <table class="table table-hover">
 <thead>
@@ -111,22 +103,25 @@
   </tr>
 </tbody>
 </table>
+<div class="form-group">
+  <input type="text" #question class="form-control" placeholder="Question">
+  <br/>
+  <input type="text" #secret class="form-control" placeholder="Secret">
+  <br/>
+  <input type="number" #pointsQuestion class="form-control" placeholder="Points">
+  <br/>
+  <input type="button" value="Ajouter une question" class="btn btn-secondary pull-right"(click)="addQuestion(question.value,secret.value,pointsQuestion.value)"/>
+  <br/>
 </div>
-<!-- ################################QUESTION################################ -->
+</div>
+</div>
     </section>
 
 
     <section *ngIf="obsIndice | async as tst">
 <!-- ################################INDICE################################ -->
-<div class="form-group">
-  <label for="exampleInputEmail1">Indice</label>
-  <input type="text" #indice class="form-control" placeholder="Indice">
-  <br/>
-  <input type="number" #points class="form-control" placeholder="Points">
-</div>
-<input type="button" value="Ajouter" class="btn btn-secondary"(click)="addElement(indice.value,points.value)"/>
-
-<br>
+<h4>Indices</h4>
+<div class="rounded border">
 <div class="table-responsive-lg">
 <table class="table table-hover">
 <thead>
@@ -155,9 +150,21 @@
   </tr>
 </tbody>
 </table>
+<div class="form-group">
+  <input type="text" #indice class="form-control" placeholder="Indice">
+  <br/>
+  <input type="number" #points class="form-control" placeholder="Points">
+  <br/>
+  <input type="button" value="Ajouter un indice" class="btn btn-secondary pull-right"(click)="addElement(indice.value,points.value)"/>
+  <br/>
 </div>
+
+</div>
+</div>
+<br/>
 <!-- ################################INDICE################################ -->
 </section>
+<label for="basic-url">Veuillez saisir les mots clefs associés au défi en les séparant avec un espace.</label>
   <input #inputMotClef type="text" class="form-control"  placeholder="Entrez les mots clefs séparés par des espaces." value="{{getMotClef()}}"/>
 <br/>
     <button class="btn btn-outline-success" type="submit"><i class="fa fa-check "></i>Modifier</button>

@@ -14,7 +14,6 @@
     <span aria-hidden="true">&times;</span></button>
   <br/>
   <h2 style="text-align: center;">Debut formulaire création d'un arret</h2>
-  <p><b>RECUP PAS DANS BDD</b></p>
    <form (ngSubmit)="recupLibNotIn(InputLibNotIn.value)">
      <div class="form-row">
        <div class="form-group col-md-6">
@@ -43,7 +42,6 @@
   <br/>
   <br/>
   <h2 style="text-align: center;">Debut formulaire création d'un défi</h2>
-  <p><b>RECUP QUE DANS BDD</b></p>
   <form (ngSubmit)="recupLibIn(InputLib.value)">
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -72,7 +70,6 @@
   <br/>
   <br/>
   <h2 style="text-align: center;">Debut formulaire edit d'un défi</h2>
-  <p><b>RECUP QUE DANS BDD</b></p>
   <form (ngSubmit)="recupLibIn(InputLib.value)">
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -104,7 +101,7 @@
       <span aria-hidden="true">&times;</span></button><br />
     <form (ngSubmit)="creationArret(InputStreetMap.value,listeArretNotInBDD.value)">
       <div class="form-group">
-        <label for="exampleFormControlSelect2">Example multiple select</label>
+        <label>Arrêts</label>
         <select
           #listeArretNotInBDD
           multiple
@@ -266,17 +263,9 @@
 
 
       <!-- ################################QUESTION################################ -->
-      <div class="form-group">
-        <label for="exampleInputEmail1">Question</label>
-        <input type="text" #question class="form-control" placeholder="Question">
-        <br/>
-        <input type="text" #secret class="form-control" placeholder="Secret">
-        <br/>
-        <input type="number" #pointsQuestion class="form-control" placeholder="Points">
-      </div>
-      <input type="button" value="Ajouter" class="btn btn-secondary"(click)="addQuestion(question.value,secret.value,pointsQuestion.value)"/>
 
-    <br>
+<h4>Questions</h4>
+    <div  class="rounded border" >
     <div class="table-responsive-lg">
     <table class="table table-hover">
       <thead>
@@ -314,20 +303,24 @@
       </tbody>
     </table>
     </div>
-    <!-- ################################QUESTION################################ -->
+    <div class="form-group">
 
+      <input type="text" #question class="form-control" placeholder="Question">
+      <br/>
+      <input type="text" #secret class="form-control" placeholder="Secret">
+      <br/>
+      <input type="number" #pointsQuestion class="form-control" placeholder="Points">
+      <br/>
+      <input type="button" value="Ajouter une question" class="btn btn-secondary pull-right"(click)="addQuestion(question.value,secret.value,pointsQuestion.value)"/>
+      <br/>
+    </div>
+  </div>
+<br/>
 
 
 <!-- ################################INDICE################################ -->
-      <div class="form-group">
-        <label for="exampleInputEmail1">Indice</label>
-        <input type="text" #indice class="form-control" placeholder="Indice">
-        <br/>
-        <input type="number" #points class="form-control" placeholder="Points">
-      </div>
-      <input type="button" value="Ajouter" class="btn btn-secondary"(click)="addElement(indice.value,points.value)"/>
-
-    <br>
+<h4>Indices</h4>
+<div class="rounded border">
     <div class="table-responsive-lg">
     <table class="table table-hover">
       <thead>
@@ -356,13 +349,23 @@
         </tr>
       </tbody>
     </table>
+    <div class="form-group">
+      <input type="text" #indice class="form-control" placeholder="Indice">
+      <br/>
+      <input type="number" #points class="form-control" placeholder="Points">
+      <br/>
+      <input type="button" value="Ajouter un indice" class="btn btn-secondary pull-right"(click)="addElement(indice.value,points.value)"/>
+      <br/>
     </div>
-    <!-- ################################INDICE################################ -->
 
+    </div>
+  </div>
+    <!-- ################################INDICE################################ -->
+<br/>
       <label for="basic-url">Veuillez saisir les mots clefs associés au défi en les séparant avec un espace.</label>
       <input #InputMotClef type="text" class="form-control"  placeholder="Entrez les mots clefs séparés par des espaces."/>
 
-
+<br/>
       <input class="btn btn-secondary" type="submit" />
     </form>
     <!--FIN FORM CREATION DEFI-->
