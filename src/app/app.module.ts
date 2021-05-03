@@ -29,10 +29,11 @@ import { PageNewdefiComponent } from './page/page-newdefi/page-newdefi.component
 import { PageCommunauteComponent } from './page/page-communaute/page-communaute.component';
 import { PageJeuComponent } from './page/page-jeu/page-jeu.component';
 import { AlertCoNecessaireComponent } from './alert-co-necessaire/alert-co-necessaire.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     MapComponent,
       CreaDefiComponent,
@@ -62,7 +63,8 @@ import { AlertCoNecessaireComponent } from './alert-co-necessaire/alert-co-neces
     YagaModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    FormsModule
+    FormsModule,
+    GoogleMapsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

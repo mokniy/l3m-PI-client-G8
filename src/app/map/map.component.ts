@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { Observable } from 'rxjs';
 import { ArretMap, Defi } from '../AllDefinitions';
 import { MapService } from '../map.service';
+import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-map',
@@ -42,13 +43,16 @@ export class MapComponent implements OnInit {
     return this.mapService.colorationLines(i);
   }
 
-  displayDefi(i: number) {
-    this.mapService.stopAffDefi()
-    this.mapService.displayDefi(i);
-  }
-
   getUrlMarker(nb_defi:number): string {
     return "https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png";
+  }
+
+  displayDefi(i: number) {
+    this.mapService.stopAffDefi()
+    this.arretDisplay = this.mapService.displayDefi(i);
+    if(this.map !== undefined) {
+      this.loadView()
+    }
   }
   ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
 
@@ -59,5 +63,21 @@ export class MapComponent implements OnInit {
 
   get obsDefiAffiche(): Observable<Defi> {
     return this.mapService.obsDefiAffiche;
+  }
+
+  //////////////////load street view
+  @ViewChild(GoogleMap) map!: GoogleMap;
+  public arretDisplay!:ArretMap;
+
+  loadView() {
+    const streetView =this.map.getStreetView()
+    streetView.setOptions({
+      position: { lat: +this.arretDisplay.info_arret.geometry.coordinates[1], lng: +this.arretDisplay.info_arret.geometry.coordinates[0] },
+      pov: { heading: 165, pitch: 0 },
+      zoom: 1,
+    });
+    if(streetView.getVisible() === false) {
+      streetView.setVisible(true);
+    }
   }
 }

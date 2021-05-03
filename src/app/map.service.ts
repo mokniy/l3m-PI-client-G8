@@ -52,6 +52,7 @@ export class MapService {
       'METHODE DISPLAY DEFI ' + this.arrets[i].info_arret.properties.CODE
     );
     this.getAllDefiOfAnArret(this.arrets[i])
+    return this.arrets[i]
   }
 
   ///////////////////////////////////////////LIGNE///////////////////////////////////////////
@@ -76,6 +77,7 @@ export class MapService {
 
   //////////TAB AFFICHAGE DEFI PTS
 async getAllDefiOfAnArret(unArret:ArretMap){
+  console.log(unArret)
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/defi/'+unArret.info_arret.properties.CODE);
   const data = await response.json();
   console.log(data)

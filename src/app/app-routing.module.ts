@@ -10,7 +10,8 @@ const routes: Routes = [{path: 'gestion_profil', component: PageProfilComponent}
 {path: 'creer_defi', component: PageNewdefiComponent},
 {path: 'communaute', component: PageCommunauteComponent},
 {path: 'accueil', component: PageAccueilComponent},
-{path: 'jouer', component: PageJeuComponent}]
+{path: 'jouer', component: PageJeuComponent},
+{ path: '',   redirectTo: '/accueil', pathMatch: 'full' }]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

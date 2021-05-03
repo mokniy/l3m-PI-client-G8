@@ -28,8 +28,10 @@
   <br />
   <br />
   <br />
+
   <div class="container" *ngIf="obsUnArret | async as Defis">
     <div *ngIf="Defis.length !== 0" class="table">
+
       <button
         (click)="closeDefi()"
         type="button"
@@ -56,9 +58,23 @@
           </tr>
         </tbody>
       </table>
+      <br/>
+        <!--GOOGLE MAP-->
+        <p>
+          <button class="btn btn-outline-secondary" (click)="loadView()" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Teleporte toi à cette arrêt en un clique !
+          </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body ">
+            <div class="my-google-map">
+              <google-map [width]="1000" [height]="600"></google-map>
+            </div>
+          </div>
+        </div>
+        <!--GOOGLE MAP-->
     </div>
-    <!--je sais pas si j'ai le getter dans map.compo attendez, defiService.defiCourant ?
-    Non la on utilise le service map pour publier celui q'on affiche obsDefiAffiche-->
+
       <app-fiche-defi [defi] = "obsDefiAffiche | async"></app-fiche-defi>
     <br/>
   </div>
