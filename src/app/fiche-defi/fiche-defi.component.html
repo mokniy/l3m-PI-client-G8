@@ -1,7 +1,7 @@
 <div *ngIf="affichageDuDefi | async as D">
   <br/>
   <div class="card border-dark mb-6" >
-    <div class="card-header">Défi : <b>{{D.leDefi.defi}} - {{D.leDefi.titre}}</b> réalisé par <b>{{D.leDefi.auteur}}</b>.</div>
+    <div class="card-header">Défi : <b>{{D.leDefi.defi}} - {{D.leDefi.titre}}</b> créé par <b>{{D.leDefi.auteur}}</b>.</div>
     <div class="card-body text-dark" style="padding: 5px;">
 
       <small>Type : {{D.leDefi.type}}</small>
@@ -18,19 +18,19 @@
 
             <div class="card-text">
               <h6>Prologue: </h6>
-              <p style="white-space:pre" >{{D.leDefi.prologue}}</p>
+              <p style="white-space:pre-wrap" >{{D.leDefi.prologue}}</p>
             </div>
 
 
             <div class="card-text">
               <h6>Epilogue: </h6>
-              <p style="white-space:pre" >{{D.leDefi.epilogue}}</p>
+              <p style="white-space:pre-wrap" >{{D.leDefi.epilogue}}</p>
             </div>
 
 
             <div class="card-text">
               <h6>Commentaire: </h6>
-              <p style="white-space:pre" >{{D.leDefi.commentaire}}</p>
+              <p style="white-space:pre-wrap" >{{D.leDefi.commentaire}}</p>
             </div>
 
           </div>

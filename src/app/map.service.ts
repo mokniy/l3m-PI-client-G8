@@ -16,8 +16,6 @@ export class MapService {
   arrets: ArretMap[] = [];
 
   constructor() {
-    this.recupAllLinesSEMITAG();
-    this.recupArretAvecDefiAPIPerso();
   }
 
   ///////////////////////////////////////////ARRET///////////////////////////////////////////

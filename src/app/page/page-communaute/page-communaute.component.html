@@ -1,0 +1,21 @@
+<h2 style="text-align: center">LES CHAMIS !</h2>
+<button class="btn btn-secondary btn-lg btn-block" (click)="recupUser()">
+  RECUPERER LES CHAMIS
+</button>
+<br />
+<table *ngIf="obsChamis | async as users" class="col" class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th>LOGIN</th>
+      <th>AGE</th>
+      <th>DESCRIPTION</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.pseudo }}</td>
+      <td>{{ user.age }}</td>
+      <td>{{ user.description }}</td>
+    </tr>
+  </tbody>
+</table>

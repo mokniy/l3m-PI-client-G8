@@ -3,19 +3,18 @@
   <thead class="thead-dark">
     <tr>
       <th>Defi</th>
-      <th>titre</th>
-      <th>description</th>
-      <th>auteur</th>
-      <th>dateCreation</th>
+      <th>Titre</th>
+      <th>Date de creation</th>
+      <th>Date de modification</th>
     </tr>
   </thead>
   <tbody>
     <tr (click)="editedModeForDefi(Defi)" *ngFor="let Defi of Defis">
       <td>{{ Defi.defi }}</td>
       <td>{{ Defi.titre }}</td>
-      <td>{{ Defi.description }}</td>
-      <td>{{ Defi.auteur }}</td>
       <td>{{ Defi.dateDeCreation }}</td>
+      <td *ngIf="Defi.dateDeModification !== ''">{{ Defi.dateDeModification }}</td>
+      <td *ngIf="Defi.dateDeModification === ''">Aucune modification</td>
     </tr>
   </tbody>
 </table>

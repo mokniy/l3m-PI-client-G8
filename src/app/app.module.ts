@@ -23,10 +23,15 @@ import { GestProfilComponent } from './gest-profil/gest-profil.component';
 import { EditDefiComponent } from './edit-defi/edit-defi.component';
 import { NewVisiteComponent } from './new-visite/new-visite.component';
 import { AlertConComponent } from './alert-con/alert-con.component';
+import { PageAccueilComponent } from './page/page-accueil/page-accueil.component';
+import { PageProfilComponent } from './page/page-profil/page-profil.component';
+import { PageNewdefiComponent } from './page/page-newdefi/page-newdefi.component';
+import { PageCommunauteComponent } from './page/page-communaute/page-communaute.component';
+import { PageJeuComponent } from './page/page-jeu/page-jeu.component';
 
 
 @NgModule({
-  declarations: [						
+  declarations: [
     AppComponent,
     MapComponent,
       CreaDefiComponent,
@@ -34,7 +39,12 @@ import { AlertConComponent } from './alert-con/alert-con.component';
       GestProfilComponent,
       EditDefiComponent,
       NewVisiteComponent,
-      AlertConComponent
+      AlertConComponent,
+      PageAccueilComponent,
+      PageProfilComponent,
+      PageNewdefiComponent,
+      PageCommunauteComponent,
+      PageJeuComponent
    ],
   imports: [
     BrowserModule,

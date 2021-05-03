@@ -13,6 +13,8 @@ export class MapComponent implements OnInit {
   tileLayerUrl = OSM_TILE_LAYER_URL;
 
   constructor(private mapService : MapService) {
+    this.mapService.recupAllLinesSEMITAG();
+    this.mapService.recupArretAvecDefiAPIPerso();
   }
 
   ngOnInit(): void {

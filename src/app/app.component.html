@@ -27,123 +27,21 @@
 </mat-toolbar>
 
 <mat-drawer-container class="example-container">
-  <mat-drawer #drawer [mode]="mode.value">
-    <button>Défis</button><br/>
-    <button>Visites</button><br/>
-    <button>Mes défis</button><br/>
-    <button>Mes visites</button><br/>
+  <mat-drawer #drawer mode="over" >
+  <br/>
+    <button  (click)="drawer.toggle()" routerLink="accueil" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">Accueil</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="gestion_profil" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">Gérer son profil</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="creer_defi" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">Créer ton défis</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="jouer" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">Participe à un défi</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="communaute" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">Découvre la communautée</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="" routerLinkActive="active" style="background-color: rgb(236, 195, 9); border-radius:1em;"class="dropdown-item">L'assistant \!/Beta Test\!/</button><br/>
   </mat-drawer>
   <mat-drawer-content>
-    <mat-form-field>
-      <button></button>
-      <mat-label>Sidenav mode</mat-label>
-      <mat-select #mode value="push">
-        <mat-option value="side">Side</mat-option>
-        <mat-option value="over">Over</mat-option>
-        <mat-option value="push">Push</mat-option>
-      </mat-select>
-    </mat-form-field>
 
     <div class="container">
-      <!--COMPOSANT MAP-->
-      <app-map></app-map>
-    </div>
-
-    <div class="container">
-    <section *ngIf="obsUser | async as OneUser">
-      <section *ngIf="OneUser.chami === undefined">
-      <app-alert-con [userRecu]="OneUser"></app-alert-con>
-      </section>
-
-        <section *ngIf="OneUser.chami !== undefined">
-          <app-crea-defi [userConnected]="OneUser.chami" ></app-crea-defi>
-        <br />
-        <br />
-          <h1 style="text-align: center">
-            Bienvenue {{ OneUser.chami.pseudo }} !
-          </h1>
-          <hr />
-          <!--COMPOSANT GESTION DU PROFIL-->
-          <app-gest-profil [userRecu]="OneUser"></app-gest-profil>
-          <hr />
-          <!--COMPOSANT GESTION DES DEFIS-->
-          <app-edit-defi></app-edit-defi>
-          <hr />
-          <br />
-        </section>
-      </section>
-      <br />
-
-      <h2 style="text-align: center">LES CHAMIS !</h2>
-      <button class="btn btn-secondary btn-lg btn-block" (click)="recupUser()">
-        RECUPERER LES CHAMIS
-      </button>
-      <br />
-      <table *ngIf="obsChamis | async as users" class="col" class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th>LOGIN</th>
-            <th>AGE</th>
-            <th>DESCRIPTION</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let User of users">
-            <td>{{ User.pseudo }}</td>
-            <td>{{ User.age }}</td>
-            <td>{{ User.description }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <br />
-    <br />
-    <div class="container-fluid">
-      <button class="col" (click)="recupDefi()">RECUPERER LES DEFIS</button>
-      <br />
-      <br />
-      <table *ngIf="obsDefis | async as Defis" class="col">
-        <thead>
-          <tr>
-            <th colspan="5">Défis</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Defi</th>
-            <th>titre</th>
-            <th>description</th>
-            <th>auteur</th>
-            <th>dateCreation</th>
-            <th>code arret</th>
-          </tr>
-          <tr *ngFor="let Defi of Defis">
-            <td>{{ Defi.defi }}</td>
-            <td>{{ Defi.titre }}</td>
-            <td>{{ Defi.description }}</td>
-            <td>{{ Defi.auteur }}</td>
-            <td>{{ Defi.dateDeCreation }}</td>
-            <td>{{ Defi.code_arret }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <!--Notre user : {{ obsUser | async | json }}-->
-      <br />
-      <br />
-      <br />
-      <br />
-      <div *ngIf='defiNewVisite !== undefined '>
-        <app-new-visite></app-new-visite>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
+      <br/>
+      <router-outlet></router-outlet>
+      <br/>
     </div>
 
   </mat-drawer-content>

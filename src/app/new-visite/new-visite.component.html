@@ -1,12 +1,14 @@
-<!--REALISATION DUNE VISITE-->
+<!--R
+
+EALISATION DUNE VISITE-->
   <div *ngIf="obsVisite !== undefined && obsUser !== undefined">
     <div *ngIf="obsVisite | async as uneVisite">
-      <div *ngIf="obsUser | async as user">
+      <div *ngIf="obsUser | async as user;else elseDoThat">
         <div *ngIf="user.chami !== undefined">
-            {{uneVisite | json}}
-
+          <button (click)="tst()">ENVOI VISITE</button>
+          <!--{{uneVisite | json}}-->
           <h3>Nouvelle visite pour "{{uneVisite.leDefi.titre}}" avec le compte {{user.chami.pseudo}}</h3>
-          <form>
+          <form (ngSubmit)="createVisite(uneVisite,user.chami.pseudo,commentaireArea.value,inputStaVis.value,intputModVis.value,inputDuree.value)" >
             <!--TROIS PREMIER CHAMPS-->
             <div class="form-group">
               <div class="form-row">
@@ -33,14 +35,71 @@
               </div>
             </div>
             <!--FIN TROIS PREMIER CHAMPS-->
+
+            <!--LISTE INDICE-->
+            <h5 *ngIf="uneVisite.lesIndices.length > 0">Les indice(s) disponible :</h5>
+
+            <div *ngFor="let ind of uneVisite.lesIndices" class="form-check">
+              <input *ngIf="!ind.usedInd" (click)="ind.usedInd = true" class="form-check-input" type="checkbox" id="flexCheckDefault"> {{ind.points_ind}} point(s) -
+              <label *ngIf="!ind.usedInd" class="flou form-check-label" for="flexCheckDefault">
+                **************************
+              </label>
+              <label *ngIf="ind.usedInd" class="form-check-label" for="flexCheckDefault">
+                {{ind.label_ind}} : {{ind.description_ind}}
+              </label>
+            </div>
+            <br/>
+            <!--LISTE INDICE-->
+
+            <!--LISTE QUESTION-->
+            <h5 *ngIf="uneVisite.lesQuestions.length > 0">Les question(s) : </h5>
+
+            <div *ngFor="let qst of uneVisite.lesQuestions">
+                <div *ngIf="qst.reponse !== undefined && qst.reponse !== ''">
+                  <label for="rep">{{qst.description_qst}}</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="label_qst">{{qst.label_qst}}</span>
+                    </div>
+                    <input type="text" #rep class="form-control" value="{{qst.reponse}}" id="rep" aria-describedby="label_qst">
+                    &nbsp;
+                    <button type="button" class="btn btn-outline-success" (click)="qst.reponse = rep.value">Valider votre réponse</button>
+                  </div>
+                </div>
+
+                <div *ngIf="qst.reponse === undefined || qst.reponse === ''">
+                  <label for="repFirst">{{qst.description_qst}}</label>
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="label_qstFirst">{{qst.label_qst}}</span>
+                      </div>
+                      <input type="text" #repFirst class="form-control is-invalid" id="repFirst" placeholder="Veuillez saisir votre réponse ici." aria-describedby="label_qstFirst">
+                      &nbsp;
+                      <button type="button" class="btn btn-outline-success" (click)="qst.reponse = repFirst.value">Valider votre réponse</button>
+                      <div class="invalid-feedback">
+                        Vous n'avez pas répondu à cette question.
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <!--LISTE QUESTION-->
+
             <div class="form-group">
-              <label for="commentaireArea">Un commentaire, une suggestion ? N'hésite pas !</label>
+              <label for="commentaireArea"><b>Un commentaire, une suggestion ? N'hésite pas !</b></label>
               <textarea #commentaireArea class="form-control" id="commentaireArea" rows="3"></textarea>
             </div>
-          </form>
 
+            <input class="btn btn-secondary" type="submit" />
+          </form>
+        </div>
       </div>
     </div>
   </div>
-  </div>
+
+  <ng-template #elseDoThat>
+    <br/><br/>
+    <div class="alert alert-warning" role="alert">
+      <p> <b>Pour réaliser votre visite veuillez vous connecter !</b> </p>
+    </div>
+  </ng-template>
 <!--FIN REALISATION DUNE VISITE-->

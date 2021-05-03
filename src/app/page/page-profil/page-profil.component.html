@@ -1,0 +1,30 @@
+<section *ngIf="obsUser | async as OneUser;else elseDoThat">
+  <section *ngIf="OneUser.chami === undefined">
+  <app-alert-con [userRecu]="OneUser"></app-alert-con>
+  </section>
+
+    <section *ngIf="OneUser.chami !== undefined">
+    <br />
+    <br />
+      <h1 style="text-align: center">
+        Bienvenue {{ OneUser.chami.pseudo }} !
+      </h1>
+      <hr />
+      <!--COMPOSANT GESTION DU PROFIL-->
+      <app-gest-profil [userRecu]="OneUser"></app-gest-profil>
+      <hr />
+      <br />
+      <h1 style="text-align: center">
+        Gestion de vos défis !
+      </h1>
+      <app-edit-defi></app-edit-defi>
+
+    </section>
+  </section>
+
+  <ng-template #elseDoThat>
+    <br/><br/>
+    <div class="alert alert-warning" role="alert">
+      <p> <b>Pour gérer votre profil veuillez vous connecter !</b> </p>
+    </div>
+  </ng-template>

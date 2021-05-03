@@ -1,0 +1,17 @@
+<section *ngIf="obsUser | async as OneUser;else elseDoThat">
+  <section *ngIf="OneUser.chami === undefined">
+  <app-alert-con [userRecu]="OneUser"></app-alert-con>
+  </section>
+    <section *ngIf="OneUser.chami !== undefined">
+      <app-crea-defi [userConnected]="OneUser.chami" ></app-crea-defi>
+      <hr />
+      <br />
+    </section>
+  </section>
+
+  <ng-template #elseDoThat>
+    <br/><br/>
+    <div class="alert alert-warning" role="alert">
+      <p> <b>Pour créer votre défi veuillez vous connecter !</b> </p>
+    </div>
+  </ng-template>

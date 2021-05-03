@@ -8,22 +8,8 @@ export interface Chami {
   readonly email: string;
 }
 
-export interface Defi {
+export interface Defi extends DefiTmp{
   readonly defi:string;
-  readonly titre:string;
-  readonly dateDeCreation:string;
-  readonly description:string;
-  readonly auteur:string;
-  readonly code_arret:string;
-  readonly type:string;
-  readonly dateDeModification:string;
-  readonly version:number;
-  readonly arret:string;
-  readonly points:number;
-  readonly duree:string;
-  readonly prologue:string;
-  readonly epilogue:string;
-  readonly commentaire:string;
 }
 
 export interface DefiTmp {
@@ -112,25 +98,26 @@ export interface AffichageDefi {
 }
 
 /////////////VISITE/////////////
+
+export interface IndiceForVisite extends Indice {
+  usedInd ?:boolean;
+}
+
+export interface QuestionForVisite extends Question {
+  reponse ?:string;
+  resultat ?:boolean;
+}
+
 export interface NouvelleVisite {
   readonly leDefi:Defi;
   readonly lArret: Arret;
   readonly lesMotsClefs: MotClef[]
-  readonly lesQuestions: Question[]
-  readonly lesIndices: Indice[]
+  readonly lesQuestions: QuestionForVisite[]
+  readonly lesIndices: IndiceForVisite[]
 }
 
-export interface Visite {
+export interface Visite extends VisiteTmp{
   readonly id_vis :string;
-  readonly date_vis :string;
-  readonly mode_vis :string;
-  readonly statut_vis :string;
-  readonly pts_vis : number;
-  readonly score_vis : number;
-  readonly temps_vis :string;
-  readonly id_visiteur :string;
-  readonly id_defis :string;
-  readonly commentaire :string;
 }
 
 export interface VisiteTmp {
@@ -141,11 +128,24 @@ export interface VisiteTmp {
   readonly score_vis : number;
   readonly temps_vis :string;
   readonly id_visiteur :string;
-  readonly id_defis :string;
+  readonly id_defi :string;
   readonly commentaire :string;
+  readonly indice_utilise_vis: string;
 }
 
+export interface ReponseTmp{
+  reponse_rep: string;
+  readonly id_qst:string;
+}
 
+export interface Reponse extends ReponseTmp{
+  readonly id_rep: string;
+}
+
+export interface EvaluationTmp{
+  readonly id_vis : string;
+  readonly id_rep :string;
+}
 /////////////////////////////FUNCTION/////////////////////////////
 
 export function componentToHex(c:number) {

@@ -50,7 +50,7 @@ export class FicheDefiComponent implements OnInit {
   }
 
   displayMotClef(tabMC:MotClef[]):string{
-    console.log(JSON.stringify(tabMC))
+    //console.log(JSON.stringify(tabMC))
     let lesMotsClefs:string="";
     tabMC.forEach(x =>
       {
@@ -62,7 +62,7 @@ export class FicheDefiComponent implements OnInit {
         }
         }
       );
-      console.log("Mot : "+lesMotsClefs);
+      //console.log("Mot : "+lesMotsClefs);
     return lesMotsClefs;
   }
 
