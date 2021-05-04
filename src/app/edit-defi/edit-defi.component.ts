@@ -80,12 +80,14 @@ export class EditDefiComponent implements OnInit {
     });
   }
 
-  async editedModeForDefi(defi:Defi) {
+  async editedModeForDefi(defi:Defi,el: HTMLElement) {
     this.clearTab();
     this.defi_edited = defi;
     await this.recupIndicesUnDefi(defi);
     await this.recupQuestionsUnDefi(defi);
     await this.recupMotClef(defi);
+    el.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+
   }
 
   get obsChallUser(): Observable<Defi[]> {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { NouvelleVisite, Defi, MotClef, Arret, IndiceForVisite, QuestionForVisite, VisiteTmp, Visite, Reponse, ReponseTmp, escape_quote, EvaluationTmp } from './AllDefinitions';
+import { NouvelleVisite, Defi, MotClef, Arret, IndiceForVisite, QuestionForVisite, VisiteTmp, Visite, Reponse, ReponseTmp, escape_quote, EvaluationTmp, ArretMap } from './AllDefinitions';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +88,23 @@ async postListEvaluation(listEval:EvaluationTmp[]): Promise<void> {
   });
   const R =  await res.json();
   console.log(listEval, "=>", R);
+}
+
+  //////////TAB AFFICHAGE VISITE
+  private VisiteOfAnArret = new BehaviorSubject<Visite[]>([]);
+  readonly obsVisArret = this.VisiteOfAnArret.asObservable();
+
+  //////////TAB AFFICHAGE VISITE
+async getAllVisiteOfAnArret(unArret:ArretMap){
+  console.log(unArret);
+  const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/visite/arret/'+unArret.info_arret.properties.CODE+"/");
+  const data = await response.json();
+  console.log(data)
+  this.VisiteOfAnArret.next( data as Visite[] );
+}
+
+closeAllVisite():void {
+  this.VisiteOfAnArret.next([]);
 }
 
 }

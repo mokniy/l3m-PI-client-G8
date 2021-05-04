@@ -1,93 +1,113 @@
-
 <div class="container">
-<button type="button" (click)="modeCreateArret()" class="btn btn-secondary btn-lg btn-block">Créer un arrêt</button>
-<button type="button" (click)="modeCreateDefi()" class="btn btn-secondary btn-lg btn-block">Créer un défi</button>
-<button type="button" (click)="modeEditArret()" class="btn btn-primary btn-lg btn-block">Editer un arrêt</button>
-
-<div *ngIf="createArret">
   <button
-    (click)="closeChoiceArret()"
     type="button"
-    class="close"
-    aria-label="Close"
+    (click)="modeCreateArret()"
+    class="btn btn-secondary btn-lg btn-block"
   >
-    <span aria-hidden="true">&times;</span></button>
-  <br/>
-  <h2 style="text-align: center;">Debut formulaire création d'un arret</h2>
-   <form (ngSubmit)="recupLibNotIn(InputLibNotIn.value)">
-     <div class="form-row">
-       <div class="form-group col-md-6">
-         <label>Libelle d'arret : </label>
-         <input
-           #InputLibNotIn
-           class="form-control"
-           name="InputAge"
-           type="text"
-           placeholder="Libelle"
-         />
-       </div>
-     </div>
-     <input class="btn btn-secondary" type="submit" />
-   </form>
-</div>
-
-<div *ngIf="createDefi">
+    Créer un arrêt
+  </button>
   <button
-    (click)="closeChoiceArret()"
     type="button"
-    class="close"
-    aria-label="Close"
+    (click)="modeCreateDefi()"
+    class="btn btn-secondary btn-lg btn-block"
   >
-    <span aria-hidden="true">&times;</span></button>
-  <br/>
-  <br/>
-  <h2 style="text-align: center;">Debut formulaire création d'un défi</h2>
-  <form (ngSubmit)="recupLibIn(InputLib.value)">
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label>Libelle d'arret : </label>
-        <input
-          #InputLib
-          class="form-control"
-          name="InputAge"
-          type="text"
-          placeholder="Libelle"
-        />
+    Créer un défi
+  </button>
+  <button
+    type="button"
+    (click)="modeEditArret()"
+    class="btn btn-primary btn-lg btn-block"
+  >
+    Editer un arrêt
+  </button>
+
+  <div *ngIf="createArret">
+    <button
+      (click)="closeChoiceArret()"
+      type="button"
+      class="close"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br />
+    <h2 style="text-align: center">Création d'un nouveau arret</h2>
+    <form (ngSubmit)="recupLibNotIn(InputLibNotIn.value)">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Libelle d'arret : </label>
+          <input
+            #InputLibNotIn
+            class="form-control"
+            name="InputAge"
+            type="text"
+            placeholder="Libelle"
+          />
+        </div>
       </div>
-    </div>
-    <input class="btn btn-secondary" type="submit" />
-  </form>
-</div>
-<br/>
-<div *ngIf="editArret">
-  <button
-    (click)="closeChoiceArret()"
-    type="button"
-    class="close"
-    aria-label="Close"
-  >
-    <span aria-hidden="true">&times;</span></button>
-  <br/>
-  <br/>
-  <h2 style="text-align: center;">Debut formulaire edit d'un défi</h2>
-  <form (ngSubmit)="recupLibIn(InputLib.value)">
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label>Libelle d'arret : </label>
-        <input
-          #InputLib
-          class="form-control"
-          name="InputAge"
-          type="text"
-          placeholder="Libelle"
-        />
-      </div>
-    </div>
-    <input class="btn btn-secondary" type="submit" />
-  </form>
-</div>
-</div>
+      <input class="btn btn-secondary" type="submit" />
+    </form>
+  </div>
 
+  <div *ngIf="createDefi">
+    <button
+      (click)="closeChoiceArret()"
+      type="button"
+      class="close"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br />
+    <br />
+    <h1 style="text-align: center">Création d'un défi</h1>
+    <h4>Choix de l'arrêt</h4>
+    <form (ngSubmit)="recupLibIn(InputLib.value)">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Libelle d'arret : </label>
+          <input
+            #InputLib
+            class="form-control"
+            name="InputAge"
+            type="text"
+            placeholder="Libelle"
+          />
+        </div>
+      </div>
+      <input class="btn btn-secondary" type="submit" />
+    </form>
+  </div>
+  <br />
+  <div *ngIf="editArret">
+    <button
+      (click)="closeChoiceArret()"
+      type="button"
+      class="close"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br />
+    <br />
+    <h2 style="text-align: center">Edition d'un arrêt</h2>
+    <form (ngSubmit)="recupLibIn(InputLib.value)">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Libelle d'arret : </label>
+          <input
+            #InputLib
+            class="form-control"
+            name="InputAge"
+            type="text"
+            placeholder="Libelle"
+          />
+        </div>
+      </div>
+      <input class="btn btn-secondary" type="submit" />
+    </form>
+  </div>
+</div>
 
 <!--CREATION ARRET-->
 <div *ngIf="obsArretInAPI | async as obsAPI" class="container">
@@ -98,39 +118,43 @@
       class="close"
       aria-label="Close"
     >
-      <span aria-hidden="true">&times;</span></button><br />
-    <form (ngSubmit)="creationArret(InputStreetMap.value,listeArretNotInBDD.value)">
+      <span aria-hidden="true">&times;</span></button
+    ><br />
+    <form
+      (ngSubmit)="creationArret(InputStreetMap.value, listeArretNotInBDD.value)"
+    >
       <div class="form-group">
         <label>Arrêts</label>
-        <select
-          #listeArretNotInBDD
-          multiple
-          class="form-control"
-          required
-        >
+        <select #listeArretNotInBDD multiple class="form-control" required>
           <option *ngFor="let unArret of obsAPI">
             {{
-                "Commune : " +
+              "Commune : " +
                 unArret.properties.COMMUNE +
                 ", " +
-                unArret.properties.LIBELLE+
+                unArret.properties.LIBELLE +
                 ", " +
                 unArret.properties.CODE
             }}
           </option>
         </select>
         <label>Lien streetmap : </label>
-        <textarea required #InputStreetMap class="form-control" rows="3"></textarea>
+        <textarea
+          required
+          #InputStreetMap
+          class="form-control"
+          rows="3"
+        ></textarea>
       </div>
       <input class="btn btn-secondary" type="submit" />
     </form>
   </div>
 </div>
 
+<div #defiCreated>
 <div *ngIf="obsArretInBDD | async as obsBDD" class="container">
-
-<!--EDITION ARRET-->
+  <!--EDITION ARRET-->
   <div *ngIf="obsBDD.length !== 0 && editArret === true" class="col-12">
+    <hr />
     <button
       (click)="closeChoiceArretInBDD()"
       type="button"
@@ -139,7 +163,9 @@
     >
       <span aria-hidden="true">&times;</span></button
     ><br />
-    <form (ngSubmit)="updateArret(SelectArretEdit.value,InputEditStreetmap.value)">
+    <form
+      (ngSubmit)="updateArret(SelectArretEdit.value, InputEditStreetmap.value)"
+    >
       <div class="form-group">
         <label for="Arret">Arret</label>
         <select
@@ -151,10 +177,10 @@
         >
           <option *ngFor="let unArret of obsBDD">
             {{
-                "Commune : " +
+              "Commune : " +
                 unArret.properties.COMMUNE +
                 ", " +
-                unArret.properties.LIBELLE+
+                unArret.properties.LIBELLE +
                 ", " +
                 unArret.properties.CODE
             }}
@@ -169,14 +195,18 @@
 
   <!--DEBUT FORM CREATION DEFI-->
   <!--Aucun arret dispo-->
-  <div *ngIf="obsBDD.length === 0 && indispo " class="col-8">
-    <div class="alert alert-warning" role="alert">
-      Aucun arrêt trouvé, <a (click)="modeCreateArret()" class="alert-link">veuillez le créer</a>.
+    <div *ngIf="obsBDD.length === 0 && indispo" class="col-8">
+      <hr />
+      <br />
+      <div class="alert alert-warning" role="alert">
+        Aucun arrêt trouvé,
+        <a (click)="modeCreateArret()" class="alert-link">veuillez le créer</a>.
+      </div>
     </div>
-  </div>
 
   <!--Arret dispo-->
   <div *ngIf="obsBDD.length !== 0 && editArret === false" class="col-12">
+    {{ setView(defiCreated)}}
     <button
       (click)="closeChoiceArretInBDD()"
       type="button"
@@ -185,33 +215,50 @@
     >
       <span aria-hidden="true">&times;</span></button
     ><br />
-    <form (ngSubmit)="creationDefi(InputTITRE.value, SelectType.value,SelectArret.value,InputDescription.value, InputVERSION.value, InputPOINTS.value, InputDUREE.value, InputPrologue.value, InputEpilogue.value, InputCommentaire.value, InputMotClef.value)">
+    <form
+      (ngSubmit)="
+        creationDefi(
+          InputTITRE.value,
+          SelectType.value,
+          SelectArret.value,
+          InputDescription.value,
+          InputVERSION.value,
+          InputPOINTS.value,
+          InputDUREE.value,
+          InputPrologue.value,
+          InputEpilogue.value,
+          InputCommentaire.value,
+          InputMotClef.value
+        )
+      "
+    >
       <div class="form-group">
         <label for="Arret">Arret</label>
-        <select
-          #SelectArret
-          multiple
-          class="form-control"
-          id="Arret"
-          required
-        >
+        <select #SelectArret multiple class="form-control" id="Arret" required>
           <option *ngFor="let unArret of obsBDD">
             {{
-                "Commune : " +
+              "Commune : " +
                 unArret.properties.COMMUNE +
                 ", " +
-                unArret.properties.LIBELLE+
+                unArret.properties.LIBELLE +
                 ", " +
                 unArret.properties.CODE
             }}
           </option>
         </select>
+        <hr />
 
         <!--Une ligne 2 champs-->
         <div class="form-row">
           <div class="form-group col-md-6">
             <label>Titre : </label>
-            <input #InputTITRE class="form-control" name="InputTITRE" type="text" placeholder="Titre"/>
+            <input
+              #InputTITRE
+              class="form-control"
+              name="InputTITRE"
+              type="text"
+              placeholder="Titre"
+            />
           </div>
         </div>
         <!--Fin une ligne 2 champs-->
@@ -220,15 +267,10 @@
           <div class="input-group-prepend">
             <label for="type" class="input-group-text">Type</label>
           </div>
-          <select
-          #SelectType
-          class="custom-select"
-          id="type"
-          required
-        >
-        <option>Enigme</option>
-        <option>Challenge</option>
-        </select>
+          <select #SelectType class="custom-select" id="type" required>
+            <option>Enigme</option>
+            <option>Challenge</option>
+          </select>
         </div>
 
         <label>Description : </label>
@@ -237,15 +279,33 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label>Version : </label>
-            <input #InputVERSION class="form-control" name="InputVersion" type="number" placeholder="Version"/>
+            <input
+              #InputVERSION
+              class="form-control"
+              name="InputVersion"
+              type="number"
+              placeholder="Version"
+            />
           </div>
           <div class="form-group col-md-6">
             <label>Points : </label>
-            <input #InputPOINTS class="form-control" name="InputPoints" type="number" placeholder="Points"/>
+            <input
+              #InputPOINTS
+              class="form-control"
+              name="InputPoints"
+              type="number"
+              placeholder="Points"
+            />
           </div>
           <div class="form-group col-md-6">
             <label>Durée : </label>
-            <input #InputDUREE class="form-control" name="InputDuree" type="text" placeholder="Durée"/>
+            <input
+              #InputDUREE
+              class="form-control"
+              name="InputDuree"
+              type="text"
+              placeholder="Durée"
+            />
           </div>
         </div>
 
@@ -257,117 +317,279 @@
 
         <label>Commentaire : </label>
         <textarea #InputCommentaire class="form-control" rows="3"></textarea>
-
-
       </div>
-
 
       <!-- ################################QUESTION################################ -->
 
-<h4>Questions</h4>
-    <div  class="rounded border" >
-    <div class="table-responsive-lg">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Label</th>
-          <th scope="col">Question</th>
-          <th scope="col">Secret</th>
-          <th scope="col">Points</th>
-          <th scope="col">Modifier</th>
-          <th scope="col">Supprimer</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let question of questions; let index = index;">
-          <th scope="row">Q{{index+1}}</th>
-          <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.description_qst}} </td>
-          <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newQuestion value="{{question.description_qst}}">
-            <button type="submit" class="btn btn-outline-success" (click)="editQuestion(newQuestion.value,index)">Valider</button></td>
+      <h4>Questions</h4>
+      <div class="rounded border">
+        <div class="table-responsive-lg">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Label</th>
+                <th scope="col">Question</th>
+                <th scope="col">Secret</th>
+                <th scope="col">Points</th>
+                <th scope="col">Modifier</th>
+                <th scope="col">Supprimer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let question of questions; let index = index">
+                <th scope="row">Q{{ index + 1 }}</th>
+                <td
+                  *ngIf="labelEditedQuestion !== question.description_qst"
+                  (dblclick)="editMode(question.description_qst)"
+                >
+                  {{ question.description_qst }}
+                </td>
+                <td *ngIf="labelEditedQuestion === question.description_qst">
+                  <input
+                    type="text"
+                    #newQuestion
+                    value="{{ question.description_qst }}"
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-outline-success"
+                    (click)="editQuestion(newQuestion.value, index)"
+                  >
+                    Valider
+                  </button>
+                </td>
 
-            <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editMode(question.description_qst)">{{question.secret_qst}} </td>
-          <td *ngIf="labelEditedQuestion===question.description_qst"><input type="text" #newSecret value="{{question.secret_qst}}">
-            <button type="submit" class="btn btn-outline-success" (click)="editSecret(newSecret.value,index)">Valider</button></td>
+                <td
+                  *ngIf="labelEditedQuestion !== question.description_qst"
+                  (dblclick)="editMode(question.description_qst)"
+                >
+                  {{ question.secret_qst }}
+                </td>
+                <td *ngIf="labelEditedQuestion === question.description_qst">
+                  <input
+                    type="text"
+                    #newSecret
+                    value="{{ question.secret_qst }}"
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-outline-success"
+                    (click)="editSecret(newSecret.value, index)"
+                  >
+                    Valider
+                  </button>
+                </td>
 
+                <td
+                  *ngIf="labelEditedQuestion !== question.description_qst"
+                  (dblclick)="editModeQuestion(question.description_qst)"
+                >
+                  {{ question.points_qst }}
+                </td>
+                <td *ngIf="labelEditedQuestion === question.description_qst">
+                  <input
+                    type="number"
+                    #newPointsQuestion
+                    value="{{ question.points_qst }}"
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-outline-success"
+                    (click)="editQuestionPoints(newPointsQuestion.value, index)"
+                  >
+                    Valider
+                  </button>
+                </td>
 
-            <td *ngIf="labelEditedQuestion!==question.description_qst" (dblclick)="editModeQuestion(question.description_qst)">{{question.points_qst}} </td>
-            <td *ngIf="labelEditedQuestion===question.description_qst"><input type="number" #newPointsQuestion value="{{question.points_qst}}">
-              <button type="submit" class="btn btn-outline-success" (click)="editQuestionPoints(newPointsQuestion.value,index)">Valider</button></td>
+                <td *ngIf="labelEditedQuestion !== question.description_qst">
+                  <button
+                    type="submit"
+                    class="btn btn-outline-secondary"
+                    (click)="editModeQuestion(question.description_qst)"
+                  >
+                    Editer
+                  </button>
+                </td>
+                <td *ngIf="labelEditedQuestion === question.description_qst">
+                  <button
+                    type="submit"
+                    class="btn btn-outline-warning"
+                    (click)="editQuestionAnnule()"
+                  >
+                    Annuler
+                  </button>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-outline-danger"
+                    (click)="deleteQuestion(index)"
+                  >
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            #question
+            class="form-control"
+            placeholder="Question"
+          />
+          <br />
+          <input
+            type="text"
+            #secret
+            class="form-control"
+            placeholder="Secret"
+          />
+          <br />
+          <input
+            type="number"
+            #pointsQuestion
+            class="form-control"
+            placeholder="Points"
+          />
+          <br />
+          <input
+            type="button"
+            value="Ajouter une question"
+            class="btn btn-secondary pull-right"
+            (click)="
+              addQuestion(question.value, secret.value, pointsQuestion.value)
+            "
+          />
+          <br />
+        </div>
+      </div>
+      <br />
 
-          <td *ngIf="labelEditedQuestion!==question.description_qst"><button type="submit" class="btn btn-outline-secondary" (click)="editModeQuestion(question.description_qst)">Editer</button></td>
-          <td *ngIf="labelEditedQuestion===question.description_qst"><button type="submit" class="btn btn-outline-warning  " (click)="editQuestionAnnule()">Annuler</button></td>
-          <td>
-            <button class="btn btn-outline-danger" (click)="deleteQuestion(index)">Supprimer</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
-    <div class="form-group">
+      <!-- ################################INDICE################################ -->
+      <h4>Indices</h4>
+      <div class="rounded border">
+        <div class="table-responsive-lg">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Label</th>
+                <th scope="col">Indice</th>
+                <th scope="col">Points</th>
+                <th scope="col">Modifier</th>
+                <th scope="col">Supprimer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let indice of indices; let index = index">
+                <th scope="row">I{{ index + 1 }}</th>
+                <td
+                  *ngIf="labelEdited !== indice.label_ind"
+                  (dblclick)="editMode(indice.label_ind)"
+                >
+                  {{ indice.description_ind }}
+                </td>
+                <td *ngIf="labelEdited === indice.label_ind">
+                  <input
+                    type="text"
+                    #newIndice
+                    value="{{ indice.description_ind }}"
+                  />
+                  <button
+                    class="btn btn-outline-success"
+                    (click)="editIndice(newIndice.value, index)"
+                  >
+                    Valider
+                  </button>
+                </td>
+                <td
+                  *ngIf="labelEdited !== indice.label_ind"
+                  (dblclick)="editMode(indice.label_ind)"
+                >
+                  {{ indice.points_ind }}
+                </td>
+                <td *ngIf="labelEdited === indice.label_ind">
+                  <input
+                    type="text"
+                    #newPoints
+                    value="{{ indice.points_ind }}"
+                  />
+                  <button
+                    class="btn btn-outline-success"
+                    (click)="editIndicePoints(newPoints.value, index)"
+                  >
+                    Valider
+                  </button>
+                </td>
+                <td *ngIf="labelEdited !== indice.label_ind">
+                  <button
+                    class="btn btn-outline-secondary"
+                    (click)="editMode(indice.label_ind)"
+                  >
+                    Editer
+                  </button>
+                </td>
+                <td *ngIf="labelEdited === indice.label_ind">
+                  <button
+                    class="btn btn-outline-warning"
+                    (click)="editIndiceAnnule()"
+                  >
+                    Annuler
+                  </button>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-outline-danger"
+                    (click)="deleteElement(index)"
+                  >
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group">
+            <input
+              type="text"
+              #indice
+              class="form-control"
+              placeholder="Indice"
+            />
+            <br />
+            <input
+              type="number"
+              #points
+              class="form-control"
+              placeholder="Points"
+            />
+            <br />
+            <input
+              type="button"
+              value="Ajouter un indice"
+              class="btn btn-secondary pull-right"
+              (click)="addElement(indice.value, points.value)"
+            />
+            <br />
+          </div>
+        </div>
+      </div>
+      <!-- ################################INDICE################################ -->
+      <br />
+      <label for="basic-url"
+        >Veuillez saisir les mots clefs associés au défi en les séparant avec un
+        espace.</label
+      >
+      <input
+        #InputMotClef
+        type="text"
+        class="form-control"
+        placeholder="Entrez les mots clefs séparés par des espaces."
+      />
 
-      <input type="text" #question class="form-control" placeholder="Question">
-      <br/>
-      <input type="text" #secret class="form-control" placeholder="Secret">
-      <br/>
-      <input type="number" #pointsQuestion class="form-control" placeholder="Points">
-      <br/>
-      <input type="button" value="Ajouter une question" class="btn btn-secondary pull-right"(click)="addQuestion(question.value,secret.value,pointsQuestion.value)"/>
-      <br/>
-    </div>
-  </div>
-<br/>
-
-
-<!-- ################################INDICE################################ -->
-<h4>Indices</h4>
-<div class="rounded border">
-    <div class="table-responsive-lg">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Label</th>
-          <th scope="col">Indice</th>
-          <th scope="col">Points</th>
-          <th scope="col">Modifier</th>
-          <th scope="col">Supprimer</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let indice of indices; let index = index;">
-          <th scope="row">I{{index+1}}</th>
-          <td *ngIf="labelEdited!==indice.label_ind" (dblclick)="editMode(indice.label_ind)">{{indice.description_ind}} </td>
-          <td *ngIf="labelEdited===indice.label_ind"><input type="text" #newIndice value="{{indice.description_ind}}">
-            <button  class="btn btn-outline-success" (click)="editIndice(newIndice.value,index)">Valider</button></td>
-            <td *ngIf="labelEdited!==indice.label_ind" (dblclick)="editMode(indice.label_ind)">{{indice.points_ind}} </td>
-            <td *ngIf="labelEdited===indice.label_ind"><input type="text" #newPoints value="{{indice.points_ind}}">
-              <button  class="btn btn-outline-success" (click)="editIndicePoints(newPoints.value,index)">Valider</button></td>
-          <td *ngIf="labelEdited!==indice.label_ind"><button  class="btn btn-outline-secondary" (click)="editMode(indice.label_ind)">Editer</button></td>
-          <td *ngIf="labelEdited===indice.label_ind"><button  class="btn btn-outline-warning  " (click)="editIndiceAnnule()">Annuler</button></td>
-          <td>
-            <button class="btn btn-outline-danger" (click)="deleteElement(index)">Supprimer</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="form-group">
-      <input type="text" #indice class="form-control" placeholder="Indice">
-      <br/>
-      <input type="number" #points class="form-control" placeholder="Points">
-      <br/>
-      <input type="button" value="Ajouter un indice" class="btn btn-secondary pull-right"(click)="addElement(indice.value,points.value)"/>
-      <br/>
-    </div>
-
-    </div>
-  </div>
-    <!-- ################################INDICE################################ -->
-<br/>
-      <label for="basic-url">Veuillez saisir les mots clefs associés au défi en les séparant avec un espace.</label>
-      <input #InputMotClef type="text" class="form-control"  placeholder="Entrez les mots clefs séparés par des espaces."/>
-
-<br/>
+      <br />
       <input class="btn btn-secondary" type="submit" />
     </form>
     <!--FIN FORM CREATION DEFI-->
   </div>
+</div>
 </div>

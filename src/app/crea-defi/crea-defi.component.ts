@@ -47,7 +47,11 @@ export class CreaDefiComponent implements OnInit {
   }
 
   async recupLibIn(s:string){
-    this.indispo = await this.MapService.recupWithLibelleInBDD(s)
+    this.indispo = await this.MapService.recupWithLibelleInBDD(s);
+  }
+
+  setView(el:HTMLElement) {
+    el.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 
   async recupLibNotIn(s:string){

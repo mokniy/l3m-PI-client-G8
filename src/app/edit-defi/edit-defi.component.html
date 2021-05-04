@@ -1,6 +1,6 @@
 <a href="http://localhost:4200/creer_defi" class="btn btn-outline-dark">+ Ajouter un défi</a>
 <br/><br/>
-<table class="table" *ngIf="obsChallUser | async as Defis" class="table">
+<table class="table table-hover" *ngIf="obsChallUser | async as Defis">
   <thead class="thead-dark">
     <tr>
       <th>Defi</th>
@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr (click)="editedModeForDefi(Defi)" *ngFor="let Defi of Defis">
+    <tr  style="cursor: pointer;" (click)="editedModeForDefi(Defi,defiEdited)" *ngFor="let Defi of Defis">
       <td>{{ Defi.defi }}</td>
       <td>{{ Defi.titre }}</td>
       <td>{{ Defi.dateDeCreation }}</td>
@@ -22,8 +22,9 @@
 
 <!--METTRE EN PLACE DES PARTIALS-->
 <!--METTRE EN PLACE LIST ARRET-->
+<div  #defiEdited >
 <section *ngIf="defi_edited !== null && (obsMotClef | async)">
-  <form (ngSubmit)="updateDefi(defi_edited.defi,titreDefi.value,defi_edited.dateDeCreation, descriptionDefi.value,defi_edited.auteur,defi_edited.code_arret,defi_edited.type, versionDefi.value,defi_edited.arret, pointsDefi.value, dureeDefi.value, prologueDefi.value, epilogueDefi.value, commentaireDefi.value, inputMotClef.value)">
+  <form  (ngSubmit)="updateDefi(defi_edited.defi,titreDefi.value,defi_edited.dateDeCreation, descriptionDefi.value,defi_edited.auteur,defi_edited.code_arret,defi_edited.type, versionDefi.value,defi_edited.arret, pointsDefi.value, dureeDefi.value, prologueDefi.value, epilogueDefi.value, commentaireDefi.value, inputMotClef.value)">
     <hr />
     <h3 style="text-align: center;"><b>Edition du défi : {{ defi_edited.defi }}</b></h3>
     <div class="form-row">
@@ -172,3 +173,4 @@
   <br/>
   <button (click)="deleteDefi(defi_edited)" class="btn btn-outline-danger"><i class="fa fa-trash"></i>Supprimer</button>
 </section>
+</div>

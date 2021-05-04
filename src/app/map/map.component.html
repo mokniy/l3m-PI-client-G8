@@ -3,10 +3,10 @@
   <yaga-map [lng]="5.724524" [lat]="45.188529" [zoom]="12">
     <yaga-tile-layer [(url)]="tileLayerUrl"></yaga-tile-layer>
 
-    <section *ngIf="obsArrets | async as DesArrets">
+    <section *ngIf="obsArrets | async as DesArrets" >
       <yaga-marker
         *ngFor="let UnArret of DesArrets; let j = index"
-        (click)="displayDefi(j)"
+        (click)="displayContenuArret(j)"
         [lng]="+UnArret.info_arret.geometry.coordinates[0]"
         [lat]="+UnArret.info_arret.geometry.coordinates[1]"
         [display]="true"
@@ -14,7 +14,7 @@
       >
         <yaga-icon [iconUrl]="getUrlMarker(UnArret.nb_defi)"></yaga-icon>
       </yaga-marker>
-    </section>
+      </section>
 
     <section *ngIf="obsLignes | async as lignes">
       <yaga-polyline
@@ -50,32 +50,69 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="pointer" (click)="tstAffichage(Defi)" *ngFor="let Defi of Defis">
-            <td>{{ Defi.defi }}</td>
-            <td>{{ Defi.titre }}</td>
-            <td>{{ Defi.auteur }}</td>
-            <td>{{ Defi.dateDeCreation }}</td>
+          <tr class="pointer" (click)="afficherUnDefi(defi,ficheDefi)" *ngFor="let defi of Defis">
+            <td >{{ defi.defi }}</td>
+            <td>{{ defi.titre }}</td>
+            <td>{{ defi.auteur }}</td>
+            <td>{{ defi.dateDeCreation }}</td>
           </tr>
         </tbody>
       </table>
       <br/>
+      <p>
+        <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseVisite" aria-expanded="false" aria-controls="collapseVisite">
+          Qui a déja visiter cet endroit ?
+        </button>
+      </p>
+      <div class="collapse" id="collapseVisite" >
+      <table  *ngIf="obsLesVisite | async as Visites"  class="table table-hover" >
+        <thead class="thead-dark">
+          <tr>
+            <th>Visite</th>
+            <th>Defi</th>
+            <th>Date</th>
+            <th>Mode</th>
+            <th>Chami</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pointer" *ngFor="let visite of Visites">
+            <td>{{ visite.id_vis}}</td>
+            <td>{{visite.id_defi}}</td>
+            <td>{{ visite.date_vis}}</td>
+            <td>{{ visite.mode_vis}}</td>
+            <td>{{ visite.id_visiteur }}</td>
+            <td>{{ visite.pts_vis }} / {{visite.score_vis}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+      <br/>
+
+
         <!--GOOGLE MAP-->
         <p>
           <button class="btn btn-outline-secondary" (click)="loadView()" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             Teleporte toi à cette arrêt en un clique !
           </button>
         </p>
+          
         <div class="collapse" id="collapseExample">
           <div class="card card-body ">
             <div class="my-google-map">
-              <google-map [width]="1000" [height]="600"></google-map>
+              <google-map width="100%" height="100%"></google-map>
             </div>
           </div>
         </div>
         <!--GOOGLE MAP-->
     </div>
 
+    <div #ficheDefi>
       <app-fiche-defi [defi] = "obsDefiAffiche | async"></app-fiche-defi>
+    </div>
     <br/>
   </div>
 </mat-drawer-content>
+

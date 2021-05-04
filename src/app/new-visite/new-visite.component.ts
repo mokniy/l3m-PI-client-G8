@@ -1,6 +1,6 @@
 import { current_date, VisiteTmp, ReponseTmp, Visite, Reponse, EvaluationTmp } from './../AllDefinitions';
 import { UtilisateurService } from './../utilisateur.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NouvelleVisite, User } from '../AllDefinitions';
 import { VisiteService } from '../visite.service';
@@ -13,6 +13,8 @@ import { StringUtils } from 'turbocommons-ts';
   styleUrls: ['./new-visite.component.scss']
 })
 export class NewVisiteComponent implements OnInit {
+
+  @Output() Visitedone= new EventEmitter<boolean>();
 
   constructor(private userService: UtilisateurService,private visiteService: VisiteService) {
   }
@@ -115,7 +117,7 @@ export class NewVisiteComponent implements OnInit {
 
     await this.visiteService.postListEvaluation(evalToUpload);
 
-    //puis inserer les evaluations
+    this.Visitedone.emit(false);
   }
 
 }

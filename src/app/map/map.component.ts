@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { VisiteService } from './../visite.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { Observable } from 'rxjs';
-import { ArretMap, Defi } from '../AllDefinitions';
+import { ArretMap, Defi, Visite } from '../AllDefinitions';
 import { MapService } from '../map.service';
 import { GoogleMap } from '@angular/google-maps';
 
@@ -13,7 +14,7 @@ import { GoogleMap } from '@angular/google-maps';
 export class MapComponent implements OnInit {
   tileLayerUrl = OSM_TILE_LAYER_URL;
 
-  constructor(private mapService : MapService) {
+  constructor(private mapService : MapService,private visiteService : VisiteService) {
     this.mapService.recupAllLinesSEMITAG();
     this.mapService.recupArretAvecDefiAPIPerso();
   }
@@ -26,8 +27,13 @@ export class MapComponent implements OnInit {
     return this.mapService.obsChallArret;
   }
 
+  get obsLesVisite(): Observable<Visite[]> {
+    return this.visiteService.obsVisArret;
+  }
+
   closeDefi(): void{
     this.mapService.closeDefi();
+    this.visiteService.closeAllVisite();
   }
 
 ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
@@ -47,9 +53,10 @@ export class MapComponent implements OnInit {
     return "https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue"+nb_defi+".png";
   }
 
-  displayDefi(i: number) {
+  displayContenuArret(i: number) {
     this.mapService.stopAffDefi()
     this.arretDisplay = this.mapService.displayDefi(i);
+    this.visiteService.getAllVisiteOfAnArret(this.arretDisplay);
     if(this.map !== undefined) {
       this.loadView()
     }
@@ -57,8 +64,9 @@ export class MapComponent implements OnInit {
   ///////////////////////////////////////////SERVICE MAP///////////////////////////////////////////
 
   ////////////////////////////////////AFFICHAGE DEFI
-  tstAffichage(defi:Defi) {
+  afficherUnDefi(defi:Defi, el:HTMLElement) {
     this.mapService.newDefiAffiche(defi)
+    this.setView(el)
   }
 
   get obsDefiAffiche(): Observable<Defi> {
@@ -76,8 +84,25 @@ export class MapComponent implements OnInit {
       pov: { heading: 165, pitch: 0 },
       zoom: 1,
     });
+    console.log(streetView.getStatus())
     if(streetView.getVisible() === false) {
       streetView.setVisible(true);
     }
+  }
+  ///////////ANCRE
+  setView(el:HTMLElement) {
+    el.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+  public tsssss:boolean=false;
+  tst() {
+    if(this.tsssss) {
+      this.tsssss = false;
+    } else {
+      this.tsssss = true;
+    }
+  }
+  dataToggle() {
+
   }
 }
