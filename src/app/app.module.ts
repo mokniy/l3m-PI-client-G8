@@ -32,9 +32,11 @@ import { PageAssistantComponent } from './page/page-assistant/page-assistant.com
 import { AlertCoNecessaireComponent } from './alert-co-necessaire/alert-co-necessaire.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AssistantComponent } from './assistant/assistant.component';
+import { FicheDefiPortableComponent } from './fiche-defi-portable/fiche-defi-portable.component';
+import { AfficheVisiteComponent } from './affiche-visite/affiche-visite.component';
 
 @NgModule({
-  declarations: [
+  declarations: [		
     AppComponent,
     MapComponent,
       CreaDefiComponent,
@@ -50,7 +52,9 @@ import { AssistantComponent } from './assistant/assistant.component';
       PageJeuComponent,
       AlertCoNecessaireComponent,
       AssistantComponent,
-      PageAssistantComponent
+      PageAssistantComponent,
+      FicheDefiPortableComponent,
+      AfficheVisiteComponent
    ],
   imports: [
     BrowserModule,

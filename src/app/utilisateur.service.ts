@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, Subject, combineLatest, merge} from 'rxjs'
 import { multicast, refCount, mergeMap, map } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import { Chami, ChamiEvolve, Defi, User } from './AllDefinitions';
+import { Chami, ChamiEvolve, Defi, User, Visite, VisiteEvolve } from './AllDefinitions';
 
 @Injectable({
   providedIn: 'root',
@@ -146,4 +146,28 @@ export class UtilisateurService {
   resetUsedObs(){
     this.alReadyUseSubj.next(false)
   }
+
+
+  private visiteSubj = new Subject<VisiteEvolve[]>();
+  readonly visiteObs = this.visiteSubj.asObservable();
+
+  async getAllVisiteOfAnUsers(user:Chami){
+    const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/visite/withPseudo/'+user.pseudo);
+    const data = await response.json();
+    console.log("visite service aaaaaaaaaaaaaaaaaaaaaaaa")
+    console.log(data)
+    const tabInit = data as VisiteEvolve[]
+    let tabFinal: VisiteEvolve[] = []
+    tabFinal = await Promise.all(tabInit.map(async x =>this.recupLeDefi(x)))
+    this.visiteSubj.next(tabFinal)
+    return data as Visite[];
+  }
+
+  async recupLeDefi(visite:VisiteEvolve) {
+    let leDefi = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/defis/'+visite.id_defi)
+    visite.defiAssocie = (await leDefi.json()) as Defi
+    return visite
+  }
+
+
 }

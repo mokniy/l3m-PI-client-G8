@@ -1,3 +1,4 @@
+import { MapService } from './../map.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Defi } from '../AllDefinitions';
@@ -10,7 +11,7 @@ import { AssistantService } from '../assistant.service';
 })
 export class AssistantComponent implements OnInit {
 
-  constructor(private assistantService : AssistantService) { }
+  constructor(private assistantService : AssistantService,private mapService : MapService) { }
 
   public chercher:boolean = false;
 
@@ -21,10 +22,19 @@ export class AssistantComponent implements OnInit {
     return this.assistantService.obsAllChall;
   }
 
+  get obsDefiAffiche(): Observable<Defi> {
+    return this.mapService.obsDefiAffiche;
+  }
+
+
   async rechercheDefi(id:boolean,titre:boolean,mc:boolean,contenu: string, type:string){
     this.chercher=true;
-    if(id ) {
-      await this.assistantService.getRechercheDefiId(contenu.toUpperCase(),type);
+    if(id) {
+      if(contenu === "") {
+        this.assistantService.aucuneSaisie()
+      } else {
+        await this.assistantService.getRechercheDefiId(contenu.toUpperCase(),type);
+      }
     } else if(titre) {
       await this.assistantService.getRechercheDefiTitre(contenu,type);
     } else if (mc) {
@@ -38,6 +48,6 @@ export class AssistantComponent implements OnInit {
   }
 
 afficherUnDefi(defi:Defi){
-
+  this.mapService.newDefiAffiche(defi)
 }
 }

@@ -55,31 +55,48 @@ EALISATION DUNE VISITE-->
             <div *ngFor="let qst of uneVisite.lesQuestions">
                 <div *ngIf="qst.reponse !== undefined && qst.reponse !== ''">
                   <label for="rep">{{qst.description_qst}}</label>
-                  <div class="input-group mb-3">
+                  <div class="form-group row">
+                    <div class="input-group col-sm-8">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="label_qst">{{qst.label_qst}}</span>
+                      <span class="input-group-text" for="rep" id="label_qst">{{qst.label_qst}}</span>
                     </div>
-                    <input type="text" #rep class="form-control" value="{{qst.reponse}}" id="rep" aria-describedby="label_qst">
-                    &nbsp;
-                    <button type="button" class="btn btn-outline-success" (click)="qst.reponse = rep.value">Valider votre réponse</button>
+
+                      <input aria-describedby="label_qst" type="text" #rep class="form-control" placeholder="Veuillez saisir votre réponse ici." id="rep" value="{{qst.reponse}}">
+                    </div>
+                    <br/>
+                    <div class="col-sm-4">
+
+                      <button type="button" class="btn btn-outline-success" (click)="qst.reponse = rep.value">Valider votre réponse</button>
+                    </div>
                   </div>
-                </div>
+            </div>
+
+
+
 
                 <div *ngIf="qst.reponse === undefined || qst.reponse === ''">
                   <label for="repFirst">{{qst.description_qst}}</label>
-                  <div class="input-group mb-3">
-                      <div class="input-group-prepend">
+                  <div class="form-group row">
+                    <div class="input-group col-sm-8">
+                    <div class="input-group-prepend">
                         <span class="input-group-text" id="label_qstFirst">{{qst.label_qst}}</span>
                       </div>
+
                       <input type="text" #repFirst class="form-control is-invalid" id="repFirst" placeholder="Veuillez saisir votre réponse ici." aria-describedby="label_qstFirst">
-                      &nbsp;
-                      <button type="button" class="btn btn-outline-success" (click)="qst.reponse = repFirst.value">Valider votre réponse</button>
+
                       <div class="invalid-feedback">
                         Vous n'avez pas répondu à cette question.
                       </div>
-                  </div>
+                    </div>
+                    <br/>
+                      <div class="col-sm-4">
+
+                        <button type="button" class="btn btn-outline-success" (click)="qst.reponse = repFirst.value">Valider votre réponse</button>
+                      </div>
+
                 </div>
             </div>
+          </div>
             <!--LISTE QUESTION-->
 
             <div class="form-group">

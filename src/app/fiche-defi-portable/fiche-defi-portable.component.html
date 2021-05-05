@@ -1,0 +1,98 @@
+<div *ngIf="affichageDuDefi | async as D">
+  <br/>
+  <div class="card border-dark mb-6" >
+    <div class="card-header">Défi : <b>{{D.leDefi.defi}} - {{D.leDefi.titre}}</b> créé par <b>{{D.leDefi.auteur}}</b>.</div>
+    <div class="card-body text-dark" style="padding: 5px;">
+
+      <p>
+        <small>Type : {{D.leDefi.type}}</small>
+        <br/>
+        <a *ngIf='D.lArret.streetMap !== ""' [href]="D.lArret.streetMap" target="_blank"> <small >Arrêt : {{D.lArret.lib_arret}} , Jouer à distance !</small></a>
+        <br/>
+        <small>
+          Durée prévue : {{D.leDefi.duree}}
+          <br/>
+          Points à la clé : {{D.leDefi.points}}
+        </small>
+      </p>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button style="color:black;" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                      <h6>Description</h6>
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body">
+                    <p style="white-space:pre-wrap">{{D.leDefi.description}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button style="color:black;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <h6>Prologue</h6>
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                  <div class="card-body">
+                    <p style="white-space:pre-wrap" >{{D.leDefi.prologue}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header" id="headingThree">
+                  <h5 class="mb-0">
+                    <button style="color:black;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <h6>Epilogue</h6>
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                  <div class="card-body">
+                    <p style="white-space:pre-wrap" >{{D.leDefi.epilogue}}</p>
+                  </div>
+                </div>
+              </div>
+
+            <div class="card">
+              <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                  <button style="color:black;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    <h6>Commentaire</h6>
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                <div class="card-body">
+                  <p style="white-space:pre-wrap" >{{D.leDefi.commentaire}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 0px;" *ngIf='D.leDefi.dateDeModification === ""; then thenBlock else elseBlock'></div>
+      <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}}.</small></p></ng-template>
+      <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}} - Derniere modification : {{D.leDefi.dateDeModification}}.</small></p></ng-template>
+
+      <p *ngIf="D.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{displayMotClef(D.lesMotsClefs)}}</small></p>
+    </div>
+  </div>
+  <br/>
+  <button  class="btn btn-secondary pull-right" (click)="debutNewVis()" >Faire la visite !</button>
+  <div *ngIf = "newVisite">
+    <app-new-visite (Visitedone)="newVisite=false"></app-new-visite>
+  </div>
+</div>
+<br/>

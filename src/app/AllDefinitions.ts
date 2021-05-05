@@ -124,6 +124,10 @@ export interface Visite extends VisiteTmp{
   readonly id_vis :string;
 }
 
+export interface VisiteEvolve extends Visite{
+  defiAssocie :Defi;
+}
+
 export interface VisiteTmp {
   readonly date_vis :string;
   readonly mode_vis :string;

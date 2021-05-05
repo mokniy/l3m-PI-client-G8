@@ -63,6 +63,10 @@
         <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseVisite" aria-expanded="false" aria-controls="collapseVisite">
           Qui a déja visiter cet endroit ?
         </button>
+        &nbsp;
+        <button class="btn btn-outline-secondary" (click)="loadView()" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Teleporte toi à cette arrêt en un clique !
+        </button>
       </p>
       <div class="collapse" id="collapseVisite" >
           <div *ngIf="obsLesVisite | async as Visites">
@@ -102,9 +106,7 @@
 
         <!--GOOGLE MAP-->
         <p>
-          <button class="btn btn-outline-secondary" (click)="loadView()" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Teleporte toi à cette arrêt en un clique !
-          </button>
+
         </p>
 
         <div class="collapse" id="collapseExample">

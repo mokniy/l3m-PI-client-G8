@@ -1,0 +1,22 @@
+<table class="table table-hover" *ngIf="obsVisiteUser | async as Visites">
+  <thead class="thead-dark">
+    <tr>
+      <th>Visite</th>
+      <th>Défi</th>
+      <th>Score</th>
+      <th>Temps</th>
+      <th>Date de la visite</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr  style="cursor: pointer;" *ngFor="let visite of Visites">
+      <td>{{ visite.id_vis }}</td>
+      <td>{{ visite.defiAssocie.titre}}</td>
+      <td>{{ visite.pts_vis }} / {{visite.score_vis}}</td>
+      <td>{{ visite.temps_vis }}</td>
+      <td>{{ visite.date_vis }}</td>
+
+    </tr>
+  </tbody>
+</table>
+

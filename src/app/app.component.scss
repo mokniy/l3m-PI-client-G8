@@ -1,9 +1,46 @@
+@font-face{
+  font-family:"legend";
+  src:url("/assets/fonts/STEPS\ Light.otf") format("woff"),
+  url("/assets/fonts/STEPS\ Light.otf") format("opentype"),
+  url("/assets/fonts/STEPS\ Light.otf") format("truetype");
+}
+
 :host {
   display: flex;
   flex-flow: column;
   height: 100%;
 
   mat-toolbar {
+
+    height: 60px;
+    background-color: rgba(25, 25, 25,1);
+
+    .connexion{
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: solid white 3px;
+      color: white;
+    }
+    .connecte{
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: white;
+    }
+    #iconMenu{
+      position: absolute;
+      top: 7.5px;
+      left: 10px;
+      color:white;
+    }
+
     > mat-icon {
       user-select: none;
       transition: transform .3s;
@@ -13,17 +50,28 @@
     }
 
     img {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      border: solid black 1px;
+      border: solid white 3px;
+    }
+
+    label{
+      color:white;
+      position: absolute;
+      left: 50%;
+      top: 15px;
+      transform: translateX(-50%);
+      font-size: 2vh;
+      text-align: center;
+      font-family:"legend";
     }
   }
 
   mat-drawer-container {
     flex: 1 1;
     > mat-drawer {
-      border-right: solid rgba(0,0,0,0.5) 3px;
+      border-right: solid rgba(0,0,0,0.8) 5px;
     }
   }
 

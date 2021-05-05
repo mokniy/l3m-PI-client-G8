@@ -13,6 +13,7 @@ export class PageProfilComponent implements OnInit {
 
   constructor(private UserService: UtilisateurService) {
     }
+
     ngOnInit(): void {
     }
 

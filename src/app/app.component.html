@@ -1,17 +1,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<mat-toolbar style="background-color: rgba(184, 184, 184,0.5)">
+<mat-toolbar >
   <button mat-icon-button class="example-icon" aria-label="Menu">
-    <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+    <mat-icon id="iconMenu" (click)="drawer.toggle()">menu</mat-icon>
   </button>
   <label>Les Chamis de Grenoble </label>
-  <label class="spacer"></label>
-  <ng-template #showLogin>
-    <mat-icon [matMenuTriggerFor]="menuConnect"> account_circle </mat-icon>
+  <ng-template  #showLogin>
+    <mat-icon class="connexion" [matMenuTriggerFor]="menuConnect"> account_circle </mat-icon>
   </ng-template>
-  <mat-icon *ngIf="obsLogin | async as user; else showLogin" [matMenuTriggerFor]="menuDisconnect">
+  <mat-icon class="connecte" *ngIf="obsLogin | async as user; else showLogin" [matMenuTriggerFor]="menuDisconnect">
     <img src={{user.photoURL}}/>
   </mat-icon>
-  <mat-menu #menuConnect="matMenu">
+  <mat-menu  #menuConnect="matMenu">
     <button (click)="login()" mat-menu-item>
       <img [src]="dataIconGoogle" width="24" height="24" />
       &nbsp;
@@ -37,13 +36,11 @@
     <button  (click)="drawer.toggle()" routerLink="assistant" routerLinkActive="active" style="background-color: rgb(236, 195, 9); border-radius:1em;"class="dropdown-item">🤳🏽 L'assistant \!/Beta Test\!/</button><br/>
   </mat-drawer>
   <mat-drawer-content>
-
-      <br/>
       <!--
         <img src="https://firebasestorage.googleapis.com/v0/b/pi-g8-miage.appspot.com/o/accueil%2FiconChami.png?alt=media&token=77ecf875-0fec-4a4f-a476-81a2f6a0a6ee"/>
       -->
       <router-outlet></router-outlet>
-      <br/>
+
 
   </mat-drawer-content>
 </mat-drawer-container>

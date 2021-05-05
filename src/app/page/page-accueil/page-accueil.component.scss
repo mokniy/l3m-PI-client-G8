@@ -1,79 +1,65 @@
 @font-face{
-  font-family:"alphacentauri";
-  src:url("/assets/fonts/Alphacentauri-MVY4p.ttf") format("woff"),
-  url("/assets/fonts/Alphacentauri-MVY4p.ttf") format("opentype"),
-  url("/assets/fonts/Alphacentauri-MVY4p.ttf") format("truetype");
-}
-@font-face{
   font-family:"legend";
   src:url("/assets/fonts/STEPS\ Light.otf") format("woff"),
   url("/assets/fonts/STEPS\ Light.otf") format("opentype"),
   url("/assets/fonts/STEPS\ Light.otf") format("truetype");
 }
 
-*{
+body{
+  background-color: black;
+  min-height: 1500px;
   margin: 0;
   padding: 0;
 }
-body{
-  background-color: grey;
-  min-height: 1500px;
-}
 
 /*Debut Head*/
-section{
-  position: relative;
+header{
+  position: absolute;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+  background-color: black;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-section::before{
-  content: '';
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 75px;
-  background: linear-gradient(to top, black, transparent);
-  z-index: 10000;
+header::before{
+position: absolute;
+bottom: 0;
+width: 100%;
+height: 75px;
+background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+z-index: 10000;
 }
-section img{
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 1500px;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
+header:hover #fond{
+filter: blur(0px);
+-webkit-filter: blur(0px);
+transition: all 1000ms;
 }
-#img1{
-  top: -12vh;
-  left: -70vw;
+header:hover #logo{
+filter: blur(5px);
+-webkit-filter: blur(5px);
+transition: all 1000ms;
+}
+#fond{
+position: absolute;
+top: 0;
+left: 0;
+height: 100vh;
+width: 100%;
+filter: blur(5px);
+-webkit-filter: blur(5px);
+transition: all 1000ms;
+}
+#logo{
   z-index: 1;
+  width: 40vw;
+  max-width: 550px;
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+  transition: all 1000ms;
 }
-#img2{
-  top: -12vh;
-  left: 70vw;
-  z-index: 3;
-}
-#bg, #front, #first_front{
-  top: 0px;
-}
-#front, #first_front{
-  z-index: 3;
-}
-#text{
-  top: 0px;
-  position: relative;
-  color: white;
-  font-family: legend;
-  font-size: 10vh;
-  text-shadow: 2px 5px #00000075;
-  z-index: 2;
-}
+
 /*Fin Head*/
 
 
@@ -85,11 +71,19 @@ hr{
   width: 25vw;
   margin: auto;
 }
-div.container{
+div.cont{
+  position:  relative;
   border: 1px solid#00000075;
-  width: 100%;
-  height: 100%;
+  height: 100vh;
+  top: 100vh;
 }
+
+
+//
+
+
+
+//
 
 
 
@@ -162,24 +156,14 @@ box-shadow: 0px 0px 10px 5px #888888;
 }
 
 .team .team_member .team_img img{
+position: relative;
 width: 100px;
 height: 100px;
 padding: 5px;
 border-radius: 55px;
+
 }
 
 
 
 /*Fin Contenu*/
-
-
-#test{
-  position: fixed;
-  z-index: -1;
-  bottom: 0px;
-  right: 0px;
-  width: 100px;
-  height: 100px;
-  background-color: yellow;
-  border-radius: 50px;
-}

@@ -21,8 +21,10 @@
     <div id="collapse{{i}}" class="collapse" [attr.aria-labelledby]="'heading'+i" data-parent="#accordion">
       <div class="card-body">
         <p style="white-space:pre-wrap"><b>Description :</b><br/>{{user.description}}</p>
-        <p><b>Ses défis :</b></p>
-        <p *ngFor="let def of user.sesDefis">{{def.defi}} - {{def.titre}}, {{def.duree}} à {{def.arret}}</p>
+        <div *ngIf="user.sesDefis.length > 0">
+          <p><b>Ses défis :</b></p>
+          <p *ngFor="let def of user.sesDefis">{{def.defi}} - {{def.titre}}, {{def.duree}} à {{def.arret}}</p>
+        </div>
       </div>
     </div>
   </div>
