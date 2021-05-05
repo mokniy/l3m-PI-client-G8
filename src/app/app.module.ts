@@ -28,9 +28,10 @@ import { PageProfilComponent } from './page/page-profil/page-profil.component';
 import { PageNewdefiComponent } from './page/page-newdefi/page-newdefi.component';
 import { PageCommunauteComponent } from './page/page-communaute/page-communaute.component';
 import { PageJeuComponent } from './page/page-jeu/page-jeu.component';
+import { PageAssistantComponent } from './page/page-assistant/page-assistant.component';
 import { AlertCoNecessaireComponent } from './alert-co-necessaire/alert-co-necessaire.component';
 import { GoogleMapsModule } from '@angular/google-maps';
-
+import { AssistantComponent } from './assistant/assistant.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,9 @@ import { GoogleMapsModule } from '@angular/google-maps';
       PageNewdefiComponent,
       PageCommunauteComponent,
       PageJeuComponent,
-      AlertCoNecessaireComponent
+      AlertCoNecessaireComponent,
+      AssistantComponent,
+      PageAssistantComponent
    ],
   imports: [
     BrowserModule,

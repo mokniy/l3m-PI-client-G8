@@ -17,6 +17,8 @@ export class MapComponent implements OnInit {
   constructor(private mapService : MapService,private visiteService : VisiteService) {
     this.mapService.recupAllLinesSEMITAG();
     this.mapService.recupArretAvecDefiAPIPerso();
+    this.mapService.closeDefi();
+    this.visiteService.closeAllVisite();
   }
 
   ngOnInit(): void {
@@ -84,7 +86,6 @@ export class MapComponent implements OnInit {
       pov: { heading: 165, pitch: 0 },
       zoom: 1,
     });
-    console.log(streetView.getStatus())
     if(streetView.getVisible() === false) {
       streetView.setVisible(true);
     }

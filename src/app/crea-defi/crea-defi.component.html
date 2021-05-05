@@ -150,8 +150,8 @@
   </div>
 </div>
 
-<div #defiCreated>
-<div *ngIf="obsArretInBDD | async as obsBDD" class="container">
+<div >
+<div id="defiCreated" *ngIf="obsArretInBDD | async as obsBDD" class="container">
   <!--EDITION ARRET-->
   <div *ngIf="obsBDD.length !== 0 && editArret === true" class="col-12">
     <hr />
@@ -206,7 +206,6 @@
 
   <!--Arret dispo-->
   <div *ngIf="obsBDD.length !== 0 && editArret === false" class="col-12">
-    {{ setView(defiCreated)}}
     <button
       (click)="closeChoiceArretInBDD()"
       type="button"

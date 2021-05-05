@@ -23,7 +23,7 @@
   mat-drawer-container {
     flex: 1 1;
     > mat-drawer {
-      border-right: solid grey 3px;
+      border-right: solid rgba(0,0,0,0.5) 3px;
     }
   }
 

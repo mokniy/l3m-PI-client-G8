@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<mat-toolbar>
+<mat-toolbar style="background-color: rgba(184, 184, 184,0.5)">
   <button mat-icon-button class="example-icon" aria-label="Menu">
     <mat-icon (click)="drawer.toggle()">menu</mat-icon>
   </button>
-  <label> Les Chamis de Grenoble </label>
+  <label>Les Chamis de Grenoble </label>
   <label class="spacer"></label>
   <ng-template #showLogin>
     <mat-icon [matMenuTriggerFor]="menuConnect"> account_circle </mat-icon>
@@ -34,15 +34,16 @@
     <button  (click)="drawer.toggle()" routerLink="gestion_profil" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">👤 Gérer son profil</button><br/>
     <button  (click)="drawer.toggle()" routerLink="creer_defi" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">➕ Créer tes défis</button><br/>
     <button  (click)="drawer.toggle()" routerLink="jouer" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">🎮 Participe à des défis</button><br/>
-    <button  (click)="drawer.toggle()" routerLink="" routerLinkActive="active" style="background-color: rgb(236, 195, 9); border-radius:1em;"class="dropdown-item">🤳🏽 L'assistant \!/Beta Test\!/</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="assistant" routerLinkActive="active" style="background-color: rgb(236, 195, 9); border-radius:1em;"class="dropdown-item">🤳🏽 L'assistant \!/Beta Test\!/</button><br/>
   </mat-drawer>
   <mat-drawer-content>
 
-    <div class="container">
       <br/>
+      <!--
+        <img src="https://firebasestorage.googleapis.com/v0/b/pi-g8-miage.appspot.com/o/accueil%2FiconChami.png?alt=media&token=77ecf875-0fec-4a4f-a476-81a2f6a0a6ee"/>
+      -->
       <router-outlet></router-outlet>
       <br/>
-    </div>
 
   </mat-drawer-content>
 </mat-drawer-container>

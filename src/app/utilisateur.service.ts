@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, Subject, combineLatest, merge} from 'rxjs'
 import { multicast, refCount, mergeMap, map } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import { Chami, User } from './AllDefinitions';
+import { Chami, ChamiEvolve, Defi, User } from './AllDefinitions';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ import { Chami, User } from './AllDefinitions';
 
 export class UtilisateurService {
   //TOUT LES CHAMIS
-  private allchamisSubj = new BehaviorSubject<Chami[]>([]);
+  private allchamisSubj = new BehaviorSubject<ChamiEvolve[]>([]);
   readonly chamisObs = this.allchamisSubj.asObservable();
 
   //CHAMI CONNECTE
@@ -63,7 +63,17 @@ export class UtilisateurService {
       'https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/'
     );
     const data = await response.json();
-    this.allchamisSubj.next(data as Chami[]);
+    const res = await data as ChamiEvolve[];
+    const resUp = await Promise.all(res.map(x => this.getAllDefiOfAnUsers(x)))
+
+    this.allchamisSubj.next(resUp);
+  }
+
+  async getAllDefiOfAnUsers(user:ChamiEvolve){
+    const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/defis/auteur/'+user.pseudo);
+    const data = await response.json();
+    user.sesDefis=data as Defi[]
+    return user
   }
 
   async getChami(email: string): Promise<Chami | undefined> {

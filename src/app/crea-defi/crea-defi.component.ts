@@ -1,5 +1,5 @@
 import { Chami, current_date, DefiTmp, escape_quote, MotClefTmp } from './../AllDefinitions';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Arret, Defi, Indice, IndiceTmp, QuestionTmp } from '../AllDefinitions';
 import { MapService } from '../map.service';
@@ -8,7 +8,8 @@ import { DefiService } from './../defi.service';
 @Component({
   selector: 'app-crea-defi',
   templateUrl: './crea-defi.component.html',
-  styleUrls: ['./crea-defi.component.scss']
+  styleUrls: ['./crea-defi.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush // Pour minimiser les rendus et les évaluations
 })
 export class CreaDefiComponent implements OnInit {
 
@@ -31,6 +32,7 @@ export class CreaDefiComponent implements OnInit {
 
   //INPUT USER AUTH
   constructor(private MapService : MapService, private defiService : DefiService) {
+
   }
 
   @Input() userConnected!: Chami;
@@ -50,8 +52,13 @@ export class CreaDefiComponent implements OnInit {
     this.indispo = await this.MapService.recupWithLibelleInBDD(s);
   }
 
-  setView(el:HTMLElement) {
+  setView() {
+    let el = document.getElementById("defiCreated") as HTMLElement
     el.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+  ngAfterViewInit() {
+
   }
 
   async recupLibNotIn(s:string){
@@ -188,7 +195,7 @@ export class CreaDefiComponent implements OnInit {
       type:escape_quote(defiType),
       dateDeModification: '',
       version: +versionSaisie,
-      arret: escape_quote(arretInfoSplited[2].trim()),
+      arret: escape_quote(arretInfoSplited[1].trim()),
       points: +pointsSaisie,
       duree: escape_quote(dureeSaisie),
       prologue: escape_quote(prologueSaisie),

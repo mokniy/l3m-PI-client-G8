@@ -1,0 +1,76 @@
+<div class="container">
+  <h1 style="text-align: center;">Bienvenue dans l'assistant</h1>
+
+  <div class="form-group">
+  <form (ngSubmit)="rechercheDefi(id.checked,titre.checked,mc.checked,inputRecherche.value, inputType.value)">
+    <h5>Quelle critère pour votre recherche ?</h5>
+    <div class="row">
+      <div class="form-check form-check-inline col-sm-2">
+        <input #id class="form-check-input" name="inlineRadioOptions" type="radio" id="Rid" checked >
+        <label class="form-check-label" for="Rid">Recherche par Id</label>
+      </div>
+      <div class="form-check form-check-inline col-sm-2">
+        <input #titre class="form-check-input" name="inlineRadioOptions" type="radio" id="Rtitre" >
+        <label class="form-check-label" for="Rtitre">Recherche par titre</label>
+      </div>
+      <div class="form-check form-check-inline col-sm-4">
+        <input #mc class="form-check-input" name="inlineRadioOptions" type="radio" id="Rmc" >
+        <label class="form-check-label" for="Rmc">Recherche par mot Clef</label>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-sm">
+        <input type="text" #inputRecherche class="form-control" placeholder="Votre recherche">
+      </div>
+      <br/>
+      <br/>
+      <div class="col-sm">
+        <select   #inputType class="custom-select">
+          <option value="both">Enigme - Challenge</option>
+          <option value="Enigme">Enigme</option>
+          <option value="Challenge">Challenge</option>
+      </select>
+    </div>
+    <br/>
+    <br/>
+    <div class="col-sm">
+      <input class="btn btn-secondary" type="submit" value="Rechercher"/>
+    </div>
+    </div>
+  </form>
+  </div>
+
+  <div class="container" *ngIf="obsCherche | async as Defis">
+    <div *ngIf="Defis.length === 0 && chercher" >
+      <div class="alert alert-warning" role="alert">
+        Aucun résultats 🤷‍♂️
+      </div>
+    </div>
+    <div *ngIf="Defis.length !== 0" class="table">
+      <button
+        (click)="closeDefi()"
+        type="button"
+        class="close"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <table class="table table-hover" >
+        <thead class="thead-dark">
+          <tr>
+            <th>Defi</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="cursor:pointer" (click)="afficherUnDefi(defi)" *ngFor="let defi of Defis">
+            <td >{{ defi.defi }}</td>
+            <td>{{ defi.titre }}</td>
+            <td>{{ defi.auteur }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+</div>

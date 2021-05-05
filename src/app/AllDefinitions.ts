@@ -8,6 +8,10 @@ export interface Chami {
   readonly email: string;
 }
 
+export interface ChamiEvolve extends Chami{
+  sesDefis: Defi[];
+}
+
 export interface Defi extends DefiTmp{
   readonly defi:string;
 }

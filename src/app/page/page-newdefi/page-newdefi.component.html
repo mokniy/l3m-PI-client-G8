@@ -1,13 +1,15 @@
-<section *ngIf="obsUser | async as OneUser;else elseDoThat">
-  <section *ngIf="OneUser.chami === undefined">
-  <app-alert-con [userRecu]="OneUser"></app-alert-con>
-  </section>
-    <section *ngIf="OneUser.chami !== undefined">
-      <app-crea-defi [userConnected]="OneUser.chami" ></app-crea-defi>
-      <br />
+<div class="container">
+  <section *ngIf="obsUser | async as OneUser;else elseDoThat">
+    <section *ngIf="OneUser.chami === undefined">
+    <app-alert-con [userRecu]="OneUser"></app-alert-con>
     </section>
-  </section>
+      <section *ngIf="OneUser.chami !== undefined">
+        <app-crea-defi [userConnected]="OneUser.chami" ></app-crea-defi>
+        <br />
+      </section>
+    </section>
 
-  <ng-template #elseDoThat>
-    <app-alert-co-necessaire></app-alert-co-necessaire>
-  </ng-template>
+    <ng-template #elseDoThat>
+      <app-alert-co-necessaire></app-alert-co-necessaire>
+    </ng-template>
+</div>

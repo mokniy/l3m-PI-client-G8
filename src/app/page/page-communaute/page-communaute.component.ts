@@ -1,3 +1,4 @@
+import { ChamiEvolve } from './../../AllDefinitions';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Chami } from 'src/app/AllDefinitions';
@@ -18,11 +19,11 @@ export class PageCommunauteComponent implements OnInit {
   }
 
 
-  get obsChamis(): Observable<Chami[]> {
+  get obsChamis(): Observable<ChamiEvolve[]> {
     return this.userService.chamisObs;
   }
 
-  recupUser() {
+  async recupUser() {
     this.userService.getAllUsers();
   }
 }

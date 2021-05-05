@@ -65,28 +65,36 @@
         </button>
       </p>
       <div class="collapse" id="collapseVisite" >
-      <table  *ngIf="obsLesVisite | async as Visites"  class="table table-hover" >
-        <thead class="thead-dark">
-          <tr>
-            <th>Visite</th>
-            <th>Defi</th>
-            <th>Date</th>
-            <th>Mode</th>
-            <th>Chami</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="pointer" *ngFor="let visite of Visites">
-            <td>{{ visite.id_vis}}</td>
-            <td>{{visite.id_defi}}</td>
-            <td>{{ visite.date_vis}}</td>
-            <td>{{ visite.mode_vis}}</td>
-            <td>{{ visite.id_visiteur }}</td>
-            <td>{{ visite.pts_vis }} / {{visite.score_vis}}</td>
-          </tr>
-        </tbody>
-      </table>
+          <div *ngIf="obsLesVisite | async as Visites">
+        <table *ngIf="Visites.length>0"   class="table table-hover" >
+
+          <thead class="thead-dark">
+            <tr>
+              <th>Visite</th>
+              <th>Defi</th>
+              <th>Date</th>
+              <th>Mode</th>
+              <th>Chami</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="pointer" *ngFor="let visite of Visites">
+              <td>{{ visite.id_vis}}</td>
+              <td>{{visite.id_defi}}</td>
+              <td>{{ visite.date_vis}}</td>
+              <td>{{ visite.mode_vis}}</td>
+              <td>{{ visite.id_visiteur }}</td>
+              <td>{{ visite.pts_vis }} / {{visite.score_vis}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="Visites.length===0" class="alert alert-warning" role="alert">
+          Personne n'a visité cette arrêt, pour le moment ....
+        </div>
+      </div>
+
     </div>
 
       <br/>
@@ -98,7 +106,7 @@
             Teleporte toi à cette arrêt en un clique !
           </button>
         </p>
-          
+
         <div class="collapse" id="collapseExample">
           <div class="card card-body ">
             <div class="my-google-map">
