@@ -1,4 +1,4 @@
-import { current_date, VisiteTmp, ReponseTmp, Visite, Reponse, EvaluationTmp } from './../AllDefinitions';
+import { current_date, VisiteTmp, ReponseTmp, Visite, Reponse, EvaluationTmp, escape_quote } from './../AllDefinitions';
 import { UtilisateurService } from './../utilisateur.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -89,7 +89,7 @@ export class NewVisiteComponent implements OnInit {
       temps_vis:temSaisie,
       mode_vis: modSaisie,
       statut_vis: staSaisie,
-      commentaire: comSaisie,
+      commentaire: escape_quote(comSaisie),
       indice_utilise_vis : ind_used
     }
     const laVisiteCree: Visite = await this.visiteService.postVisite(visite)
