@@ -50,12 +50,12 @@
 <h5 *ngIf="uneVisite.lesIndices.length > 0">Les indice(s) disponible :</h5>
 
 <div *ngFor="let ind of uneVisite.lesIndices" class="form-check">
-  <input *ngIf="!ind.usedInd" (click)="ind.usedInd = true" class="form-check-input" type="checkbox" id="flexCheckDefault"> {{ind.points_ind}} point(s) -
+  <input *ngIf="!ind.usedInd" (click)="ind.usedInd = true" class="form-check-input" type="checkbox" id="flexCheckDefault"> {{ind.label_ind}} : {{ind.points_ind}} point(s) :
   <label *ngIf="!ind.usedInd" class="flou form-check-label" for="flexCheckDefault">
     **************************
   </label>
   <label *ngIf="ind.usedInd" class="form-check-label" for="flexCheckDefault">
-    {{ind.label_ind}} : {{ind.description_ind}}
+    {{ind.description_ind}}
   </label>
 </div>
 <br/>

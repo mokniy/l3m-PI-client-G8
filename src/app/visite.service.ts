@@ -33,7 +33,7 @@ async newVisite(id:string) {
     lArret:dataArret,
     lesIndices:dataIndice,
     lesMotsClefs:dataMotClef,
-    lesQuestions:dataQuestion
+    lesQuestions:dataQuestion.sort((a, b) => (a.id_qst < b.id_qst ? -1 : 1))
   }
   this.visiteEnCour.next(v)
 }
