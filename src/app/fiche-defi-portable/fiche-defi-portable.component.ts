@@ -49,7 +49,6 @@ export class FicheDefiPortableComponent implements OnInit {
   }
 
   displayMotClef(tabMC:MotClef[]):string{
-    //console.log(JSON.stringify(tabMC))
     let lesMotsClefs:string="";
     tabMC.forEach(x =>
       {
@@ -61,7 +60,6 @@ export class FicheDefiPortableComponent implements OnInit {
         }
         }
       );
-      //console.log("Mot : "+lesMotsClefs);
     return lesMotsClefs;
   }
 

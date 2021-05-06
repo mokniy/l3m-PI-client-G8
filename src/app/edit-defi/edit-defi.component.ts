@@ -284,7 +284,6 @@ export class EditDefiComponent implements OnInit {
       //ON COUPE LA CHAINE DE CARACT DES MOTS CLEFS
         this.lesMotsClefsEdit = this.defiService.decoupeMotClef(motClefSaisie)
 
-          console.log("MOT CLEF : !!!"+JSON.stringify(this.lesMotsClefsEdit) + JSON.stringify(this.lesMotsClefsInit)  )
           if(JSON.stringify(this.lesMotsClefsEdit) !== JSON.stringify(this.lesMotsClefsInit)  )
           {
             const resMC = await this.defiService.deleteMotsClefsOfDefi(d.defi)

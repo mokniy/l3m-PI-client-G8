@@ -1,5 +1,5 @@
 import { VisiteService } from './../visite.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OSM_TILE_LAYER_URL } from '@yaga/leaflet-ng2';
 import { Observable } from 'rxjs';
 import { ArretMap, Defi, Visite } from '../AllDefinitions';
@@ -78,16 +78,18 @@ export class MapComponent implements OnInit {
   //////////////////load street view
   @ViewChild(GoogleMap) map!: GoogleMap;
   public arretDisplay!:ArretMap;
+  private streetView!:google.maps.StreetViewPanorama
 
   loadView() {
-    const streetView =this.map.getStreetView()
-    streetView.setOptions({
+    this.streetView = this.map.getStreetView()
+    this.streetView.setOptions({
       position: { lat: +this.arretDisplay.info_arret.geometry.coordinates[1], lng: +this.arretDisplay.info_arret.geometry.coordinates[0] },
       pov: { heading: 165, pitch: 0 },
       zoom: 1,
+      visible: true
     });
-    if(streetView.getVisible() === false) {
-      streetView.setVisible(true);
+    if(this.streetView.getVisible() === false) {
+      this.streetView.setVisible(true);
     }
   }
   ///////////ANCRE

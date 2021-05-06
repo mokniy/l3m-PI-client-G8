@@ -22,7 +22,6 @@ export class AlertConComponent implements OnInit {
   }
 
   createUser(name: string, a: string, ville: string, description: string, pseudo:string) {
-    console.log(name, a);
     this.UserService.postUser({
       pseudo: escape_quote(pseudo).trim(),
       age: +a,

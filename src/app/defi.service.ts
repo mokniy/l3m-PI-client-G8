@@ -49,7 +49,6 @@ async getAllDefiOfAnUsers(user:Chami){
 async getAllIndicesOfDefi(defi:Defi){
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/indice/allindice/'+defi.defi);
   const data = await response.json();
-  console.log(data)
   this.IndicesOfDefi.next( data as Indice[] );
 }
 
@@ -81,14 +80,11 @@ async putDefi(defi: Defi): Promise<Defi> {
       },
       body: JSON.stringify(defi)
   });
-  console.log("Update DEFI réalisé: "+ res)
   return res.json();
 }
 
 
 async postDefi(defi: DefiTmp): Promise<Defi> {
-  console.log('Je suis dans la création du défi : '+JSON.stringify(defi));
-  console.log(JSON.parse(JSON.stringify(defi)))
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/defis/",
   {
       method: "POST",
@@ -101,8 +97,6 @@ async postDefi(defi: DefiTmp): Promise<Defi> {
 }
 
 async deleteDefi(defi: Defi) {
-  console.log('Je suis dans la suppression du défi', defi);
-  console.log(JSON.parse(JSON.stringify(defi)))
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/defis/"+defi.defi,
   {
       method: "DELETE",
@@ -116,8 +110,6 @@ async deleteDefi(defi: Defi) {
 ////////////////////////////////////////TEST MOT CLEF
 
 async postMotClef(mot:MotClefTmp): Promise<MotClef> {
-  //Je suis dans la création du mot clef : "{\"mot_mc\":\"beta\"}"
-  console.log('Je suis dans la création du mot clef : ', mot);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/motclef/",
   {
       method: "POST",
@@ -127,12 +119,10 @@ async postMotClef(mot:MotClefTmp): Promise<MotClef> {
       body: JSON.stringify(mot)
   });
   const R =  await res.json();
-  console.log(mot, "=>", R);
   return R;
 }
 
 async postListMotClef(listMot:MotClefTmp[]): Promise<MotClef[]> {
-  console.log('Je suis dans la création des mots clef : ', listMot);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/motclef/list",
   {
       method: "POST",
@@ -142,13 +132,10 @@ async postListMotClef(listMot:MotClefTmp[]): Promise<MotClef[]> {
       body: JSON.stringify(listMot)
   });
   const R =  await res.json();
-  console.log(listMot, "=>", R);
   return R;
 }
 
 async postChercher(C: Chercher) {
-  console.log('Je suis dans la création du chercher : '+JSON.stringify(C));
-  console.log(JSON.parse(JSON.stringify(C)))
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/chercher/"+C.id_defi+"&"+C.id_mc,
   {
       method: "POST",
@@ -162,12 +149,10 @@ async postChercher(C: Chercher) {
 async recupererMotClefUnDefi(id:string){
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/chercher/allmc/'+id);
   const data = await response.json();
-  console.log(data)
   return data as MotClef[]
 }
 
 async postListIndice(listIndice:IndiceTmp[]): Promise<Indice[]> {
-  console.log('Je suis dans la création des indices : ', listIndice);
   listIndice.forEach(element => {
     element.description_ind=escape_quote(element.description_ind)
   });
@@ -180,12 +165,10 @@ async postListIndice(listIndice:IndiceTmp[]): Promise<Indice[]> {
       body: JSON.stringify(listIndice)
   });
   const R =  await res.json();
-  console.log(listIndice, "=>", R);
   return R;
 }
 
 async deleteIndicesOfDefi(idDefi:string) {
-  console.log('Je suis dans la suppression des indices de un defi');
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/indice/deleteallindice/"+idDefi,
   {
       method: "DELETE",
@@ -197,7 +180,6 @@ async deleteIndicesOfDefi(idDefi:string) {
 }
 
 async postListQuestion(listQuestion:QuestionTmp[]): Promise<Question[]> {
-  console.log('Je suis dans la création des questions : ', listQuestion);
   listQuestion.forEach(element => {
     element.description_qst=escape_quote(element.description_qst),
     element.secret_qst=escape_quote(element.secret_qst)
@@ -211,12 +193,10 @@ async postListQuestion(listQuestion:QuestionTmp[]): Promise<Question[]> {
       body: JSON.stringify(listQuestion)
   });
   const R =  await res.json();
-  console.log(listQuestion, "=>", R);
   return R;
 }
 
 async deleteQuestionsOfDefi(idDefi:string) {
-  console.log('Je suis dans la suppression des questions de un defi');
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/question/deleteallquestion/"+idDefi,
   {
       method: "DELETE",
@@ -229,7 +209,6 @@ async deleteQuestionsOfDefi(idDefi:string) {
 }
 
 async deleteMotsClefsOfDefi(idDefi:string) {
-  console.log('Je suis dans la suppression des motsClefs de un defi');
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/motclef/deleteallmotclef/"+idDefi,
   {
       method: "DELETE",

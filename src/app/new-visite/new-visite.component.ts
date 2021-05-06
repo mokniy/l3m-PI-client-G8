@@ -30,11 +30,6 @@ export class NewVisiteComponent implements OnInit {
     return this.visiteService.obsVisiteEnCour;
   }
 
-  tst() {
-    console.log(StringUtils.compareByLevenshtein('La ', 'La fougasse'))
-
-  }
-
   async createVisite(visiteEnCrea:NouvelleVisite,pseudo:string, comSaisie:string, staSaisie:string, modSaisie:string, temSaisie:string) {
 
     //disparition formulaire
@@ -92,7 +87,6 @@ export class NewVisiteComponent implements OnInit {
       commentaire: comSaisie,
       indice_utilise_vis : ind_used
     }
-    console.log(visite)
     const laVisiteCree: Visite = await this.visiteService.postVisite(visite)
 
     let reponseToUpload : ReponseTmp[]= [];

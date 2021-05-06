@@ -100,7 +100,6 @@ export class UtilisateurService {
 
   async postUser(user: Chami): Promise<void> {
     if ((await this.getChamiWithPseudo(user.pseudo)) === undefined) {
-      console.log(JSON.stringify(user));
       const res = await fetch(
         'https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/' + user.pseudo,
         {
@@ -112,7 +111,6 @@ export class UtilisateurService {
         }
       );
       this.chamiSubj.next(user);
-      console.log('finito' + res);
       this.alReadyUseSubj.next(false);
     } else {
       this.alReadyUseSubj.next(true);
@@ -121,8 +119,6 @@ export class UtilisateurService {
 
   async putUser(user: Chami, userCo: User): Promise<Response | undefined> {
     if ((await this.getChamiWithPseudo(user.pseudo)) === undefined || user.pseudo === userCo.chami?.pseudo) {
-      console.log(JSON.stringify(user));
-      console.log(user.description);
       const res = await fetch(
         'https://l3m-pi-serveur-g8.herokuapp.com/api/chamis/' + user.email,
         {
@@ -134,7 +130,6 @@ export class UtilisateurService {
         }
       );
       this.chamiSubj.next(user);
-      console.log('finchamiSubjito' + res);
       this.alReadyUseSubj.next(false);
       return res;
     } else {
@@ -154,8 +149,6 @@ export class UtilisateurService {
   async getAllVisiteOfAnUsers(user:Chami){
     const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/visite/withPseudo/'+user.pseudo);
     const data = await response.json();
-    console.log("visite service aaaaaaaaaaaaaaaaaaaaaaaa")
-    console.log(data)
     const tabInit = data as VisiteEvolve[]
     let tabFinal: VisiteEvolve[] = []
     tabFinal = await Promise.all(tabInit.map(async x =>this.recupLeDefi(x)))

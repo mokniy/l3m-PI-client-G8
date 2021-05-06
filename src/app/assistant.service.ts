@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { Defi, DefiTmp } from './AllDefinitions';
+import { Subject } from 'rxjs';
+import { Defi } from './AllDefinitions';
 
 @Injectable({
   providedIn: 'root'

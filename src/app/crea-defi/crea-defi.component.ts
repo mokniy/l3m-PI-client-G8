@@ -1,7 +1,7 @@
 import { Chami, current_date, DefiTmp, escape_quote, MotClefTmp } from './../AllDefinitions';
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Arret, Defi, Indice, IndiceTmp, QuestionTmp } from '../AllDefinitions';
+import { Arret, IndiceTmp, QuestionTmp } from '../AllDefinitions';
 import { MapService } from '../map.service';
 import { DefiService } from './../defi.service';
 

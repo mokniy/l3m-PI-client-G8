@@ -48,9 +48,6 @@ export class MapService {
   }
 
   displayDefi(i: number) {
-    console.log(
-      'METHODE DISPLAY DEFI ' + this.arrets[i].info_arret.properties.CODE
-    );
     this.getAllDefiOfAnArret(this.arrets[i])
     return this.arrets[i]
   }
@@ -77,10 +74,8 @@ export class MapService {
 
   //////////TAB AFFICHAGE DEFI PTS
 async getAllDefiOfAnArret(unArret:ArretMap){
-  console.log(unArret)
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/arret/defi/'+unArret.info_arret.properties.CODE);
   const data = await response.json();
-  console.log(data)
   this.DefisOfAnArret.next( data as Defi[] );
 }
 
@@ -104,7 +99,6 @@ async recupWithLibelleInBDD(s: string):Promise<boolean> {
   const data:GeoJSON.FeatureCollection<GeoJSON.LineString | GeoJSON.MultiLineString, any> = await responseAPI.json();
   const regexp = new RegExp('SEM_*')
   let tmp = data.features.filter(elt => regexp.test(elt.properties.CODE) && tabOfAllArret.find(newElt => newElt.code === elt.properties.CODE))
-  console.log("RES RECUP BDD => "+tmp)
   this.ArretForALibelleInBDD.next(tmp);
   if(tmp.length===0) {
     return true;
@@ -129,7 +123,6 @@ async recupWithLibelleNotInBDD(s: string) {
   const tabOfAllArret: Arret[] = dataAPISpringBoot as Arret[];
 
   //RECUPERE INTO API MOBILITE
-  console.log(s)
   const responseAPI = await fetch('https://data.mobilites-m.fr/api/findType/json?types=arret&query='+s);
   const data:GeoJSON.FeatureCollection<GeoJSON.LineString | GeoJSON.MultiLineString, any> = await responseAPI.json();
   const regexp = new RegExp('SEM_*')
@@ -143,7 +136,6 @@ closeChoiceArretInAPI():void {
 ///////////////////CREATION ARRET
 
 async postArret(arret: Arret): Promise<Defi> {
-  console.log(JSON.parse(JSON.stringify(arret)))
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/arret/"+arret.code,
   {
       method: "POST",
@@ -158,8 +150,6 @@ async postArret(arret: Arret): Promise<Defi> {
 /////////MODIFICATION ARRET
 
 async putArret(arret: Arret): Promise<Arret> {
-  console.log(JSON.stringify(arret));
-  console.log(arret.code);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/arret/"+arret.code,
   {
       method: "PUT",
@@ -168,16 +158,13 @@ async putArret(arret: Arret): Promise<Arret> {
       },
       body: JSON.stringify(arret)
   });
-  console.log("Update ARRET réalisé: "+ res)
   return res.json();
 }
 
 /////////RECUPERATION UN ARRET
 
 async recupUnArret(code_arret: string): Promise<Arret> {
-  console.log(code_arret);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/arret/"+code_arret);
-  console.log(res.json);
   return res.json();
 }
 

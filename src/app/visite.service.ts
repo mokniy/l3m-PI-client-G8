@@ -35,13 +35,10 @@ async newVisite(id:string) {
     lesMotsClefs:dataMotClef,
     lesQuestions:dataQuestion
   }
-  console.log(v);
   this.visiteEnCour.next(v)
 }
 
 async postVisite(visite: VisiteTmp): Promise<Visite> {
-  console.log('Je suis dans la création de la visite : '+JSON.stringify(visite));
-  console.log(JSON.parse(JSON.stringify(visite)))
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/visite/",
   {
       method: "POST",
@@ -58,7 +55,6 @@ closeNewVisite() {
 }
 
 async postListReponse(listReponse:ReponseTmp[]): Promise<Reponse[]> {
-  console.log('Je suis dans la création des réponses : ', listReponse);
   listReponse.forEach(element => {
     element.reponse_rep=escape_quote(element.reponse_rep)
   });
@@ -71,13 +67,11 @@ async postListReponse(listReponse:ReponseTmp[]): Promise<Reponse[]> {
       body: JSON.stringify(listReponse)
   });
   const R =  await res.json();
-  console.log(listReponse, "=>", R);
   return R;
 }
 
 
 async postListEvaluation(listEval:EvaluationTmp[]): Promise<void> {
-  console.log('Je suis dans la création des eval : ', listEval);
   const res = await fetch("https://l3m-pi-serveur-g8.herokuapp.com/api/evaluation/list",
   {
       method: "POST",
@@ -87,7 +81,6 @@ async postListEvaluation(listEval:EvaluationTmp[]): Promise<void> {
       body: JSON.stringify(listEval)
   });
   const R =  await res.json();
-  console.log(listEval, "=>", R);
 }
 
   //////////TAB AFFICHAGE VISITE
@@ -96,10 +89,8 @@ async postListEvaluation(listEval:EvaluationTmp[]): Promise<void> {
 
   //////////TAB AFFICHAGE VISITE
 async getAllVisiteOfAnArret(unArret:ArretMap){
-  console.log(unArret);
   const response = await fetch('https://l3m-pi-serveur-g8.herokuapp.com/api/visite/arret/'+unArret.info_arret.properties.CODE+"/");
   const data = await response.json();
-  console.log(data)
   this.VisiteOfAnArret.next( data as Visite[] );
 }
 
