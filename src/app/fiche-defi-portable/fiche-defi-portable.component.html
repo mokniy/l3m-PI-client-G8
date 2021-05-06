@@ -15,11 +15,9 @@
           Points à la clé : {{D.leDefi.points}}
         </small>
       </p>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
+      <hr/>
             <div id="accordion">
-              <div class="card">
+              <div *ngIf="D.leDefi.description !==''" class="card">
                 <div class="card-header" id="headingOne">
                   <h5 class="mb-0">
                     <button style="color:black;" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -34,7 +32,7 @@
                 </div>
               </div>
 
-              <div class="card">
+              <div *ngIf="D.leDefi.prologue !==''" class="card">
                 <div class="card-header" id="headingTwo">
                   <h5 class="mb-0">
                     <button style="color:black;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -49,7 +47,7 @@
                 </div>
               </div>
 
-              <div class="card">
+              <div *ngIf="D.leDefi.epilogue!==''" class="card">
                 <div class="card-header" id="headingThree">
                   <h5 class="mb-0">
                     <button style="color:black;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -64,7 +62,7 @@
                 </div>
               </div>
 
-            <div class="card">
+            <div *ngIf="D.leDefi.commentaire!==''" class="card">
               <div class="card-header" id="headingFour">
                 <h5 class="mb-0">
                   <button style="color:black;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
@@ -79,14 +77,9 @@
               </div>
             </div>
           </div>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top: 0px;" *ngIf='D.leDefi.dateDeModification === ""; then thenBlock else elseBlock'></div>
-      <ng-template #thenBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}}.</small></p></ng-template>
-      <ng-template #elseBlock><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}} - Derniere modification : {{D.leDefi.dateDeModification}}.</small></p></ng-template>
-
-      <p *ngIf="D.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{displayMotClef(D.lesMotsClefs)}}</small></p>
+      <hr/>
+      <div><p style="margin-bottom: 3px;"><small>Date de publication du défi : {{D.leDefi.dateDeCreation}}.</small></p></div>
+      <p style="margin-bottom: 1px;" *ngIf="D.lesMotsClefs.length>0"><small>Mot-clef associé au défi : {{displayMotClef(D.lesMotsClefs)}}</small></p>
     </div>
   </div>
   <br/>

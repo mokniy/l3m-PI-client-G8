@@ -13,7 +13,7 @@ const routes: Routes = [{path: 'gestion_profil', component: PageProfilComponent}
 {path: 'accueil', component: PageAccueilComponent},
 {path: 'jouer', component: PageJeuComponent},
 {path: 'assistant', component: PageAssistantComponent},
-{ path: '',   redirectTo: '/accueil', pathMatch: 'full' }]
+{path: '',   redirectTo: '/accueil', pathMatch: 'full' }]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

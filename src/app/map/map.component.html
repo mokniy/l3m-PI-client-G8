@@ -80,18 +80,18 @@
                       <th>Visite</th>
                       <th>Defi</th>
                       <th>Date</th>
-                      <th>Mode</th>
                       <th>Chami</th>
+                      <th>Commentaire</th>
                       <th>Score</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr class="pointer" *ngFor="let visite of Visites">
                       <td>{{ visite.id_vis}}</td>
-                      <td>{{visite.id_defi}}</td>
+                      <td>{{ visite.id_defi }}</td>
                       <td>{{ visite.date_vis}}</td>
-                      <td>{{ visite.mode_vis}}</td>
                       <td>{{ visite.id_visiteur }}</td>
+                      <td>{{ visite.commentaire }}</td>
                       <td>{{ visite.pts_vis }} / {{visite.score_vis}}</td>
                     </tr>
                   </tbody>

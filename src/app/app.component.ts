@@ -21,10 +21,6 @@ export class AppComponent {
     return this.UserService.auth.user;
   }
 
-  get obsUser(): Observable<User | undefined> {
-    return this.UserService.userObs;
-  }
-
   login() {
     this.UserService.login();
   }

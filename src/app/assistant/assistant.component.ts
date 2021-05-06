@@ -30,11 +30,7 @@ export class AssistantComponent implements OnInit {
   async rechercheDefi(id:boolean,titre:boolean,mc:boolean,contenu: string, type:string){
     this.chercher=true;
     if(id) {
-      if(contenu === "") {
-        this.assistantService.aucuneSaisie()
-      } else {
-        await this.assistantService.getRechercheDefiId(contenu.toUpperCase(),type);
-      }
+      await this.assistantService.getRechercheDefiId(contenu.toUpperCase(),type);
     } else if(titre) {
       await this.assistantService.getRechercheDefiTitre(contenu,type);
     } else if (mc) {

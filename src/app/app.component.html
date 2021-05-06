@@ -28,20 +28,15 @@
 <mat-drawer-container class="example-container">
   <mat-drawer #drawer mode="over" >
   <br/>
-    <button  (click)="drawer.toggle()" routerLink="accueil" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">🏠 Accueil</button><br/>
-    <button  (click)="drawer.toggle()" routerLink="communaute" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">👨‍👩‍👦 Découvre la communautée</button><br/>
-    <button  (click)="drawer.toggle()" routerLink="gestion_profil" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">👤 Gérer son profil</button><br/>
-    <button  (click)="drawer.toggle()" routerLink="creer_defi" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">➕ Créer tes défis</button><br/>
-    <button  (click)="drawer.toggle()" routerLink="jouer" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item">🎮 Participe à des défis</button><br/>
-    <button  (click)="drawer.toggle()" routerLink="assistant" routerLinkActive="active" style="background-color: rgb(236, 195, 9); border-radius:1em;"class="dropdown-item">🤳🏽 L'assistant \!/Beta Test\!/</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="accueil" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item btn btn-secondary">🏠 Accueil</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="communaute" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item btn btn-secondary">👨‍👩‍👦 Découvre la communautée</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="gestion_profil" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item btn btn-secondary">👤 Gérer son profil</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="creer_defi" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item btn btn-secondary">➕ Créer tes défis</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="jouer" routerLinkActive="active" style="border-radius:1em;" class="dropdown-item btn btn-secondary">🎮 Participe à des défis</button><br/>
+    <button  (click)="drawer.toggle()" routerLink="assistant" routerLinkActive="active" style="border-radius:1em; background-color: rgb(236, 195, 9);"class="dropdown-item btn btn-secondary">🤳🏽 L'assistant \!/Beta Test\!/</button><br/>
   </mat-drawer>
   <mat-drawer-content>
-      <!--
-        <img src="https://firebasestorage.googleapis.com/v0/b/pi-g8-miage.appspot.com/o/accueil%2FiconChami.png?alt=media&token=77ecf875-0fec-4a4f-a476-81a2f6a0a6ee"/>
-      -->
       <router-outlet></router-outlet>
-
-
   </mat-drawer-content>
 </mat-drawer-container>
 

@@ -1,3 +1,4 @@
+
 @font-face{
   font-family:"legend";
   src:url("/assets/fonts/STEPS\ Light.otf") format("woff"),
@@ -5,14 +6,9 @@
   url("/assets/fonts/STEPS\ Light.otf") format("truetype");
 }
 
-body{
-  background-color: black;
-  min-height: 1500px;
-  margin: 0;
-  padding: 0;
-}
 
-/*Debut Head*/
+
+//Debut Head
 header{
   position: absolute;
   width: 100%;
@@ -60,47 +56,103 @@ transition: all 1000ms;
   transition: all 1000ms;
 }
 
-/*Fin Head*/
+//Fin Head
 
 
 
 
 
-/*Debut Contenu*/
+//Debut Contenu
 hr{
-  width: 25vw;
-  margin: auto;
+  width: 40vw;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  color: #3498db;
 }
 div.cont{
   position:  relative;
-  border: 1px solid#00000075;
-  height: 100vh;
+  width: 100%;
   top: 100vh;
 }
 
 
-//
+//Infos
 
-
-
-//
-
-
-
-*{
-margin: 0;
-padding: 0;
+.description h1{
+display: inline-block;
+text-transform: uppercase;
+font-family: legend;
+font-size: 30px;
+text-align: center;
+text-shadow: 2px 1px #00000075;
+padding-bottom: 10px;
+margin-bottom: 5vh;
+position: relative;
+left: 50%;
+transform: translateX(-50%);
+}
+.description .paragraphe{
+font-size: 17.5px;
+text-align: center;
+padding-bottom: 10px;
+margin-bottom: 5vh;
+width: 75%;
+position: relative;
+left: 50%;
+transform: translateX(-50%);
+}
+.cen{
+max-width: 1200px;
+margin: auto;
+overflow: hidden;
+padding: 20px;
+}
+.detail{
+display: inline-block;
+width: calc(100% / 3);
+margin: 0 -2px;
+padding: 20px;
 box-sizing: border-box;
+cursor: pointer;
+transition: 0.4s;
+}
+.detail:hover{
+background: #ddd;
+}
+.detail i{
+color: #3498db;
+font-size: 34px;
+margin-bottom: 30px;
+}
+.detail h2{
+font-size: 18px;
+text-transform: uppercase;
+font-weight: 500;
+margin: 0;
+}
+.detail p{
+color: gray;
+font-size: 15px;
+font-weight: 500;
+}
+@media screen and (max-width: 800px) {
+.detail{
+  width: 50%;
+}
+}
+@media screen and (max-width: 500px) {
+.detail{
+  width: 100%;
+}
 }
 
-body{
-background: white;
-font-family: 'Josefin Sans', sans-serif;
-}
 
-.wrapper{
-margin-top: 50px;
-}
+//Fin infos
+
+
+
+
+//Equipe
 
 .wrapper h1{
 font-family: legend;
@@ -121,7 +173,7 @@ flex-wrap: wrap;
 .team .team_member{
 background: #fff;
 margin: 10px;
-margin-bottom: 50px;
+margin-bottom: 75px;
 width: 300px;
 padding: 20px;
 line-height: 20px;
@@ -164,6 +216,66 @@ border-radius: 55px;
 
 }
 
+//Fin Equipe
 
 
 /*Fin Contenu*/
+
+
+
+
+//FOOTER
+footer{
+text-align: center;
+}
+
+.footer-container{
+width:100%;
+padding: 0 20px;
+display: flex;
+align-items: center;
+flex-wrap: wrap-reverse;
+position: relative;
+top: 100vh;
+}
+
+.logo{
+width: 180px;
+}
+
+footer .social-media{
+  margin: 10px;
+}
+
+.social-media{
+text-align: center;
+margin: 5px;
+}
+
+.social-media a{
+color: #001a21;
+margin: 5px;
+font-size: 25px;
+text-decoration: none;
+transition: .3s linear;
+}
+
+.social-media a:hover{
+color: #3b7ea5;
+}
+.col{
+margin: auto;
+}
+.rights-text{
+text-align: center;
+}
+
+
+
+
+
+
+
+
+
+//Fin footer

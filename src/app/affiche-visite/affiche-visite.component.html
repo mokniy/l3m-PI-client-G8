@@ -1,5 +1,5 @@
 <div *ngIf="obsVisiteUser | async as Visites">
-  <a href="http://localhost:4200/jouer" class="btn btn-outline-dark">Visiter un lieu</a>
+  <a href="https://pi-g8-miage.web.app/jouer" class="btn btn-outline-dark">Visiter un lieu</a>
   <div *ngIf="Visites.length>0; else elseBlock">
 <h1 style="text-align: center">
   Gestion de vos visites!
@@ -11,6 +11,7 @@
       <th>Défi</th>
       <th>Score</th>
       <th>Temps</th>
+      <th>Commentaire</th>
       <th>Date de la visite</th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
       <td>{{ visite.defiAssocie.titre}}</td>
       <td>{{ visite.pts_vis }} / {{visite.score_vis}}</td>
       <td>{{ visite.temps_vis }}</td>
+      <td>{{ visite.commentaire }}</td>
       <td>{{ visite.date_vis }}</td>
 
     </tr>
