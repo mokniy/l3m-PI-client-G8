@@ -1,4 +1,10 @@
-<table class="table table-hover" *ngIf="obsVisiteUser | async as Visites">
+<div *ngIf="obsVisiteUser | async as Visites">
+  <a href="http://localhost:4200/jouer" class="btn btn-outline-dark">Visiter un lieu</a>
+  <div *ngIf="Visites.length>0; else elseBlock">
+<h1 style="text-align: center">
+  Gestion de vos visites!
+</h1>
+<table class="table table-hover" >
   <thead class="thead-dark">
     <tr>
       <th>Visite</th>
@@ -19,4 +25,13 @@
     </tr>
   </tbody>
 </table>
+</div>
+<ng-template #elseBlock>
+  <br/><br/>
+  <div class="alert alert-warning" role="alert" >
+  <p style="cursor: pointer;"><b>Vous n'avez aucune visite</b></p>
+</div>
+</ng-template>
+
+</div>
 

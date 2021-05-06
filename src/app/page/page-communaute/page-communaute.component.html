@@ -8,24 +8,28 @@
 -->
 <br />
 <div *ngIf="obsChamis | async as users" id="accordion">
-  <div *ngFor="let user of users; let i = index" class="card">
-    <div class="card-header" id="heading{{i}}">
-      <h5 class="mb-0">
-        <button style="color:black;" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#collapse'+i" aria-expanded="true" [attr.aria-controls]="'collapse'+i">
-          <span *ngIf="user.sesDefis.length>0"><b>{{user.pseudo}}</b> - {{user.age}} ans, {{user.ville}} et créateur de {{user.sesDefis.length}} défi(s)</span>
-          <span *ngIf="user.sesDefis.length===0"><b>{{user.pseudo}}</b> - {{user.age}} ans, {{user.ville}}</span>
-        </button>
-      </h5>
-    </div>
+  <div  *ngFor="let user of users; let i = index" class="card">
+    <div *ngIf="user.pseudo !== 'Anonyme'">
 
-    <div id="collapse{{i}}" class="collapse" [attr.aria-labelledby]="'heading'+i" data-parent="#accordion">
-      <div class="card-body">
-        <p style="white-space:pre-wrap"><b>Description :</b><br/>{{user.description}}</p>
-        <div *ngIf="user.sesDefis.length > 0">
-          <p><b>Ses défis :</b></p>
-          <p *ngFor="let def of user.sesDefis">{{def.defi}} - {{def.titre}}, {{def.duree}} à {{def.arret}}</p>
+      <div class="card-header" id="heading{{i}}">
+        <h5 class="mb-0">
+          <button style="color:black;" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#collapse'+i" aria-expanded="true" [attr.aria-controls]="'collapse'+i">
+            <span *ngIf="user.sesDefis.length>0"><b>{{user.pseudo}}</b> - {{user.age}} ans, {{user.ville}} et créateur de {{user.sesDefis.length}} défi(s)</span>
+            <span *ngIf="user.sesDefis.length===0"><b>{{user.pseudo}}</b> - {{user.age}} ans, {{user.ville}}</span>
+          </button>
+        </h5>
+      </div>
+
+      <div id="collapse{{i}}" class="collapse" [attr.aria-labelledby]="'heading'+i" data-parent="#accordion">
+        <div class="card-body">
+          <p style="white-space:pre-wrap"><b>Description :</b><br/>{{user.description}}</p>
+          <div *ngIf="user.sesDefis.length > 0">
+            <p><b>Ses défis :</b></p>
+            <p *ngFor="let def of user.sesDefis">{{def.defi}} - {{def.titre}}, {{def.duree}} à {{def.arret}}</p>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>

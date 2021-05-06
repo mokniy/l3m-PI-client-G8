@@ -1,6 +1,12 @@
-<a href="http://localhost:4200/creer_defi" class="btn btn-outline-dark">+ Ajouter un défi</a>
-<br/><br/>
-<table class="table table-hover" *ngIf="obsChallUser | async as Defis">
+<div *ngIf="obsChallUser | async as Defis">
+  <a href="http://localhost:4200/creer_defi" class="btn btn-outline-dark">+ Ajouter un défi</a>
+  <div *ngIf="Defis.length>0; else elseBlock">
+<h1 style="text-align: center">
+  Gestion de vos défis !
+</h1>
+
+<br/>
+<table class="table table-hover" >
   <thead class="thead-dark">
     <tr>
       <th>Defi</th>
@@ -173,4 +179,12 @@
   <br/>
   <button (click)="deleteDefi(defi_edited)" class="btn btn-outline-danger"><i class="fa fa-trash"></i>Supprimer</button>
 </section>
+</div>
+</div>
+<ng-template #elseBlock>
+  <br/><br/>
+  <div class="alert alert-warning" role="alert" >
+  <p style="cursor: pointer;"><b>Vous n'avez aucun défi</b></p>
+</div>
+</ng-template>
 </div>

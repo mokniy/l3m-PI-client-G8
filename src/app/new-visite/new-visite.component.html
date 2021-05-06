@@ -1,117 +1,118 @@
-<!--R
-
-EALISATION DUNE VISITE-->
-  <div *ngIf="obsVisite !== undefined && obsUser !== undefined">
-    <div *ngIf="obsVisite | async as uneVisite">
-      <div *ngIf="obsUser | async as user;else elseDoThat">
-        <div *ngIf="user.chami !== undefined">
-          <h3>Nouvelle visite pour "{{uneVisite.leDefi.titre}}" avec le compte {{user.chami.pseudo}}</h3>
-          <form (ngSubmit)="createVisite(uneVisite,user.chami.pseudo,commentaireArea.value,inputStaVis.value,intputModVis.value,inputDuree.value)" >
-            <!--TROIS PREMIER CHAMPS-->
-            <div class="form-group">
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="intputModVis">Mode de visite</label>
-                  <select #intputModVis id="intputModVis" class="form-control">
-                    <option selected>Présentiel</option>
-                    <option>Distanciel</option>
-                  </select>
-                </div>
-
-                <div class="form-group col-md-4">
-                  <label for="inputStaVis">Status de la visite</label>
-                  <select #inputStaVis id="inputStaVis" class="form-control">
-                    <option selected>Répondu</option>
-                    <option>Abandon</option>
-                  </select>
-                </div>
-
-                <div class="form-group col-md-4">
-                  <label for="inputDuree">Durée de la visite</label>
-                  <input #inputDuree type="text" class="form-control" id="inputDuree">
-                </div>
-              </div>
-            </div>
-            <!--FIN TROIS PREMIER CHAMPS-->
-
-            <!--LISTE INDICE-->
-            <h5 *ngIf="uneVisite.lesIndices.length > 0">Les indice(s) disponible :</h5>
-
-            <div *ngFor="let ind of uneVisite.lesIndices" class="form-check">
-              <input *ngIf="!ind.usedInd" (click)="ind.usedInd = true" class="form-check-input" type="checkbox" id="flexCheckDefault"> {{ind.points_ind}} point(s) -
-              <label *ngIf="!ind.usedInd" class="flou form-check-label" for="flexCheckDefault">
-                **************************
-              </label>
-              <label *ngIf="ind.usedInd" class="form-check-label" for="flexCheckDefault">
-                {{ind.label_ind}} : {{ind.description_ind}}
-              </label>
-            </div>
-            <br/>
-            <!--LISTE INDICE-->
-
-            <!--LISTE QUESTION-->
-            <h5 *ngIf="uneVisite.lesQuestions.length > 0">Les question(s) : </h5>
-
-            <div *ngFor="let qst of uneVisite.lesQuestions">
-                <div *ngIf="qst.reponse !== undefined && qst.reponse !== ''">
-                  <label for="rep">{{qst.description_qst}}</label>
-                  <div class="form-group row">
-                    <div class="input-group col-sm-8">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" for="rep" id="label_qst">{{qst.label_qst}}</span>
-                    </div>
-
-                      <input aria-describedby="label_qst" type="text" #rep class="form-control" placeholder="Veuillez saisir votre réponse ici." id="rep" value="{{qst.reponse}}">
-                    </div>
-                    <br/>
-                    <div class="col-sm-4">
-
-                      <button type="button" class="btn btn-outline-success" (click)="qst.reponse = rep.value">Valider votre réponse</button>
-                    </div>
-                  </div>
-            </div>
-
-
-
-
-                <div *ngIf="qst.reponse === undefined || qst.reponse === ''">
-                  <label for="repFirst">{{qst.description_qst}}</label>
-                  <div class="form-group row">
-                    <div class="input-group col-sm-8">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="label_qstFirst">{{qst.label_qst}}</span>
-                      </div>
-
-                      <input type="text" #repFirst class="form-control is-invalid" id="repFirst" placeholder="Veuillez saisir votre réponse ici." aria-describedby="label_qstFirst">
-
-                      <div class="invalid-feedback">
-                        Vous n'avez pas répondu à cette question.
-                      </div>
-                    </div>
-                    <br/>
-                      <div class="col-sm-4">
-
-                        <button type="button" class="btn btn-outline-success" (click)="qst.reponse = repFirst.value">Valider votre réponse</button>
-                      </div>
-
-                </div>
-            </div>
-          </div>
-            <!--LISTE QUESTION-->
-
-            <div class="form-group">
-              <label for="commentaireArea"><b>Un commentaire, une suggestion ? N'hésite pas !</b></label>
-              <textarea #commentaireArea class="form-control" id="commentaireArea" rows="3"></textarea>
-            </div>
-
-            <input class="btn btn-secondary" type="submit" />
-          </form>
-        </div>
+<br/><br/>
+<!--REALISATION DUNE VISITE-->
+<div *ngIf="obsVisite !== undefined" >
+  <div *ngIf="obsVisite | async as uneVisite">
+    <h3>Nouvelle visite pour "{{uneVisite.leDefi.titre}}"</h3>
+    <div *ngIf="obsUser | async as user; else anonMode">
+      <div *ngIf="user.chami !== undefined; else anonMode">
+        {{connected(user.chami.pseudo)}}
       </div>
     </div>
-  </div>
 
-  <ng-template #elseDoThat>
-    <app-alert-co-necessaire></app-alert-co-necessaire>
-  </ng-template>
-<!--FIN REALISATION DUNE VISITE-->
+    <ng-template #anonMode>
+      <div>
+        <div class="alert alert-warning" role="alert">
+          Attention vous êtes en mode anonyme, pensez à vous connecter ou finaliser votre inscription !
+        </div>
+      </div>
+    </ng-template>
+
+
+      <form (ngSubmit)="createVisite(uneVisite,commentaireArea.value,inputStaVis.value,intputModVis.value,inputDuree.value)" >
+<!--TROIS PREMIER CHAMPS-->
+<div class="form-group">
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="intputModVis">Mode de visite</label>
+      <select #intputModVis id="intputModVis" class="form-control">
+        <option selected>Présentiel</option>
+        <option>Distanciel</option>
+      </select>
+    </div>
+
+    <div class="form-group col-md-4">
+      <label for="inputStaVis">Status de la visite</label>
+      <select #inputStaVis id="inputStaVis" class="form-control">
+        <option selected>Répondu</option>
+        <option>Abandon</option>
+      </select>
+    </div>
+
+    <div class="form-group col-md-4">
+      <label for="inputDuree">Durée de la visite</label>
+      <input #inputDuree type="text" class="form-control" id="inputDuree">
+    </div>
+  </div>
+</div>
+<!--FIN TROIS PREMIER CHAMPS-->
+
+<!--LISTE INDICE-->
+<h5 *ngIf="uneVisite.lesIndices.length > 0">Les indice(s) disponible :</h5>
+
+<div *ngFor="let ind of uneVisite.lesIndices" class="form-check">
+  <input *ngIf="!ind.usedInd" (click)="ind.usedInd = true" class="form-check-input" type="checkbox" id="flexCheckDefault"> {{ind.points_ind}} point(s) -
+  <label *ngIf="!ind.usedInd" class="flou form-check-label" for="flexCheckDefault">
+    **************************
+  </label>
+  <label *ngIf="ind.usedInd" class="form-check-label" for="flexCheckDefault">
+    {{ind.label_ind}} : {{ind.description_ind}}
+  </label>
+</div>
+<br/>
+<!--LISTE INDICE-->
+
+<!--LISTE QUESTION-->
+<h5 *ngIf="uneVisite.lesQuestions.length > 0">Les question(s) : </h5>
+
+<div *ngFor="let qst of uneVisite.lesQuestions">
+    <div *ngIf="qst.reponse !== undefined && qst.reponse !== ''">
+      <label for="rep">{{qst.description_qst}}</label>
+      <div class="form-group row">
+        <div class="input-group col-sm-8">
+        <div class="input-group-prepend">
+          <span class="input-group-text" for="rep" id="label_qst">{{qst.label_qst}}</span>
+        </div>
+
+          <input aria-describedby="label_qst" type="text" #rep class="form-control" placeholder="Veuillez saisir votre réponse ici." id="rep" value="{{qst.reponse}}">
+        </div>
+        <br/>
+        <div class="col-sm-4">
+
+          <button type="button" class="btn btn-outline-success" (click)="qst.reponse = rep.value">Valider votre réponse</button>
+        </div>
+      </div>
+</div>
+    <div *ngIf="qst.reponse === undefined || qst.reponse === ''">
+      <label for="repFirst">{{qst.description_qst}}</label>
+      <div class="form-group row">
+        <div class="input-group col-sm-8">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label_qstFirst">{{qst.label_qst}}</span>
+          </div>
+
+          <input type="text" #repFirst class="form-control is-invalid" id="repFirst" placeholder="Veuillez saisir votre réponse ici." aria-describedby="label_qstFirst">
+
+          <div class="invalid-feedback">
+            Vous n'avez pas répondu à cette question.
+          </div>
+        </div>
+        <br/>
+          <div class="col-sm-4">
+
+            <button type="button" class="btn btn-outline-success" (click)="qst.reponse = repFirst.value">Valider votre réponse</button>
+          </div>
+
+    </div>
+</div>
+</div>
+<!--LISTE QUESTION-->
+
+<div class="form-group">
+  <label for="commentaireArea"><b>Un commentaire, une suggestion ? N'hésite pas !</b></label>
+  <textarea #commentaireArea class="form-control" id="commentaireArea" rows="3"></textarea>
+</div>
+
+<input class="btn btn-secondary" type="submit" />
+</form>
+  </div>
+</div>

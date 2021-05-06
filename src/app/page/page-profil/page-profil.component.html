@@ -15,6 +15,7 @@
         <app-gest-profil [userRecu]="OneUser"></app-gest-profil>
         <hr />
         <br />
+        <div class="container" id="collapseGroup">
         <p>
           <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseVisite" aria-expanded="false" aria-controls="collapseVisite">
             Vos visites
@@ -25,20 +26,14 @@
           </button>
         </p>
         <br />
-        <div class="collapse" id="collapseVisite" >
-        <h1 style="text-align: center">
-          Gestion de vos visites!
-        </h1>
+        <div class="collapse" id="collapseVisite" data-parent="#collapseGroup" >
         <app-affiche-visite></app-affiche-visite>
       </div>
         <br />
-        <div class="collapse" id="collapseDefi" >
-        <h1 style="text-align: center">
-          Gestion de vos défis !
-        </h1>
+        <div class="collapse" id="collapseDefi" data-parent="#collapseGroup" >
         <app-edit-defi></app-edit-defi>
       </div>
-
+    </div>
       </section>
     </section>
 

@@ -15,6 +15,7 @@ import { StringUtils } from 'turbocommons-ts';
 export class NewVisiteComponent implements OnInit {
 
   @Output() Visitedone= new EventEmitter<boolean>();
+  public pseudoConnecte:string = "Anonyme";
 
   constructor(private userService: UtilisateurService,private visiteService: VisiteService) {
   }
@@ -30,7 +31,11 @@ export class NewVisiteComponent implements OnInit {
     return this.visiteService.obsVisiteEnCour;
   }
 
-  async createVisite(visiteEnCrea:NouvelleVisite,pseudo:string, comSaisie:string, staSaisie:string, modSaisie:string, temSaisie:string) {
+  connected(pseudo:string) {
+    this.pseudoConnecte = pseudo;
+  }
+
+  async createVisite(visiteEnCrea:NouvelleVisite, comSaisie:string, staSaisie:string, modSaisie:string, temSaisie:string) {
 
     //disparition formulaire
 
@@ -77,7 +82,7 @@ export class NewVisiteComponent implements OnInit {
 
     const visite:VisiteTmp = {
       id_defi:visiteEnCrea.leDefi.defi,
-      id_visiteur:pseudo,
+      id_visiteur:this.pseudoConnecte,
       pts_vis: ptsResultat,
       score_vis: visiteEnCrea.leDefi.points,
       date_vis:current_date().toLocaleString(),
